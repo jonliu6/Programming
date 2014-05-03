@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.freecode.demo.entity.StudentClass" table="t_class">
+		<id name="classId" type="int">
+			<column name="id" precision="4" scale="0" />
+<!-- 			<generator class="identity" />   -->
+		</id>
+		<property name="className" type="string">
+			<column name="class_name" length="30" not-null="true" />
+		</property>
+		
+		<set name="students" table="t_student" inverse="true" lazy="true" fetch="select">
+		  <key>
+		    <column name="class_id" />
+		  </key>
+		  <one-to-many class="org.freecode.demo.entity.Student" />
+		</set>
+		
+		<bag name="studyGroups" table="t_group" inverse="true" lazy="true" fetch="select">
+          <key>
+            <column name="class_id" not-null="true"></column>
+          </key>
+          <one-to-many class="org.freecode.demo.entity.StudyGroup"/>
+        </bag>
+        
+	</class>
+
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.freecode.demo.entity.Account" table="t_account">
+		<id name="id" type="int">
+			<column name="id" precision="4" scale="0" />
+<!-- 			<generator class="identity" />   -->
+		</id>
+		<property name="userName" type="string">
+			<column name="user_name" length="30" not-null="true" />
+		</property>
+		<property name="balance" type="double">
+			<column name="balance" precision="10" scale="2" />
+		</property>
+		<property name="createdAt" type="java.util.Date">
+			<column name="created_at" not-null="true" />
+		</property>
+	</class>
+
+</hibernate-mapping>

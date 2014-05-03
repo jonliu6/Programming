@@ -1,0 +1,85 @@
+-- Structure
+DROP TABLE t_transaction;
+DROP TABLE t_account;
+
+CREATE TABLE t_account
+(
+ id NUMBER(4) NOT NULL PRIMARY KEY,
+ user_name VARCHAR2(30) NOT NULL,
+ balance NUMBER(10,2) DEFAULT 0,
+ created_at DATE
+);
+
+CREATE TABLE t_transaction
+(
+ id NUMBER(6) NOT NULL PRIMARY KEY,
+ user_id NUMBER(4) NOT NULL,
+ amount NUMBER(10,2) DEFAULT 0,
+ transaction_type VARCHAR2(1), -- D-Deposit, W-Withdraw 
+ transaction_time DATE,
+ CONSTRAINT fk_transaction FOREIGN KEY (user_id) REFERENCES t_account (id) ON DELETE CASCADE 
+);
+
+
+-- Stored Procedure
+CREATE OR REPLACE PROCEDURE prc_update_balance( v_userid IN INTEGER, v_transactiontype IN VARCHAR2, d_amount IN NUMBER, od_balance OUT NUMBER )
+IS
+BEGIN
+  DECLARE l_amount NUMBER(10,2);
+
+  BEGIN
+
+    IF v_transactiontype = 'W' THEN
+      l_amount := 0 - d_amount; 
+    ELSE
+      l_amount := d_amount; 
+    END IF;
+
+    INSERT INTO t_transaction (id, user_id, amount, transaction_type, transaction_time)
+      VALUES ( ROUND(SYS.DBMS_RANDOM.VALUE(1,1000000)), v_userid, l_amount, v_transactiontype, SYSDATE );
+
+    UPDATE t_account 
+      SET balance = balance + l_amount
+      WHERE id = v_userid;
+
+    COMMIT;
+
+    SELECT balance INTO od_balance FROM t_account WHERE id = v_userid;
+
+  END;
+ 
+END prc_update_balance;
+
+
+/***Test***
+SET SERVEROUTPUT ON
+DECLARE 
+  l_balance NUMBER;
+BEGIN
+  l_balance := 0;
+  prc_update_balance(4786,'D',100.50,l_balance);
+  DBMS_OUTPUT.PUT_LINE(l_balance || '');
+END;
+/
+******/
+
+
+-- Data
+INSERT INTO t_account (id, user_name, balance, created_at)
+  VALUES ( ROUND(SYS.DBMS_RANDOM.VALUE(1,10000)), 'John Smith', 10000, SYSDATE);
+
+INSERT INTO t_account (id, user_name, balance, created_at)
+  VALUES ( ROUND(SYS.DBMS_RANDOM.VALUE(1,10000)), 'Mary Rose', 9000, SYSDATE);
+
+COMMIT;
+
+INSERT INTO t_transaction (id, user_id, amount, transaction_type, transaction_time)
+  VALUES ( ROUND(SYS.DBMS_RANDOM.VALUE(1,1000000)), 4786, 50, 'W', SYSDATE );
+
+INSERT INTO t_transaction (id, user_id, amount, transaction_type, transaction_time)
+  VALUES ( ROUND(SYS.DBMS_RANDOM.VALUE(1,1000000)), 4786, 100, 'D', SYSDATE );
+
+INSERT INTO t_transaction (id, user_id, amount, transaction_type, transaction_time)
+  VALUES ( ROUND(SYS.DBMS_RANDOM.VALUE(1,1000000)), 6724, 20, 'W', SYSDATE );
+
+COMMIT;
