@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.freecode.demo.entity.Student" table="t_student">
+		<id name="studentId" type="int">
+			<column name="id" precision="4" scale="0" />
+<!-- 			<generator class="identity" />   -->
+		</id>
+		
+		<property name="studentName" type="string">
+			<column name="student_name" length="30" not-null="true" />
+		</property>
+		
+<!-- 		
+		<property name="classId" type="int">
+			<column name="class_id" precision="4" scale="0" />
+		</property>
+ -->
+ 				
+		<many-to-one name="studentClass" class="org.freecode.demo.entity.StudentClass" fetch="select" >
+		  <column name="class_id" not-null="true"></column>
+		</many-to-one>
+		
+	</class>
+
+</hibernate-mapping>

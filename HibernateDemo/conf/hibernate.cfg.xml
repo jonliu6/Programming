@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN" 
+"http://www.jboss.org/dtd/hibernate/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- MySQL -->
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/xprojectdb</property>
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<property name="hibernate.connection.password">xuser123</property>
+		<property name="hibernate.connection.username">xuser</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="show_sql">true</property>
+		<!-- Oracle -->
+		<!-- <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property> 
+			<property name="hibernate.connection.url">jdbc:oracle:thin:@edmbchcmd02:1521:WEBCM00</property> 
+			<property name="dialect">org.hibernate.dialect.Oracle10gDialect</property> 
+			<property name="hibernate.default_schema">junliu</property> <property name="hibernate.connection.username">junliu</property> 
+			<property name="hibernate.connection.password">junliu</property> <property 
+			name="hibernate.connection.pool_size">10</property> <property name="show_sql">true</property> 
+			<property name="hibernate.current_session_context_class">thread</property> -->
+
+        <!-- XML descriptors -->
+		<mapping resource="org/freecode/demo/entity/Account.hbm.xml" />
+		<!-- Annotation Approach -->
+		<!-- <mapping resource="org/freecode/demo/entity/Transaction.hbm.xml" /> -->
+		<mapping class="org.freecode.demo.entity.Transaction" />
+		
+		<mapping resource="org/freecode/demo/entity/Student.hbm.xml" />
+		<mapping resource="org/freecode/demo/entity/StudentClass.hbm.xml" />
+		<mapping resource="org/freecode/demo/entity/StudyGroup.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

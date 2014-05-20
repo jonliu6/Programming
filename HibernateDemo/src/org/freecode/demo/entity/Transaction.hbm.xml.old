@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.jboss.org/dtd/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.freecode.demo.entity.Transaction" table="t_transaction">
+		<id name="id" type="int">
+			<column name="id" precision="6" scale="0" />
+<!-- 			<generator class="identity" />   -->
+		</id>
+		<property name="userId" type="int">
+			<column name="user_id" precision="4" scale="0" />
+		</property>
+		<property name="amount" type="double">
+			<column name="amount" precision="10" scale="2" />
+		</property>
+		<property name="transactionType" type="string">
+			<column name="transaction_type" length = "1" />
+		</property>
+		<property name="transactionTime" type="java.util.Date">
+			<column name="transaction_time" not-null="true" />
+		</property>
+	</class>
+
+</hibernate-mapping>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.freecode.demo.mapper.Mapper">
+	<select id="findAccountById" parameterType="int" resultType="org.freecode.demo.entity.Account">
+	  <include refid="accountColumns"/>
+	  FROM t_account WHERE id = #{id}
+	</select>
+	
+	<select id="findAllAccounts" resultMap="accountResultMap">
+	  <include refid="accountColumns"/> FROM t_account ORDER BY user_name
+	</select>
+	
+	<sql id="accountColumns">
+	  SELECT id, user_name as name, balance, created_at AS createdAt
+	</sql>
+	
+	<resultMap type="Account" id="accountResultMap">
+	  <id property="id" column="id"/>
+	  <result property="name" column="user_name" />
+	  <result property="balance" column="balance" />
+	  <result property="createdAt" column="created_at" />
+	</resultMap>
+	
+	<insert id="createAccount" parameterType="Account">
+	  INSERT INTO t_account (id, user_name, balance, created_at) VALUES (#{id}, #{name}, #{balance}, #{createdAt})
+	</insert>
+
+    <update id="updateBalance" parameterType="Account">
+      UPDATE t_account
+        SET user_name = #{name},
+            balance = #{balance}
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteAccountById" parameterType="int">
+      DELETE FROM t_account WHERE id = #{id}
+    </delete>
+    
+    <!-- For Nested Results, better performance than Nested Select
+    <select id="findFullAccountById" parameterType="int" resultMap="accountTransactionMap">
+      SELECT a.*, t.*
+        FROM t_account a, t_transaction t 
+        WHERE a.id = t.user_id
+          AND a.id = #{id}
+    </select>
+    -->
+    
+    <!-- 
+    <resultMap type="Account" id="accountTransactionMap">
+      <id property="id" column="id"/>
+      <result property="name" column="user_name" />
+	  <result property="balance" column="balance" />
+	  <result property="createdAt" column="created_at"/>
+	  <collection property="transactions" ofType="Transaction" >
+	    <id property="userId" column="user_id"/>
+	    <result property="amount" column="amount"/>
+	    <result property="transactionType" column="transaction_type"/>
+	    <result property="transactionTime" column="transaction_time"/>
+	  </collection> 
+    </resultMap>
+    -->
+    
+    <!-- For Nested Select -->
+    <select id="findFullAccountById" parameterType="int" resultMap="accountTransactionMap">
+      SELECT a.id, a.user_name, a.balance, a.created_at
+        FROM t_account a 
+        WHERE a.id = #{id}
+    </select>
+     
+    <resultMap type="Account" id="accountTransactionMap">
+      <id property="id" column="id"/>
+      <result property="name" column="user_name" />
+	  <result property="balance" column="balance" />
+	  <result property="createdAt" column="created_at" />
+	  <collection property="transactions" column="id" ofType="Transaction" select="findTransactionsByAccountId" /> 
+    </resultMap>
+    
+    
+</mapper> 
