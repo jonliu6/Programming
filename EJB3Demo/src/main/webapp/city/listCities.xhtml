@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<h:head>
+	<title><ui:insert name="title">EJB 3 Demo</ui:insert>
+	</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+</h:head>
+<h:body>
+	<p:panel>
+		<h:panelGrid columns="2" cellpadding="10">
+			<h:panelGroup>
+				<h1>
+					<ui:insert name="heading">EJB 3 Demo - XCity</ui:insert>
+				</h1>
+			</h:panelGroup>
+		</h:panelGrid>
+		<!-- <ui:insert name="body">Hello, there!</ui:insert> //-->
+	</p:panel>
+
+	<p:panel header="#{cityBean.findCities().size()}" toggleable="true"
+		closable="true" toggleSpeed="500">
+		<ui:repeat value="#{cityBean.findCities()}" var="city">
+			<h:panelGrid columns="3" cellpadding="1" border="1">
+				<h:panelGroup>
+					<h:outputText value="#{city.cityId}" />
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<h:outputText value="#{city.cityName}" />
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<h:outputText value="#{city.countryName}" />
+				</h:panelGroup>
+
+			</h:panelGrid>
+		</ui:repeat>
+	</p:panel>
+</h:body>
+</html>
