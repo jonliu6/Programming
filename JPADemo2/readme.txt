@@ -1,0 +1,3 @@
+This example uses Hibernate to implement JPA. However, EntityManagerFactory and EntityManager only can be instantiated by POJO classes. Dependency Injection of EJB didn't work well.
+
+Still under construction...

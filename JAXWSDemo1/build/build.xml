@@ -1,0 +1,32 @@
+<project name="WebService" default="build">
+	
+	<property file="build.properties"/>
+		
+	<property name="ws.source.dir" value="${app.home}/src"/>
+	    <property name="ws.temp.dir" value="${app.home}/build"/>
+		<property name="app.classes" value="${app.home}/build/classes"/>
+		<property name="app.dist" value="${app.home}/dist"/>
+		<property name="app.conf" value="${app.home}/conf"/>
+		<property name="app.www" value="${app.home}/WebContent"/>
+	<property name="ear.file" value="${ws.temp.dir}/JAXWS.ear"/>
+	
+	<taskdef name="jwsc" classname="weblogic.wsee.tools.anttasks.JwscTask"/>
+	
+	<target name="build">
+		<echo message="Building the WebService ..."/>
+		
+		<delete file="${ear.file}" />
+		<jwsc srcdir="${ws.source.dir}" destdir="${ws.temp.dir}">
+		      <module contextPath="JAXWS" name="/JAXWS">
+		        <jws file="org/freecode/demo/HelloService.java" type="JAXWS">
+		         
+		        </jws>
+		      </module>
+		</jwsc>
+		
+		<ear earfile="${ear.file}" appxml="${ws.temp.dir}/META-INF/application.xml" basedir="${ws.temp.dir}">
+		      <metainf dir="${ws.temp.dir}/META-INF/" includes="weblogic-application.xml"/>
+		      <fileset dir="${ws.temp.dir}" includes="*.jar"/>
+		</ear>
+	</target>
+</project>

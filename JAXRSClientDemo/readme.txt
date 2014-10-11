@@ -1,0 +1,1 @@
+Consumer of RESTful Web Service implemented by Spring RestTemplate.

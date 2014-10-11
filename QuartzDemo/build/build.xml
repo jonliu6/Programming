@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<project name="QuartzDemo" default="core" basedir=".">
+
+  <target name="init">
+    <property file="build.properties"/>
+	
+	<property name="app.src" value="${app.home}/src"/>
+    <property name="app.build" value="${app.home}/build"/>
+	<property name="app.classes" value="${app.home}/build/classes"/>
+	<property name="app.dist" value="${app.home}/dist"/>
+	<property name="app.conf" value="${app.home}/conf"/>
+	<property name="app.www" value="${app.home}/WebContent"/>
+  	<property name="app.properties" value="${app.home}/properties"></property>
+	
+	<echo message="Building from ${app.src} to ${app.classes}..."/>
+  </target>
+  
+  <target name="package" depends="clean">
+    <mkdir dir="${app.classes}"/>
+	<mkdir dir="${app.dist}"/>
+	
+	<!-- compile source files -->
+    <javac srcdir="${app.src}"
+           destdir="${app.classes}"
+	       classpath="${app.classpath};${app.www}/WEB-INF/lib/javaee.jar;${app.www}/WEB-INF/lib/quartz-1.7.1.jar;${app.www}/WEB-INF/lib/commons-logging-1.1.1.jar;${app.www}/WEB-INF/lib/log4j-1.2.15.jar"
+           includes="**/*.java"
+    	   debug="on" />
+		   
+	<mkdir dir="${app.classes}/META-INF"/>
+	<mkdir dir="${app.classes}/conf"/>
+	
+	<copy todir="${app.www}/WEB-INF/classes">
+        <fileset dir="${app.classes}" includes="**/*.*" excludes="org/freecode/demo/testcases/**"/>
+		<fileset dir="${app.www}/WEB-INF" includes="struts*.xml" />
+		<fileset dir="${app.properties}" includes="*.properties" />
+    </copy>
+	
+	<war destfile="${app.dist}/${app.name}.war" webxml="${app.www}/WEB-INF/web.xml">
+      <fileset dir="${app.www}" includes="**/*.jsp,**/*.htm,**/*.jpg,**/*.gif"/>
+	  <lib dir="${app.www}/WEB-INF/lib">
+      </lib>
+      <classes dir="${app.www}/WEB-INF/classes"/>
+    </war>
+
+  </target>
+  
+  <target name="core" depends="init,package" />  
+  
+  <target name="clean" depends="init">
+	<delete dir="${app.classes}"/>
+	<delete dir="${app.dist}"/>
+  </target>
+  
+</project>
