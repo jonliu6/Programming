@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<h:head>
+	<h:title></h:title>
+</h:head>
+<h:body>
+	<ui:composition template="/template/xprojectTemplate.xhtml">
+
+		<ui:define name="content">
+			<f:metadata>
+				<f:event type="preRenderView" listener="#{restaurantBean.init}" />
+			</f:metadata>
+			<h:form>
+				<!-- <h:inputText value="#{restaurantBean.restaurant.cityId}"
+						required="true" />  -->
+				<h:panelGrid columns="2">
+					<h:outputLabel value="City ID" style="font-weight:bold" />
+					<rich:autocomplete mode="client"
+						value="#{restaurantBean.restaurant.cityId}" required="true"
+						autocompleteList="#{cityBean.findCityNames()}"></rich:autocomplete>
+
+					<h:outputLabel value="Restaurant ID" style="font-weight:bold" />
+					<h:inputText value="#{restaurantBean.restaurant.id}"
+						required="true" />
+					<h:outputLabel value="Restaurant Name" style="font-weight:bold" />
+					<h:inputText value="#{restaurantBean.restaurant.name}"
+						required="true" />
+					<h:outputLabel value="Address" style="font-weight:bold" />
+					<h:inputText value="#{restaurantBean.restaurant.address}"
+						required="true" />
+					<h:outputLabel value="Cuisine" style="font-weight:bold" />
+					<rich:select id="Cuisine"
+						defaultLabel="Please select one cuisine..."
+						value="#{restaurantBean.restaurant.cuisine}">
+						<f:selectItems value="#{restaurantBean.defaultCuisines}" />
+					</rich:select>
+					<h:outputLabel value="Description" style="font-weight:bold" />
+					<h:inputTextarea value="#{restaurantBean.restaurant.description}"></h:inputTextarea>
+					<h:commandButton action="#{restaurantBean.createRestaurant}"
+						value="Save" />
+				</h:panelGrid>
+				<!-- 
+				    <h:selectOneMenu value="#{restaurantBean.restaurant.cuisine}">
+						<f:selectItems value="#{restaurantBean.defaultCuisines}"></f:selectItems>
+					</h:selectOneMenu>
+				-->
+			</h:form>
+			<h:link outcome="/restaurant/listRestaurants.xhtml">List All Restaurants</h:link>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

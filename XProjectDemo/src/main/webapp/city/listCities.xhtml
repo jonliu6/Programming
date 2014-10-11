@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<h:title>List All Cities</h:title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
+</h:head>
+<h:body>
+
+	<ui:composition template="/template/xprojectTemplate.xhtml">
+		<ui:define name="content">
+
+			<h:form>
+				<h:link outcome="/city/createCity.xhtml" value="Create a new city" />
+				<h:outputText value=" " />
+				<h:commandLink action="#{cityBean.goFirst()}" value="First"></h:commandLink>
+				<h:outputText value=" " />
+				<h:commandLink action="#{cityBean.goPrevious()}" value="Previous"></h:commandLink>
+				<h:outputText value=" " />
+				<h:commandLink action="#{cityBean.goNext()}" value="Next"></h:commandLink>
+				<h:outputText value=" " />
+				<h:commandLink action="#{cityBean.goLast()}" value="Last"></h:commandLink>
+
+				<h:outputText
+					value=" #{cityBean.displayFirst()} - #{cityBean.getLast()} of #{cityBean.getTotalRows()}"></h:outputText>
+
+				<!-- findAllCities() in CityBean is calling POJO MySQLHelper -->
+				<!--  <h:dataTable value="#{cityBean.findAllCities()}" var="city"
+			paginator="true" rows="10"> -->
+				<!-- findCities() in CityBean that uses JPAFactory -->
+				<h:dataTable value="#{cityBean.cityList}" var="city" border="0"
+					cellpadding="0" cellspacing="0" rules="all"
+					styleClass="xproject-table" headerClass="columnHeader"
+					rowClasses="oddRow, evenRow" columnClasses="cityId,cityName,country,cityAction"
+					first="#{cityBean.first}" rows="#{cityBean.rowPerPage}">
+					<h:column>
+						<f:facet name="header">
+							<h:commandLink action="#{cityBean.sortById}">City ID</h:commandLink>
+						</f:facet>
+						<!-- <h:outputText value="#{city.ID}"></h:outputText>  // this somehow only works for POJO; for JPA with multiple columns in the query, it returns array, so use below for JPA -->
+						<h:outputText value="#{city.ID}"></h:outputText>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:commandLink action="#{cityBean.sortByName}">City Name</h:commandLink>
+						</f:facet>
+						<h:outputText value="#{city.name}"></h:outputText>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:commandLink action="#{cityBean.sortByCountryName}">Country Name</h:commandLink>
+						</f:facet>
+						<h:outputText value="#{city.countryName}"></h:outputText>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Action</f:facet>
+						<h:panelGrid columns="3">
+							<h:link outcome="/city/editCity.xhtml" value="Edit">
+								<f:param name="cityID" value="#{city.ID}" />
+							</h:link>
+							<h:commandLink value="Delete" action="#{cityBean.dropCity(city)}"></h:commandLink>
+							<h:link value="View" outcome="/city/viewCityDetail.xhtml"
+								includeViewParams="true">
+								<f:param name="cityID" value="#{city.ID}" />
+							</h:link>
+						</h:panelGrid>
+					</h:column>
+
+				</h:dataTable>
+
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

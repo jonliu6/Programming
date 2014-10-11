@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/template/xprojectTemplate.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewParam name="restaurantID"
+				value="#{reservationBean.restaurantID}" />
+			<f:event type="preRenderView" listener="#{reservationBean.load}" />
+		</f:metadata>
+		<h:link outcome="makeReservation.xhtml" value="Make a reservation"
+			includeViewParams="true">
+			<f:param name="restaurantID" value="#{reservationBean.restaurantID}" />
+		</h:link>
+
+		<h:form>
+			<h:dataTable value="#{reservationBean.reservationList}"
+				var="reservation" border="0" cellpadding="0" cellspacing="0"
+				rules="all" styleClass="xproject-table" headerClass="columnHeader"
+				rowClasses="oddRow, evenRow"
+				columnClasses="reservationId,reservationStart,reservationEnd,reservationPeople,reservedBy,comments,reservationAction">
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{reservation.id}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:commandLink action="#{reservationBean.sortByStart}">Start</h:commandLink>
+					</f:facet>
+					<h:outputText value="#{reservation.start}">
+						<f:convertDateTime type="both" pattern="#{msgs.dateTimeFormat}" />
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:commandLink action="#{reservationBean.sortByEnd}">End</h:commandLink>
+					</f:facet>
+					<h:outputText value="#{reservation.end}">
+						<!-- <f:convertDateTime type="both" pattern="#{msgs.dateTimeFormat}" timeZone="reservationBean.localTimeZone"/>  -->
+						<f:convertDateTime type="both" pattern="#{msgs.dateTimeFormat}" />
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:commandLink action="#{reservationBean.sortByNumOfPeople}"># of People</h:commandLink>
+					</f:facet>
+					<h:outputText value="#{reservation.numOfPeople}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Reserved By</f:facet>
+					<h:outputText value="#{reservation.reservedBy}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Comments</f:facet>
+					<h:outputText value="#{reservation.comments}"></h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Action</f:facet>
+					<h:panelGrid columns="1">
+						<h:commandLink value="Cancel"
+							action="#{reservationBean.cancelReservation(reservation)}"></h:commandLink>
+					</h:panelGrid>
+				</h:column>
+
+			</h:dataTable>
+
+		</h:form>
+
+		<f:view>
+
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>
