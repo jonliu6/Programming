@@ -1,0 +1,1 @@
+This exmaple uses Jersey to implement RESTful Web Service.
