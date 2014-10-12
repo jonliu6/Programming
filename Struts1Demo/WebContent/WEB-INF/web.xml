@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+    <display-name>Struts 1 Demo</display-name>
+    <description><![CDATA[Struts 1 Demo]]></description>
+    <servlet>
+      <servlet-name>action</servlet-name>
+      <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+      <init-param>
+          <param-name>debug</param-name>
+          <param-value>2</param-value>
+      </init-param>
+      <init-param>
+          <param-name>config</param-name>
+          <param-value>/WEB-INF/classes/struts-config.xml</param-value>
+      </init-param>
+      <init-param>
+            <param-name>application</param-name>
+            <param-value>org.freecode.demo.resources.messages</param-value>
+      </init-param>
+      <init-param>
+          <param-name>detail</param-name>
+          <param-value>2</param-value>
+      </init-param>
+      <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <!-- Servlet Mappings -->
+    <servlet-mapping>
+      <servlet-name>action</servlet-name>
+      <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+      <session-timeout>120</session-timeout>
+    </session-config>
+
+    <mime-mapping>
+      <extension>css</extension>
+      <mime-type>text/css</mime-type>
+    </mime-mapping>
+
+    <welcome-file-list>
+      <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <taglib>
+        <taglib-uri>struts-bean</taglib-uri>
+        <taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>struts-html</taglib-uri>
+        <taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>struts-logic</taglib-uri>
+        <taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+    </taglib>
+    <taglib>
+        <taglib-uri>struts-nested</taglib-uri>
+        <taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+    </taglib>
+
+</web-app>

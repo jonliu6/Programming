@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<ui:composition template="/template/xprojectTemplate.xhtml">
+	<ui:define name="content">
+	    <h:link outcome="createRestaurant.xhtml" value="Create a new restaurant" />
+	    <h:form>
+				<h:dataTable value="#{restaurantBean.restaurantList}" var="restaurant" border="0"
+					cellpadding="0" cellspacing="0" rules="all"
+					styleClass="xproject-table" headerClass="columnHeader"
+					rowClasses="oddRow, evenRow" columnClasses="restaurantId,restaurantName,address,cuisine,restaurantAction"
+					first="#{restaurantBean.first}" rows="#{restaurantBean.rowPerPage}">
+					<h:column>
+						<f:facet name="header">
+							<h:commandLink action="#{restaurantBean.sortById}">ID</h:commandLink>
+						</f:facet>
+						<h:outputText value="#{restaurant.id}"></h:outputText>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:commandLink action="#{restaurantBean.sortByName}">Name</h:commandLink>
+						</f:facet>
+						<h:outputText value="#{restaurant.name}"></h:outputText>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">
+							<h:commandLink action="#{restaurantBean.sortByAddress}">Address</h:commandLink>
+						</f:facet>
+						<h:outputText value="#{restaurant.address}"></h:outputText>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">
+							<h:commandLink action="#{restaurantBean.sortByCuisine}">Cuisine</h:commandLink>
+						</f:facet>
+						<h:outputText value="#{restaurant.cuisine}"></h:outputText>
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Action</f:facet>
+						<h:panelGrid columns="2">
+							<h:commandLink value="Delete" action="#{restaurantBean.dropRestaurant(restaurant)}"></h:commandLink>
+							<h:link value="Book" outcome="/reservation/listReservations.xhtml"
+								includeViewParams="true">
+								<f:param name="restaurantID" value="#{restaurant.id}" />
+							</h:link>
+						</h:panelGrid>
+					</h:column>
+
+				</h:dataTable>
+
+			</h:form>
+	    
+	</ui:define>
+</ui:composition>
+</html>

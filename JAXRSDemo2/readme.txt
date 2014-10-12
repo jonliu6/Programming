@@ -1,0 +1,1 @@
+This example uses RestEasy to implement RESTful Web Service.

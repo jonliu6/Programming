@@ -1,0 +1,13 @@
+ Volume in drive C is OSDisk
+ Volume Serial Number is E48F-064F
+
+ Directory of C:\Workspaces\JAXRSDemo1\WebContent\WEB-INF\lib
+
+asm-3.1.jar                    jackson-core-asl-1.9.2.jar
+jackson-jaxrs-1.9.2.jar        jackson-mapper-asl-1.9.2.jar
+jackson-xc-1.9.2.jar           jersey-client-1.12.jar
+jersey-core-1.12.jar           jersey-json-1.12.jar
+jersey-server-1.12.jar         jersey-servlet-1.12.jar
+jettison-1.1.jar               jsr311-api-1.1.1.jar
+              12 File(s)      2,660,392 bytes
+               0 Dir(s)  167,542,620,160 bytes free

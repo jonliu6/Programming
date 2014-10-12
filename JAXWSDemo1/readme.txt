@@ -1,0 +1,1 @@
+This example uses Ant, WebLogic and Axis 2 to implement JAX-WS Web Service.

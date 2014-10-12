@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.freecode.demo.mapper.Mapper">
+  <select id="findTransactionsByAccountId" parameterType="int" resultMap="transactionMap">
+    SELECT <include refid="transactionColumns"/>
+      FROM t_transaction
+      WHERE user_id = #{userId}
+      ORDER BY transaction_time DESC
+  </select>
+  
+  <select id="findTransactionById" parameterType="int" resultMap="transactionMap">
+    SELECT <include refid="transactionColumns"/>
+      FROM t_transaction
+      WHERE id = #{id}
+  </select>
+  
+  <resultMap type="Transaction" id="transactionMap">
+    <id property="id" column="id"/>
+    <result property="userId" column="user_id"/>
+    <result property="amount" column="amount" />
+    <result property="transactionType" column="transaction_type" />
+    <result property="transactionTime" column="transaction_time" />
+  </resultMap>
+  
+  <sql id="transactionColumns">
+    id, user_id, amount, transaction_type, transaction_time
+  </sql>
+  
+  <insert id="createTransaction" parameterType="Transaction">
+    INSERT INTO t_transaction ( <include refid="transactionColumns"/> )
+      VALUES ( #{id}, #{userId}, #{amount}, #{transactionType}, #{transactionTime} )
+  </insert>
+  
+  <select id="prc_update_balance" statementType="CALLABLE" parameterMap="updateBalanceParams">
+    CALL prc_update_balance (?,?,?,?)
+  </select>
+  
+  <parameterMap type="HashMap" id="updateBalanceParams">
+    <parameter property="v_userid" mode="IN" jdbcType="NUMERIC" javaType="int"/>
+    <parameter property="v_transactiontype" mode="IN" jdbcType="VARCHAR" javaType="String"/>
+    <parameter property="d_amount" mode="IN" jdbcType="NUMERIC" javaType="double"/>
+    <parameter property="od_balance" mode="OUT" jdbcType="NUMERIC" javaType="Double"/>
+  </parameterMap>
+  
+</mapper>

@@ -1,0 +1,1 @@
+This example implements RESTful Web Service by using Spring MVC.

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk160_05">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Quartz-1.7.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/WebLogic10"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Log4J"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JEE"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Common-Logging"/>
+	<classpathentry kind="lib" path="properties"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Common-dbcp-pool"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<project name="JAXRSDemo1" default="core" basedir=".">
+
+  <target name="init">
+    <property file="build.properties"/>
+	
+	<property name="app.src" value="${app.home}/src"/>
+    <property name="app.build" value="${app.home}/build"/>
+	<property name="app.classes" value="${app.home}/build/classes"/>
+	<property name="app.dist" value="${app.home}/dist"/>
+	<property name="app.conf" value="${app.home}/conf"/>
+	<property name="app.www" value="${app.home}/WebContent"/>
+	
+	<echo message="Building from ${app.src} to ${app.classes}..."/>
+  </target>
+  
+  <target name="package" depends="clean">
+    <mkdir dir="${app.classes}"/>
+	<mkdir dir="${app.dist}"/>
+	
+	<!-- compile source files -->
+    <javac srcdir="${app.src}"
+           destdir="${app.classes}"
+	       classpath="${app.classpath};${app.www}/WEB-INF/lib/jersey-core-1.12.jar"
+           includes="**/*.java"
+    	   debug="on" />
+		   
+	<mkdir dir="${app.classes}/META-INF"/>
+	<mkdir dir="${app.classes}/conf"/>
+	
+	<copy todir="${app.www}/WEB-INF/classes">
+        <fileset dir="${app.classes}" includes="**/*.*" excludes="org/freecode/demo/testcases/**"/>
+		<fileset dir="${app.www}/WEB-INF" includes="struts*.xml" />
+    </copy>
+	
+	<echo>Building WAR file...</echo>
+	<war destfile="${app.dist}/${app.name}.war" webxml="${app.www}/WEB-INF/web.xml">
+      <fileset dir="${app.www}" includes="**/*.jsp,**/*.htm,**/*.jpg,**/*.gif, **/*.js"/>
+	  <lib dir="${app.www}/WEB-INF/lib"></lib>
+      <classes dir="${app.www}/WEB-INF/classes"/>
+    </war>
+  </target>
+  
+  <target name="core" depends="init,package" />  
+  
+  <target name="clean" depends="init">
+	<delete dir="${app.classes}"/>
+	<delete dir="${app.dist}"/>
+	<delete dir="${app.www}/WEB-INF/classes" />
+  </target>
+  
+</project>

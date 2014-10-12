@@ -1,0 +1,1 @@
+Here are some classes for testing JAXWS implementations through Stub/Proxy

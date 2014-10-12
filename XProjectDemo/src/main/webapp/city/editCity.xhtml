@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<h:title></h:title>
+</h:head>
+<h:body>
+	<ui:composition template="/template/xprojectTemplate.xhtml">
+		<ui:define name="content">
+			<f:metadata>
+				<f:viewParam name="cityID" value="#{cityBean.cityID}" />
+				<f:event type="preRenderView" listener="#{cityBean.load}" />
+			</f:metadata>
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:outputLabel value="City ID" style="font-weight:bold" />
+					<h:inputText value="#{cityBean.city.ID}" required="true" />
+					<h:outputLabel value="City Name" style="font-weight:bold" />
+					<h:inputText value="#{cityBean.city.name}" required="true" />
+					<h:outputLabel value="Country Name" style="font-weight:bold" />
+					<h:inputText value="#{cityBean.city.countryName}" required="true" />
+					<h:commandButton action="#{cityBean.editCity}" value="Save" />
+				</h:panelGrid>
+			</h:form>
+			<h:link outcome="/city/listCities.xhtml">List All Cities</h:link>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

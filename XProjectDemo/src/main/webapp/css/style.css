@@ -1,0 +1,115 @@
+h1 {
+	font-size: 34px;
+}
+
+.errorMsg {
+	background-color: #D97C7C;
+	color: #A30000;
+	display: block;
+	padding: 5px;
+}
+
+.xproject-table {
+	border-collapse: collapse;
+	width: 60%;
+}
+
+.columnHeader {
+	text-align: center;
+	font-weight: bold;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	background: none repeat scroll 0 0 #E5E5E5;
+	border-bottom: 2px solid #000;
+	padding: 8px;
+}
+
+.oddRow {
+	background-color: #EEEEEE;
+	border-top: 1px solid;
+}
+
+.evenRow {
+	background-color: #FFFFFF;
+	border-top: 1px solid;
+}
+
+.cityId {
+	width: 20%;
+	text-align: left;
+}
+
+.cityName {
+	width: 20%
+	text-align: left;
+}
+
+.country {
+	width: 20%
+	text-align: left;
+}
+
+.cityAction {
+	width: 40%;
+	text-align: center;
+}
+
+.restaurantId {
+	width: 10%;
+	text-align: left;
+}
+
+.restaurantName {
+	width: 20%
+	text-align: left;
+}
+
+.address {
+	width: 30%
+	text-align: left;
+}
+
+.cuisine {
+	width: 10%
+	text-align: left;
+}
+
+.restaurantAction {
+	width: 30%;
+	text-align: center;
+}
+
+.reservationId{
+	width: 10%;
+	text-align: left;
+}
+
+.reservationStart{
+	width: 20%;
+	text-align: right;
+}
+
+.reservationEnd{
+	width: 20%;
+	text-align: right;
+}
+
+.reservationPeople{
+	width: 5%;
+	text-align: left;
+}
+
+.reservedBy{
+	width: 10%;
+	text-align: left;
+}
+
+.comments{
+	width: 25%;
+	text-align: left;
+}
+
+.reservationAction{
+	width: 10%;
+	text-align: center;
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<project name="Struts1Demo" default="core" basedir=".">
+
+  <target name="init">
+    <property file="build.properties"/>
+	
+	<property name="app.src" value="${app.home}/src"/>
+    <property name="app.build" value="${app.home}/build"/>
+	<property name="app.classes" value="${app.home}/build/classes"/>
+	<property name="app.dist" value="${app.home}/dist"/>
+	<property name="app.conf" value="${app.home}/conf"/>
+	<property name="app.www" value="${app.home}/WebContent"/>
+  	
+  	<property name="app.deployment.folder" value="${deployment.folder}" />
+	
+	<echo message="Building from ${app.src} to ${app.classes}..."/>
+  </target>
+  
+  <target name="package" depends="clean">
+    <mkdir dir="${app.classes}"/>
+	<mkdir dir="${app.dist}"/>
+	
+	<!-- compile source files -->
+    <javac srcdir="${app.src}"
+           destdir="${app.classes}"
+	       classpath="${app.classpath};${app.www}/WEB-INF/lib/struts-core-1.3.10.jar;${app.www}/WEB-INF/lib/struts-taglib-1.3.10.jar;${app.www}/WEB-INF/lib/struts-tiles-1.3.10.jar;${app.www}/WEB-INF/lib/servlet-api.jar;${app.www}/WEB-INF/lib/commons-beanutils-1.8.0.jar;${app.www}/WEB-INF/lib/commons-digester-1.8.jar;${app.www}/WEB-INF/lib/commons-chain-1.2.jar"
+           includes="**/*.java"
+    	   debug="on" />
+		   
+	<mkdir dir="${app.classes}/META-INF"/>
+	<mkdir dir="${app.classes}/conf"/>
+	
+	<copy todir="${app.www}/WEB-INF/classes">
+        <fileset dir="${app.classes}" includes="**/*.*" excludes="org/freecode/demo/testcases/**"/>
+		<fileset dir="${app.www}/WEB-INF" includes="struts*.xml" />
+    </copy>
+	
+	<war destfile="${app.dist}/${app.name}.war" webxml="${app.www}/WEB-INF/web.xml">
+      <fileset dir="${app.www}" includes="**/*.jsp,**/*.htm,**/*.jpg,**/*.gif,**/*.tld"/>
+	  <lib dir="${app.www}/WEB-INF/lib">
+      </lib>
+      <classes dir="${app.www}/WEB-INF/classes"/>
+    </war>
+
+  </target>
+	
+  <target name="deploy" depends="core">
+  	<copy todir="${app.deployment.folder}">
+  		<fileset dir="${app.dist}" includes="**/*.war" />
+  	</copy>
+  </target>
+  
+  <target name="core" depends="init,package" />  
+  
+  <target name="clean" depends="init">
+	<delete dir="${app.classes}"/>
+	<delete dir="${app.dist}"/>
+  </target>
+  
+</project>
