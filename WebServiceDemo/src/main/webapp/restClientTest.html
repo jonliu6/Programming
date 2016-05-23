@@ -1,0 +1,66 @@
+<html>
+<head>
+<title></title>
+<script type="text/javascript" src="./js/jquery-1.11.3.min.js">
+</script>
+
+<script type="text/javascript">
+  var serviceURL = "http://localhost:8080/WebServiceDemo/rest/demo/allbooks";
+
+  function findAllBooks() {
+    
+    $.ajax({
+         type: "GET",
+         url: serviceURL,
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         data: "",
+         success: function (data, status, jqXHR) {
+             var books = data;
+             if (books != null && books.length > 0) {
+                 displayBooks(books);
+             }
+         },
+
+         error: function (jqXHR, status) {
+             // error handler
+             alert(status);
+         }
+    });
+  }
+
+  function displayBooks(bookCollection) {
+	  var bookTblBd = $("#bookTable tbody");
+	  if ( bookTblBd != null ) {
+		  bookTblBd.innerHTML = "";
+		  for ( var i = 0; i < bookCollection.length; ++i ) {
+			  var aBookContent = "<tr>";
+			  aBookContent += "<td>" + bookCollection[i].isbn + "</td>";
+			  aBookContent += "<td>" + bookCollection[i].title + "</td>";
+			  var publishedDate = new Date(bookCollection[i].publishedOn);
+			  aBookContent += "<td>" + publishedDate + "</td>";
+			  aBookContent += "<td>" + bookCollection[i].pageNo + "</td>";
+			  aBookContent += "</tr>";
+			  bookTblBd.append(aBookContent);
+		  }
+	  }
+  }
+</script>
+
+</head>
+<body>
+  <input type="button" onclick="javascript:findAllBooks()" value="List Books" />
+  <table id="bookTable">
+    <thead>
+      <tr>
+        <th width="100px" align="left">ISBN</th>
+        <th width="260px" align="left">Title</th>
+        <th width="100px" align="left">Published On</th>
+        <th width="60px" align="left">Pages</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</body>
+</html>
