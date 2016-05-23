@@ -4,16 +4,28 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
-	<navigation-rule>
-		<display-name>search</display-name>
-		<from-view-id>/searchRestaurant.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>search</from-outcome>
-			<to-view-id>/viewRestaurant.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<!-- <managed-bean> <managed-bean-name>restaurantBean</managed-bean-name> 
-		<managed-bean-class>com.freecode.prototype.Restaurant</managed-bean-class> 
-		<managed-bean-scope>request</managed-bean-scope> </managed-bean> // -->
+ 
+    <application>
+		<resource-bundle>
+		    <base-name>messages</base-name>
+		    <var>msg</var>
+	    </resource-bundle>
+	</application>
+	
+	<!-- Use annotation in the class, without registering in faces-config.xml -->
+	<!--
+	<component>
+        <component-type>HELLO_WORLD</component-type>
+        <component-class>org.freecode.demo.faces.HelloWorldComponent</component-class>
+    </component>
+    -->
+        
+    <!-- Load custom tag into JSF web application -->
+    <!-- moved to web.xml  
+    <context-param>
+        <param-name>facelets.LIBRARIES</param-name>
+        <param-value>/WEB-INF/demo.tag.xml</param-value>
+    </context-param>
+    -->
+
 </faces-config>

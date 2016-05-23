@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:head>
+  <title>Crew On Map</title>
+  <ui:remove>
+  <f:metadata>
+    <f:viewParam name="latitude" value="#{crewLocationMap.latitude}"></f:viewParam>
+    <f:viewParam name="longitude" value="#{crewLocationMap.longitude}"></f:viewParam>
+  </f:metadata>
+  </ui:remove>
+  
+  <style type="text/css">
+      #map-canvas { width: 800px; height: 600px; margin: 0; padding: 0; border:#555555 0px solid;}
+  </style>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
+    <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+    
+    <script type="text/javascript">
+      var map;
+      
+      function initialize() {
+    	  var latLng = new google.maps.LatLng(#{crewLocation.selectedLatitude}, #{crewLocation.selectedLongitude});
+        var mapOptions = { center: latLng,
+          zoom: 10
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+        
+        addMarkerTo(#{crewLocation.selectedLatitude}, #{crewLocation.selectedLongitude});
+      }
+
+      function addMarkerTo(lat, lng) {
+    	  var image = "images/truck.gif";
+    	  var latLng = new google.maps.LatLng(lat, lng)
+    	  var marker = new google.maps.Marker({ position: latLng,
+              title: "#{crewLocation.selectedCrewId}",
+              icon: image });
+
+    	  marker.setMap(map);
+    	  
+    	  var mapOptions = { center: latLng,
+                         zoom: 15,
+                         mapTypeId: google.maps.MapTypeId.ROADMAP};
+
+          map.setOptions(mapOptions);
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+      
+    </script>
+      
+</h:head>
+
+<h:body>
+
+    <h:outputLabel value="#{crewLocation.selectedLatitude}, #{crewLocation.selectedLongitude}" />
+    <div id="map-canvas"></div>
+</h:body>
+
+</html>

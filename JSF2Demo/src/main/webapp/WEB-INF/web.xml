@@ -12,10 +12,17 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
+	
+	<!-- JSF 2.0 Facelets -->
+	<context-param>
+	    <description>Facelet Libraries</description>
+	    <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+	    <param-value>/WEB-INF/demo.tag.xml</param-value>
+	</context-param>
  
 	<!-- Welcome page -->
 	<welcome-file-list>
-		<welcome-file>faces/index.jsp</welcome-file>
+		<welcome-file>/index.xhtml</welcome-file>
 	</welcome-file-list>
  
 	<!-- JSF mapping -->
@@ -29,10 +36,6 @@
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>/faces/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.jsp</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+ 
+<h:head>
+</h:head>
+<h:body>
+    <h:form id="fmData">
+      <div id="actionSection">
+      <table border="0" >
+        <tr>
+          <td><a4j:commandButton id="btnAdd" value="Add" action="#{bookBean.add}" render="fmData:bookTable"></a4j:commandButton></td>
+          <td><a4j:commandButton id="btnDel" value="Delete" action="#{bookBean.delete}" render="fmData:bookTable"></a4j:commandButton><br/></td>
+        </tr>
+      </table>
+      </div>
+      <div id="contentSection">
+      
+      <h:dataTable id="bookTable" value="#{bookBean.books}" var="aBook">
+        <h:column>
+          <f:facet name="header">
+            <h:outputText value="ISBN #" />
+          </f:facet>
+          <h:outputText value="#{aBook.isbn}" /> 
+        </h:column>
+        
+        <h:column>
+          <f:facet name="header">
+            <h:outputText value="Title" />
+          </f:facet>
+          <h:outputText value="#{aBook.name}" /> 
+        </h:column>
+      </h:dataTable>
+      </div>
+	</h:form> 
+</h:body>
+</html>

@@ -41,12 +41,24 @@ public class BookController {
     	currentBook = aBook;
     }
     
-    public String addBook() {
+    // public String addBook() {
+    public void addBook() {
     	Book newBook = new Book();
     	newBook.setIsbn(currentBook.getIsbn());
     	newBook.setName(currentBook.getName());
     	bookFactory.persistBook(newBook);
     	setBooks(bookFactory.findAllBooks());
-    	return "viewingBooks";
+    	// return "viewingBooks";
+    }
+    
+    public void add() {
+        currentBook = new Book();
+        currentBook.setIsbn("12343566");
+        currentBook.setName("My Book");
+        addBook();
+    }
+    
+    public void delete() {
+        bookFactory.removeBook(currentBook);
     }
 }

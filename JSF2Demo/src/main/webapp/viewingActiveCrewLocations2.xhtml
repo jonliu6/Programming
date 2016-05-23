@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:head>
+  <title>#{crewLocationBean.orderCount}</title>
+  <style type="text/css">
+      #map-canvas { width: 800px; height: 400px; margin: 0; padding: 0; border:#555555 0px solid;}
+  </style>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+  <!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
+  <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript">
+    var map;
+    var bc_center = new google.maps.LatLng(53.239622280409575, -130.122070312500005);
+    var default_zoom_level = 5;
+    var selectedCrews = [];
+    
+    function initialize() {
+  	  var mapOptions = { center: bc_center, zoom: default_zoom_level };
+      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    }
+
+    function displayCrewLocation(txt, lat, lng, imgpath) {
+    	var latLng = new google.maps.LatLng(lat, lng);
+
+    	// alert(image + "," + txt + ", [" + lat + "," + lng + "]");
+    	// var crewLoc = {imagePath: image, textMessage: txt, latitude: lat, longitude: lng};
+    	var marker = new google.maps.Marker({ position: latLng, title: txt, icon: imgpath });
+        marker.setMap(map);
+        var mapOptions = { center: latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP};
+
+        map.setOptions(mapOptions);    	
+    }
+    
+    google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+</h:head>
+
+<h:body>
+<h:form>
+<h:outputLabel value="Crew Locations:" />
+
+<div id="map-canvas" style="float:left;"></div>
+<!-- data table -->
+<rich:extendedDataTable value="#{crewLocation.crewLocations}"
+                        style="width:200px;"
+                        var="crew" 
+                        id="crewLocationTable"
+                        onrowclick="displayCrewLocation('#{crew.crewId}',#{crew.latitude},#{crew.longitude},'images/truck.gif')">
+  
+  <rich:column>
+    <f:facet name="header">
+      <h:outputText value="Crew #" />
+    </f:facet>
+    <h:outputText value="#{crew.crewId}" />
+  </rich:column>
+  
+  <rich:column>
+    <f:facet name="header">
+      <h:outputText value="Street" />
+    </f:facet>
+    <h:outputText value="#{crew.streetIntersection}" />
+  </rich:column>
+  
+  <rich:column>
+    <f:facet name="header">
+      <h:outputText value="City" />
+    </f:facet>
+    <h:outputText value="#{crew.cityTown}" />
+  </rich:column>
+  
+</rich:extendedDataTable>
+
+</h:form>  
+</h:body>
+
+</html>
