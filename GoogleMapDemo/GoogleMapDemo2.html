@@ -105,11 +105,15 @@
             
             // add marker right-click event - open a streetview on map-canvas
             marker.addListener('rightclick', function() {
-              var panorama = new google.maps.StreetViewPanorama( 
-                  document.getElementById('map-canvas'), { position: location,
+              //var panorama = new google.maps.StreetViewPanorama( 
+              //    document.getElementById('map-canvas'), { position: location,
                                                      // pov: { heading: 270, pitch: 0 },
-                                                     visible: true });
-              map.setStreetView(panorama);
+              //                                       visible: true });
+              //map.setStreetView(panorama);
+              // the above method creates a new streetview and display in the map window; the below reuses the streetview from the current map, so it can be toggled on and off.
+              var panorama = map.getStreetView();
+              panorama.setPosition(location);
+              panorama.setVisible(true);
             });
 
             return marker;
