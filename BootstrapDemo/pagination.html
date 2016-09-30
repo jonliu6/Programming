@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Bootstrap Demo</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        
+    </head>
+    <body>
+	    <div class="container">
+			<ul class="pagination" >
+			  <li class="active"><a href="#potc" >1</a></li>
+			  <li><a href="#pocc" >2</a></li>
+			  <li><a href="#porm" >3</a></li>
+			  <li><a href="#svlk" >4</a></li>
+			  <li><a href="#pat" >5</a></li>
+			  <li><a href="#es" >6</a></li>
+			</ul>
+
+		</div>
+        
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            var $pages = $("ul > li");
+            $pages.click(function(){
+                $pages.removeClass("active");
+                $(this).addClass("active");
+            });
+        </script>   
+    </body>
+</html>

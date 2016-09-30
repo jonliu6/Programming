@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>List-group Demo</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        
+    </head>
+    <body>
+        <div class="container">
+            <ul id="lstGrp" class="list-group">
+                <li class="list-group-item active">Demo 1</li>
+                <li class="list-group-item">Demo 2</li>
+            </ul>
+            </div>
+        </div>
+        </nav>
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            var $listItems = $("#lstGrp > li");
+            $listItems.click(function(){
+                $listItems.removeClass("active");
+                $(this).addClass("active");
+            });
+        </script>   
+    </body>
+</html>
