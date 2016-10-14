@@ -11,8 +11,22 @@
       #text-canvas {
           background-color:#fff; position:absolute; top: 0px; right:10px; z-index:5; width:240px; float:right; overflow:auto;
       }
+	  .contextmenu{
+		  visibility:hidden;
+		  background:#ffffff;
+		  border:1px solid #8888FF;
+		  z-index: 10;
+		  position: relative;
+		  width: 140px;
+      }
+	  .contextmenu div{
+		  padding-left: 5px
+	  }
+
+	  
     </style>
     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> // -->
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
     <!-- <script type="text/javascript" src="jquery-1.7.2.min.js"></script> //-->
@@ -104,22 +118,64 @@
             });
             
             // add marker right-click event - open a streetview on map-canvas
-            marker.addListener('rightclick', function() {
+            marker.addListener('rightclick', function(event) {
               //var panorama = new google.maps.StreetViewPanorama( 
               //    document.getElementById('map-canvas'), { position: location,
                                                      // pov: { heading: 270, pitch: 0 },
               //                                       visible: true });
               //map.setStreetView(panorama);
               // the above method creates a new streetview and display in the map window; the below reuses the streetview from the current map, so it can be toggled on and off.
-              var panorama = map.getStreetView();
-              panorama.setPosition(location);
-              panorama.setVisible(true);
+			  // alert(event.latLng);
+			  
+			  //// the below is showing the street view by location if available
+              //// var panorama = map.getStreetView();
+              //// panorama.setPosition(event.latLng);
+              //// panorama.setVisible(true);
+			  
+			  // show a customized context menu
+			  var contextmenuDir = document.createElement("div");
+			  $('.contextmenu').remove();
+			  contextmenuDir.className  = 'contextmenu';
+              contextmenuDir.innerHTML = "<a id='menu1' onclick='showStreetView(" + event.latLng.lat() + "," + event.latLng.lng() + ")'><div>Go to street view<\/div><\/a>";
+			  $(map.getDiv()).append(contextmenuDir);
+
+			  var coord = getCanvasXY(event.latLng);
+			  
+			  $('.contextmenu').css('left', coord.x  );
+              $('.contextmenu').css('top', coord.y );
+			  contextmenuDir.style.visibility = "visible";
+
+			  
             });
 
             return marker;
       }
-      
-      function showDirection() {
+	  
+	  function showStreetView( lat, lng ) {
+	      // the below is showing the street view by location if available
+          var panorama = map.getStreetView();
+          panorama.setPosition(new google.maps.LatLng(lat, lng));
+          panorama.setVisible(true);
+		  $('.contextmenu').hide();
+	  }
+	  
+	  function getCanvasXY(aLatLng){
+		  var scale = Math.pow(2, map.getZoom());
+		  var nw = new google.maps.LatLng(
+			  map.getBounds().getNorthEast().lat(),
+			  map.getBounds().getSouthWest().lng()
+		  );
+		  var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+		  var worldCoordinate = map.getProjection().fromLatLngToPoint(aLatLng);
+		  var latLngOffset = new google.maps.Point(
+			  Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+			  Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+		  );
+		  return latLngOffset;
+	  }
+
+	  
+	  function showDirection() {
               directionsService.route({ origin: from,
                                                     destination: to,
                                                     travelMode: google.maps.TravelMode.DRIVING
