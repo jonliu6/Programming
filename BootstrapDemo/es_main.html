@@ -6,6 +6,11 @@
         <title>Emergency Services Main Page</title>
         <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
         <link type="text/css" href="css/custom.css" rel="stylesheet" />
+        <style type="text/css" rel="stylesheet">
+            .btn-success {
+                background-color:cornflowerblue;
+            }
+        </style>
     </head>
     <body>
 	    <nav class="navbar navbar-default">
@@ -74,8 +79,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <button class="btn btn-success actionButton" type="submit">Search</button>
                                 </div>
+                                <div class="col-sm-2">
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button class="btn btn-success actionButton" type="submit">Clear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="col-sm-9">
                         <table class="table table-bordered table-striped table-hover table-condensed">
                             <thead>
@@ -125,7 +141,126 @@
             </div>
             
             <div class="tab-pane" id="submitPage">
-                Submit
+                <div class="col-sm-8">
+                    <form id="submitForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="tcPriority" class="control-label col-sm-3">Priority:</label>
+                            <div class="col-sm-3 radio">
+                                <label><input name="tcPriority" type="radio" value="High" checked >High</label>
+                            </div>
+                            <div class="col-sm-3 radio">
+                                <label><input name="tcPriority" type="radio" value="Medium">Medium</label>
+                            </div>
+                            <div class="col-sm-3 radio">
+                                <label><input name="tcPriority" type="radio" value="Low">Low</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tcNo" class="control-label col-sm-3">Emergency Agency Incident #:</label>
+                            <div class="col-sm-9">
+                                <input id="tcNo" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tcNo" class="control-label col-sm-3">Incident Address:</label>
+                            <div id="addrNo" class="col-sm-3" >
+                                <input id="tcNo" type="text" class="form-control" placeholder="Number">
+                            </div>
+                            <div id="Direction" class="col-sm-3">
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="addDirection" type="radio" value="N">N</label>
+                                </div>
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="addDirection" type="radio" value="S">S</label>
+                                </div>
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="addDirection" type="radio" value="E">E</label>
+                                </div>
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="addDirection" type="radio" value="W">W</label>
+                                </div>
+                            </div>
+                            <div id="Direction" class="col-sm-3">
+                                <input id="tcAddr" type="text" class="form-control" placeholder="Address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="municipality" class="control-label col-sm-3">Municipality:</label>
+                            <div class="col-sm-3">
+                                <select id="municipality" multiple size="5" class="form-control">
+                                    <option value="Burnaby">Burnaby</option>
+                                    <option value="Richmond">Richmond</option>
+                                    <option value="Surrey">Surrey</option>
+                                    <option value="Vancouver">Vancouver</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tcType" class="control-label col-sm-3">Trouble Type:</label>
+                            <div class="col-sm-9">
+                                <div class="col-sm-3 checkbox" >
+                                    <label><input name="tbType" type="checkbox" value="F">Fire/Explosion</label>
+                                </div>
+                                <div class="col-sm-3 checkbox" >
+                                    <label><input name="tbType" type="checkbox" value="M">Motor Vehicle Accident</label>
+                                </div>
+                                <div class="col-sm-3 checkbox" >
+                                    <label><input name="tbType" type="checkbox" value="P">Public Incident</label>
+                                </div>
+                                <div class="col-sm-3 checkbox" >
+                                    <label><input name="tbType" type="checkbox" value="W">Wire Down</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyResponse" class="control-label col-sm-3">Emergency Response:</label>
+                            <div class="col-sm-9">
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="emergencyResponse" type="radio" value="N">Not Attending</label>
+                                </div>
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="emergencyResponse" type="radio" value="E">En Route</label>
+                                </div>
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="emergencyResponse" type="radio" value="O">On Site</label>
+                                </div>
+                                <div class="col-sm-3 radio" >
+                                    <label><input name="emergencyResponse" type="radio" value="S">Scene Secured and left</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="coments" class="control-label col-sm-3">Comments:</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="attachments" class="control-label col-sm-3">Attachment(s):</label>
+                            <div class="col-sm-7">
+                                <input type="file" class="form-control">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="button" class="btn btn-success form-control" value="Upload">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div class="col-sm-6">
+                                    <input type="button" class="btn btn-success form-control" value="Submit">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="button" class="btn btn-success form-control" value="Cancel">
+                                </div>
+                            </div>
+                            <div class="col-sm-9">&nbsp;</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-4">
+                    <div id="map"></div>
+                </div>
             </div>
         </div>
         </div>
