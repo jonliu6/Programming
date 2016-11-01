@@ -7,8 +7,11 @@
         <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
         <link type="text/css" href="css/custom.css" rel="stylesheet" />
         <style type="text/css" rel="stylesheet">
-            .btn-success {
+		    .btn-success {
                 background-color:cornflowerblue;
+            }
+			#map-canvas { 
+                height: 480px; margin: 0; padding: 0; border:#555555 0px solid;
             }
         </style>
     </head>
@@ -101,38 +104,38 @@
                               <th class="col-sm-2">Address</th>
                               <th class="col-sm-1">Priority</th>
                               <th class="col-sm-1">ETA</th>
-                              <th class="col-sm-1">Entered</th>
+                              <th class="col-sm-1 hidden-xs">Entered</th>
                               <th class="col-sm-1">Status</th>
-                              <th class="col-sm-1">Last Updated</th>
-                              <th class="col-sm-1">Comment</th>
+                              <th class="col-sm-1 hidden-xs">Last Updated</th>
+                              <th class="col-sm-1 hidden-xs">Comment</th>
                               <th class="col-sm-1">Actions</th>
                             </thead>
                             <tbody>
                               <tr>
-                                <td>Burnaby</td>
-                                <td>1234</td>
-                                <td>Fire</td>
-                                <td>4711 Kingsway</td>
-                                <td>1</td>
-                                <td>Sep 22 10:00</td>
-                                <td>Sep 21 10:00</td>
-                                <td>Queued</td>
-                                <td>Sep 21 13:00</td>
-                                <td>Test only</td>
-                                <td>View</td>
+                                <td class="col-sm-1">Burnaby</td>
+                                <td class="col-sm-1">1234</td>
+                                <td class="col-sm-1">Fire</td>
+                                <td class="col-sm-2">4711 Kingsway</td>
+                                <td class="col-sm-1">1</td>
+                                <td class="col-sm-1">Sep 22 10:00</td>
+                                <td class="col-sm-1 hidden-xs">Sep 21 10:00</td>
+                                <td class="col-sm-1">Queued</td>
+                                <td class="col-sm-1 hidden-xs">Sep 21 13:00</td>
+                                <td class="col-sm-1 hidden-xs">Test only</td>
+                                <td class="col-sm-1">View</td>
                               </tr>
                               <tr>
-                                <td>Surrey</td>
-                                <td>9999</td>
-                                <td>Police</td>
-                                <td>162 Ave.</td>
-                                <td>2</td>
-                                <td>Sep 22 11:00</td>
-                                <td>Sep 21 11:00</td>
-                                <td>Queued</td>
-                                <td>Sep 21 15:00</td>
-                                <td>Test only</td>
-                                <td>Remove</td>
+                                <td class="col-sm-1">Surrey</td>
+                                <td class="col-sm-1">9999</td>
+                                <td class="col-sm-1">Police</td>
+                                <td class="col-sm-2">162 Ave.</td>
+                                <td class="col-sm-1">2</td>
+                                <td class="col-sm-1">Sep 22 11:00</td>
+                                <td class="col-sm-1 hidden-xs">Sep 21 11:00</td>
+                                <td class="col-sm-1">Queued</td>
+                                <td class="col-sm-1 hidden-xs">Sep 21 15:00</td>
+                                <td class="col-sm-1 hidden-xs">Test only</td>
+                                <td class="col-sm-1">Remove</td>
                               </tr>
                             </tbody>
                         </table>
@@ -163,7 +166,7 @@
                         </div>
                         <div class="form-group">
                             <label for="tcNo" class="control-label col-sm-3">Incident Address:</label>
-                            <div id="addrNo" class="col-sm-3" >
+                            <div id="addrNo" class="col-sm-2" >
                                 <input id="tcNo" type="text" class="form-control" placeholder="Number">
                             </div>
                             <div id="Direction" class="col-sm-3">
@@ -180,7 +183,7 @@
                                     <label><input name="addDirection" type="radio" value="W">W</label>
                                 </div>
                             </div>
-                            <div id="Direction" class="col-sm-3">
+                            <div id="Direction" class="col-sm-4">
                                 <input id="tcAddr" type="text" class="form-control" placeholder="Address">
                             </div>
                         </div>
@@ -189,9 +192,13 @@
                             <div class="col-sm-3">
                                 <select id="municipality" multiple size="5" class="form-control">
                                     <option value="Burnaby">Burnaby</option>
+									<option value="Coquitlam">Coquitlam</option>
+									<option value="Delta">Delta</option>
+									<option value="NorthVancouver">North Vancouver</option>
                                     <option value="Richmond">Richmond</option>
                                     <option value="Surrey">Surrey</option>
                                     <option value="Vancouver">Vancouver</option>
+									<option value="WestVancouver">West Vancouver</option>
                                 </select>
                             </div>
                             <div class="col-sm-6"></div>
@@ -259,7 +266,7 @@
                     </form>
                 </div>
                 <div class="col-sm-4">
-                    <div id="map"></div>
+                    <div id="map-canvas"></div>
                 </div>
             </div>
         </div>
@@ -267,9 +274,47 @@
         
         <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript">
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-3ZPQJrTZXeBghjewJix2q7LGIwckfUw"></script>
+		<script type="text/javascript">
             "use strict";
-            
+            // <![CDATA[
+            var CPP_LATITUDE = 49.2298796;
+			var CPP_LONGITUDE = -123.0030209;
+			var map;
+			
+			// use reverse geocode to get formatted address by latitude and longitude
+			function getAddrByLatLng(latlng, elem) {
+			    var geocoder = new google.maps.Geocoder;
+				geocoder.geocode({'location': latlng}, function(results, status) {
+					if (status === 'OK') {
+						if (results[1]) {
+							elem.val(results[1].formatted_address);
+						} else {
+						    window.alert('No results found');
+						}
+					} else {
+						window.alert('Geocoder failed due to: ' + status);
+					}
+				});
+			}
+			  
+			// initialize map to BC center
+		    function initialize() {
+				var mapOptions = {
+				  center: { lat: CPP_LATITUDE, lng: CPP_LONGITUDE},
+				  zoom: 10
+				};
+				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+				map.addListener('click', function(e) {
+					getAddrByLatLng(e.latLng, $("#tcAddr"));
+				});
+		    }
+            // google.maps.event.addDomListener(window, 'load', initialize);
+			
+            $("a[href='#submitPage']").on('shown.bs.tab', function(){
+                initialize();
+            });
+            // ]]>
         </script>   
     </body>
 </html>
