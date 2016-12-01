@@ -10,7 +10,7 @@
     </head>
 
     <body>
-        <%= new Date() %> Hello, Tomcat!
+        Hello, Tomcat!
 		<img src="./tomcat.png" border="0"/>
     </body>
 
