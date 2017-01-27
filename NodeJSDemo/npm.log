@@ -1,0 +1,256 @@
+
+C:\Program Files (x86)\Microsoft Visual Studio 14.0>cl
+Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+usage: cl [ option... ] filename... [ /link linkoption... ]
+
+C:\Program Files (x86)\Microsoft Visual Studio 14.0>c:\users\jonliu\workspace\xe
+nv
+
+C:\Program Files (x86)\Microsoft Visual Studio 14.0>cd \Workspace\GitRepo\NodeJS
+Demo
+
+C:\Workspace\GitRepo\NodeJSDemo>ls -la
+'ls' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Workspace\GitRepo\NodeJSDemo>dir
+ Volume in drive C is OSDisk
+ Volume Serial Number is 849D-F398
+
+ Directory of C:\Workspace\GitRepo\NodeJSDemo
+
+11/03/2016  12:28 AM    <DIR>          .
+11/03/2016  12:28 AM    <DIR>          ..
+11/03/2016  12:28 AM            35,945 npm-debug.log
+11/03/2016  12:09 AM               801 vc++_64.txt
+               2 File(s)         36,746 bytes
+               2 Dir(s)  125,380,878,336 bytes free
+
+C:\Workspace\GitRepo\NodeJSDemo>npm install -g oracledb
+
+> oracledb@1.11.0 install C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracl
+edb
+> node-gyp rebuild
+
+
+C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb>if not defined npm_con
+fig_node_gyp (node "C:\DevApps\nodejs\node_modules\npm\bin\node-gyp-bin\\..\..\n
+ode_modules\node-gyp\bin\node-gyp.js" rebuild )  else (node "" rebuild )
+Building the projects in this solution one at a time. To enable parallel build,
+please add the "/m" switch.
+  njsOracle.cpp
+  njsPool.cpp
+  njsConnection.cpp
+  njsResultSet.cpp
+..\src\njs\src\njsPool.cpp(495): warning C4996: 'v8::Function::NewInstance': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(3274): note: see declaratio
+  n of 'v8::Function::NewInstance'
+..\src\njs\src\njsConnection.cpp(564): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsConnection.cpp(573): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsConnection.cpp(575): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(290): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+..\src\njs\src\njsConnection.cpp(606): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+..\src\njs\src\njsResultSet.cpp(308): warning C4996: 'v8::Value::ToUint32': was
+ declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb
+\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(314): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(339): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsConnection.cpp(775): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(363): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+..\src\njs\src\njsConnection.cpp(777): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsConnection.cpp(780): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsConnection.cpp(790): warning C4996: 'v8::Value::ToUint32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+..\src\njs\src\njsOracle.cpp(390): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(424): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(448): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+..\src\njs\src\njsConnection.cpp(1102): warning C4996: 'v8::Value::ToInt32': wa
+s declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracled
+b\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8202): note: see declaratio
+  n of 'v8::Value::ToInt32'
+..\src\njs\src\njsConnection.cpp(1116): warning C4996: 'v8::Value::ToUint32': w
+as declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracle
+db\build\oracledb.vcxproj]
+..\src\njs\src\njsOracle.cpp(472): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(627): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(707): warning C4996: 'v8::Value::ToInt32': was dec
+lared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bui
+ld\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8202): note: see declaratio
+  n of 'v8::Value::ToInt32'
+..\src\njs\src\njsConnection.cpp(2448): warning C4244: 'argument': conversion f
+rom 'sb8' to 'std::size_t', possible loss of data [C:\Users\jonliu\AppData\Roam
+ing\npm\node_modules\oracledb\build\oracledb.vcxproj]
+..\src\njs\src\njsOracle.cpp(784): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(880): warning C4996: 'v8::Function::NewInstance':
+was declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracl
+edb\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(3274): note: see declaratio
+  n of 'v8::Function::NewInstance'
+..\src\njs\src\njsConnection.cpp(2808): warning C4996: 'v8::Function::NewInstan
+ce': was declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\
+oracledb\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(3274): note: see declaratio
+  n of 'v8::Function::NewInstance'
+..\src\njs\src\njsOracle.cpp(937): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(939): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'..\src\njs\src\njsConnection.cpp(3172): warning C49
+  96: 'v8::Function::NewInstance': was declared deprecated
+
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(3274): note: see declaratio
+  n of 'v8::Function::NewInstance'
+..\src\njs\src\njsOracle.cpp(941): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(943): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(945): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsOracle.cpp(1044): warning C4996: 'v8::Function::NewInstance':
+ was declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\orac
+ledb\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(3274): note: see declaratio
+  n of 'v8::Function::NewInstance'
+..\src\njs\src\njsConnection.cpp(4486): warning C4996: 'v8::Function::NewInstan
+ce': was declared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\
+oracledb\build\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(3274): note: see declaratio
+  n of 'v8::Function::NewInstance'
+  njsMessages.cpp
+  njsIntLob.cpp
+  dpiEnv.cpp
+  dpiEnvImpl.cpp
+  dpiException.cpp
+  dpiExceptionImpl.cpp
+  dpiConnImpl.cpp
+  dpiDateTimeArrayImpl.cpp
+..\src\njs\src\njsIntLob.cpp(623): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+..\src\njs\src\njsIntLob.cpp(732): warning C4996: 'v8::Value::ToUint32': was de
+clared deprecated [C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb\bu
+ild\oracledb.vcxproj]
+  c:\users\jonliu\.node-gyp\6.9.1\include\node\v8.h(8196): note: see declaratio
+  n of 'v8::Value::ToUint32'
+  dpiPoolImpl.cpp
+  dpiStmtImpl.cpp
+  dpiUtils.cpp
+  dpiLob.cpp
+  dpiCommon.cpp
+  win_delay_load_hook.cc
+     Creating library C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb
+  \build\Release\oracledb.lib and object C:\Users\jonliu\AppData\Roaming\npm\no
+  de_modules\oracledb\build\Release\oracledb.exp
+  Generating code
+  Finished generating code
+  oracledb.vcxproj -> C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb
+  \build\Release\\oracledb.node
+  oracledb.vcxproj -> C:\Users\jonliu\AppData\Roaming\npm\node_modules\oracledb
+  \build\Release\oracledb.pdb (Full PDB)
+C:\Users\jonliu\AppData\Roaming\npm
+`-- oracledb@1.11.0
+  `-- nan@2.3.5
+
+
+C:\Workspace\GitRepo\NodeJSDemo>ls -la
+'ls' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Workspace\GitRepo\NodeJSDemo>
