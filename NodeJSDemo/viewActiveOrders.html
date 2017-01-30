@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Viewing Active Orders</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        <link type="text/css" href="css/custom.css" rel="stylesheet" />
+    </head>
+    <body>
+	    <div class="container">
+            Current Active Orders:<span id="orderCount" ></span>
+            
+            <div class="col-sm-12">
+                <table class="table table-bordered table-striped table-hover table-condensed" id="orderTable">
+                    <thead>
+                      <th class="col-sm-1">Order #</th>
+                      <th class="col-sm-1">Type</th>
+                      <th class="col-sm-1">Status</th>
+                      <th class="col-sm-1">Priority</th>
+                      <th class="col-sm-1 hidden-xs">Assigned At</th>
+                      <th class="col-sm-1 hidden-xs">Dispatched At</th>
+                      <th class="col-sm-1 hidden-xs">En-route At</th>
+                      <th class="col-sm-1 hidden-xs">Arrived At</th>
+                      <th class="col-sm-1 hidden-xs">Completed At</th>
+                      <th class="col-sm-1">Cause</th>
+                      <th class="col-sm-1">Area</th>
+                      <th class="col-sm-1">District</th>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                </table>
+            </div>
+		</div>
+        
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            // function successCallback() {
+            //    alert('successCallback called.');
+            // }
+            function convertNullToEmpty(val) {
+                var returnVal = val;
+                if (val == null || typeof(val) == 'undefined') {
+                    returnVal = ' ';
+                }
+                return returnVal;
+            }
+			
+			function formatTimeToString(val) {
+			    var returnVal = val;
+                if (val == null || typeof(val) == 'undefined') {
+                    returnVal = ' ';
+                }
+				else {
+				    returnVal = new Date(val);
+					returnVal = returnVal.getFullYear() + '-' + eval(returnVal.getMonth()+1) + '-' + returnVal.getDate() + ' ' + returnVal.getHours() + ":" + returnVal.getMinutes();
+				}
+                return returnVal;
+			}
+			
+			function displayActiveOrders(jsonData) {
+                //alert(jsonData);
+                var jsonObjs = eval(jsonData);
+                if ( typeof(jsonObjs) != 'undefined' && jsonObjs != null ) {
+                    var objSize = jsonObjs.length;
+                    // alert(objSize);
+                    var tableContent = '';
+                    for (var i=0; i < objSize; ++i) {
+                        var record = jsonObjs[i];
+                        if ( typeof(record) != 'undefined' && record != null) {
+                            tableContent += '<tr>';
+                            tableContent += '<td class="col-sm-1">' + record.REFERENCE_LABEL + '</td>';
+                            tableContent += '<td class="col-sm-1">' + record.TYPE + '</td>';
+                            tableContent += '<td class="col-sm-1">' + record.STATUS + '</td>';
+                            tableContent += '<td class="col-sm-1">' + record.PRIORITY + '</td>';
+							tableContent += '<td class="col-sm-1 hidden-xs">' + formatTimeToString(record.ASSIGNED_TIME) + '</td>';
+                            tableContent += '<td class="col-sm-1 hidden-xs">' + formatTimeToString(record.DISPATCHED_TIME) + '</td>';
+                            tableContent += '<td class="col-sm-1 hidden-xs">' +  formatTimeToString(record.ENROUTE_TIME) + '</td>';
+                            tableContent += '<td class="col-sm-1 hidden-xs">' + formatTimeToString(record.ARRIVAL_TIME) + '</td>';
+                            tableContent += '<td class="col-sm-1 hidden-xs">' + formatTimeToString(record.SYSTEM_COMPLETION_TIME) + '</td>';
+                            tableContent += '<td class="col-sm-1">' + convertNullToEmpty(record.CAUSE) + '</td>';
+                            tableContent += '<td class="col-sm-1">' + record.AREA_DESC + '</td>';
+                            tableContent += '<td class="col-sm-1">' + record.DISTRICT_DESC + '</td>';
+                            tableContent += '</tr>';
+                        }
+                    }
+                    $('#orderTable tbody').html(tableContent); 
+                    $('#orderCount').text(objSize);
+                }
+                else {
+                    alert('NULL!!!');
+                }
+			}
+            
+            $(document).ready(function () {
+                $.support.cors = true; // very important when testing locally (open .html) using $.ajax to solve cross domain issues
+                $.ajax({
+                    type: 'GET',   
+                    // url: 'http://rest-service.guides.spring.io/greeting',
+					// url: 'http://localhost:8888/testJSON',
+					url: 'http://localhost:8888/activeOrders',
+                    // dataType: 'jsonp',
+                    // data: {},
+                    cache: false,
+                    jsonp: 'jsonp',
+					// contentType: 'application/json',
+					crossDomain: true,
+                    // jsonpCallback: successCallback,
+                    success: function(data) {
+                        displayActiveOrders(data);
+                    },
+                    error:function(jq, st, error){
+                        alert('ERROR:' + error);
+                    }
+                });
+            });
+        </script>   
+    </body>
+</html>
