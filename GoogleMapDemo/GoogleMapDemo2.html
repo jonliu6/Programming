@@ -117,7 +117,14 @@
                 }
             });
             
-            // add marker right-click event - open a streetview on map-canvas
+            displayContextMenu2( marker, "mapContextMenu" );
+
+            return marker;
+      }
+	  
+	  // jQuery + JS implementation
+	  function displayContextMenu1(map, marker) {
+	      // add marker right-click event - open a streetview on map-canvas
             marker.addListener('rightclick', function(event) {
               //var panorama = new google.maps.StreetViewPanorama( 
               //    document.getElementById('map-canvas'), { position: location,
@@ -136,7 +143,7 @@
 			  var contextmenuDir = document.createElement("div");
 			  $('.contextmenu').remove();
 			  contextmenuDir.className  = 'contextmenu';
-              contextmenuDir.innerHTML = "<a id='menu1' onclick='showStreetView(" + event.latLng.lat() + "," + event.latLng.lng() + ")'><div>Go to street view<\/div><\/a>";
+              contextmenuDir.innerHTML = "<a id='menu1' onclick='showStreetView1(" + event.latLng.lat() + "," + event.latLng.lng() + ")'>Go to street view<\/a><br\/><a id='menu2' onclick='alert(\"" + event.latLng.lat() + ", "+ event.latLng.lng() + "\")'>Show Coordinations<\/a>";
 			  $(map.getDiv()).append(contextmenuDir);
 
 			  var coord = getCanvasXY(event.latLng);
@@ -147,16 +154,40 @@
 
 			  
             });
-
-            return marker;
-      }
+	  }
 	  
-	  function showStreetView( lat, lng ) {
+	  function showStreetView1( lat, lng ) {
 	      // the below is showing the street view by location if available
           var panorama = map.getStreetView();
           panorama.setPosition(new google.maps.LatLng(lat, lng));
           panorama.setVisible(true);
 		  $('.contextmenu').hide();
+	  }
+	  
+	  // JS only
+	  function displayContextMenu2( mkrk, ctxMenuId ) {
+	      mkrk.addListener('rightclick', function(event) {
+		      var ctxMenu = document.getElementById(ctxMenuId); // "mapContextMenu"
+			  if ( typeof(ctxMenu) != 'undefined' && ctxMenu != null ) {
+			      ctxMenu.innerHTML = "<a id='menu1' onclick='showStreetView2(" + event.latLng.lat() + "," + event.latLng.lng() + ",\"" + ctxMenuId + "\")'>Go to street view<\/a><br\/><a id='menu2' onclick='alert(\"" + event.latLng.lat() + ", "+ event.latLng.lng() + "\")'>Show Coordinations<\/a>";
+				  map.getDiv().appendChild(ctxMenu);
+				  var coord = getCanvasXY(event.latLng);
+				  var ctxMenuStyle = ctxMenu.style;
+				  ctxMenuStyle.left = coord.x + "px";
+				  ctxMenuStyle.top = coord.y + "px";
+				  ctxMenuStyle.visibility = "visible";
+			  }
+		  });
+	  }
+	  
+	  function showStreetView2( lat, lng, ctxMenuId ) {
+	      // the below is showing the street view by location if available
+          var panorama = map.getStreetView();
+          panorama.setPosition(new google.maps.LatLng(lat, lng));
+          panorama.setVisible(true);
+		  var ctxMenu = document.getElementById(ctxMenuId); // "mapContextMenu"
+		  var ctxMenuStyle = ctxMenu.style;
+		  ctxMenuStyle.visibility = "hidden";
 	  }
 	  
 	  function getCanvasXY(aLatLng){
@@ -287,5 +318,6 @@
         </td>
       </tr>
     </table>
+	<div id="mapContextMenu" class="contextmenu"></div>
   </body>
 </html>
