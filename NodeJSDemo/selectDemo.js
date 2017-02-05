@@ -1,6 +1,6 @@
 var oracledb = require('oracledb');
 oracledb.outFormat = oracledb.OBJECT; // with JSON key/value pair format
-var dbConfig = require('./dbconfig.js');
+var dbConfig = require('./db_config/dbconfig.js');
 
 oracledb.getConnection(
   {
