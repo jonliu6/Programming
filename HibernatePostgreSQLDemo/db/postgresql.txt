@@ -1,0 +1,26 @@
+# Start PostgreSQL
+postgres -D d:/devapps/pgsql/data 
+# or, pg_ctl start
+
+# Stop PostgreSql
+pg_ctl stop
+
+# Create a database
+createdb xproject_db
+
+# Connect
+psql -U jon xproject_db
+
+# Create table
+CREATE TABLE t_student (id VARCHAR(10), first_name VARCHAR(30), last_name VARCHAR(30));
+
+# Show tables
+\dt
+or 
+SELECT * FROM pg_category
+
+# Insert records
+INSERT INTO t_student (id, first_name, last_name) VALUES ('123','John', 'Smith');
+INSERT INTO t_student (id, first_name, last_name) VALUES ('234','Mary', 'Rose');
+COMMIT;
+
