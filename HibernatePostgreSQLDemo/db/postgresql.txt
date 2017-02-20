@@ -9,10 +9,19 @@ pg_ctl stop
 createdb xproject_db
 
 # Connect
-psql -U jon xproject_db
+psql -U jon xproject_db # or, psql -U jon -d xproject_db -W # for prompting password and to a database
+
+# Change password
+ALTER USER "jonliu" WITH PASSWORD 'pgsql_2K'  # \password jonliu
+
+# List databases
+\list
+
+# Connect to database
+\connect xproject_db; # you may need a password
 
 # Create table
-CREATE TABLE t_student (id VARCHAR(10), first_name VARCHAR(30), last_name VARCHAR(30));
+CREATE TABLE Todo_Item (Id BIGINT, Title VARCHAR(100), Description VARCHAR(1000));
 
 # Show tables
 \dt
@@ -20,7 +29,8 @@ or
 SELECT * FROM pg_category
 
 # Insert records
-INSERT INTO t_student (id, first_name, last_name) VALUES ('123','John', 'Smith');
-INSERT INTO t_student (id, first_name, last_name) VALUES ('234','Mary', 'Rose');
+INSERT INTO Todo_Item (Id, Title, Description) VALUES (1,'Set up PostgreSQL database', 'For a quick demo of Hibernate + PostgreSQL.');
 COMMIT;
 
+# QUIT
+\q

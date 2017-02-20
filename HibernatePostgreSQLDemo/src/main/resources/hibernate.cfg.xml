@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN" 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">jonliu</property>
+        <property name="connection.password">pqsql_2K</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/xproject_db</property>
+
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">1</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+		
+		<!-- Enable adding of comments to SQL when generated -->
+		<property name="hibernate.use_sql_comments">true</property>
+
+		<!-- Save occasionally when doing large insert -->
+		<property name="hibernate.jdbc.batch_size">10</property>
+		
+		<!-- Avoid Disabling contextual LOB creation as createClob() method threw error when booting up -->
+		<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+		
+        <!-- Drop and re-create the database schema on startup -->
+		<!--
+        <property name="hbm2ddl.auto">create</property>
+		-->
+		
+		<!-- Class or configuation file mapping -->
+		<mapping class="org.freecode.demo.model.TodoItem"/>
+		<!-- 		
+		<mapping resource="org/freecode/demo/model/Student.hbm.xml" />
+		-->
+	</session-factory>
+</hibernate-configuration>
