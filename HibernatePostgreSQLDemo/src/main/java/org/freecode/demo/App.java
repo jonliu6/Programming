@@ -8,6 +8,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+/**
+ * This is a demo using Hibernate Session Factory
+ * 
+ */
 public class App {
 
 	public static void main(String[] args) {
@@ -18,6 +22,7 @@ public class App {
 			Transaction tx = s.beginTransaction();
 			List<TodoItem> todoList = s.createQuery("FROM TodoItem").list();
 			if ( todoList != null && todoList.size() > 0 ) {
+				System.out.println("Hibernate: ");
 				for (TodoItem i : todoList) {
 					if (i != null) {
 						System.out.println(i.getTitle() + ": " + i.getDescription() + "\n##################################################");
