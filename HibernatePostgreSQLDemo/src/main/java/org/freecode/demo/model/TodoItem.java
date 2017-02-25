@@ -2,11 +2,17 @@ package org.freecode.demo.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+@Cacheable
+@Cache(region="TodoItem", usage=CacheConcurrencyStrategy.READ_WRITE)
 @Entity(name="TodoItem")
 @Table(name="Todo_Item")
 public class TodoItem implements Serializable{
