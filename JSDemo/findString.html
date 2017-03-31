@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script type="text/javascript">
+  function doesExist(wholeString, subString) {
+    // var idx = wholeString.indexOf(subString);
+	var idx = wholeString.search(new RegExp("\\b" + subString + "\\b"));
+	var ans = idx > -1 ? "Y" : "N";
+    alert("Does " + subString + " exist in " + wholeString + "?" + "\n" + ans);
+	
+  }
+</script>
+</head>
+<body>
+Whole String: <input type="text" id="txWholeString" value="" /><br/>
+Sub String: <input type="text" id="txSubString" value="" /><br/>
+<input type="button" value="Check" onclick="doesExist(document.getElementById('txWholeString').value, document.getElementById('txSubString').value)" />
+</body>
+</html>
