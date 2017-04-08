@@ -7,6 +7,7 @@
 <body>
     <h3>Underscore JS Examples</h3><br/>
     <input type="button" name="btnEachFunc" value="Functional Each" onclick="eachFunctional();"><br/>
+    <input type="button" name="btnEachFunc2" value="Functional Each 2" onclick="eachFunctional2();"><br/>
     <input type="button" name="btnEachObj" value="Object-orientated Each" onclick="eachObjectOrientated();"><br/>
     <input type="button" name="btnEachObjWithCtx" value="OO with Context Each" onclick="eachObjectOrientatedContext();"><br/>
     <input type="button" name="btnFind" value="Find (First) Demo" onclick="findBookDesciption();"><br/>
@@ -23,7 +24,20 @@
     <input type="button" name="btnGroup" value="Group By Category" onclick="groupByCategory();"><br/>
     <input type="button" name="btnFirst" value="First 2 Elements" onclick="getFirst(2);">&#160;&#160;
     <input type="button" name="btnLast" value="Last Element" onclick="getLast();"><br/>
+    <input type="button" name="btnUnion" value="Union Arrays" onclick="alert(_.union([1,2,3,5], [2,4,6], [1,2,4,8]));">&#160;&#160;
+    <input type="button" name="btnIntersection" value="Intersection Arrays" onclick="alert(_.intersection([1,2,3,5], [2,4,6], [1,2,4,8]));">&#160;&#160;
+    <input type="button" name="btndifference" value="Differences in Arrays" onclick="alert(_.difference([1,2,3,5], [2,4,6], [1,2,4,8]));"><br/>
+    <input type="button" name="btnUniq" value="Uniq Demo" onclick="uniqDemo();"><br/>
+    <input type="button" name="btnRange" value="Range Demo" onclick="console.log(_.range(10)); console.log(_.range(2,20,3))"><br/>
+    <input type="button" name="btnFindIndex" value="FindIndex Demo" onclick="findIndexDemo()"><br/>
     <input type="button" name="btnLotMax" value="Quick Pick of Lot Max" onclick="getLotMax();"><br/>
+    
+    <input type="button" name="btnDelay" value="Delay Function" onclick="delayDemo();"><br/>
+    <input type="button" name="btnBind" value="Bind Function" onclick="bindDemo();"><br/>
+    <input type="button" name="btnWrap" value="Wrap Function" onclick="wrapDemo();"><br/>
+    <input type="button" name="btnCompose" value="Compose Function" onclick="composeDemo();"><br/>
+    
+    <!-- Utility Functions //-->
     <input type="button" name="btnCustomization" value="Customization Demo" onclick="customizationDemo();"><br/>
     <input type="button" name="btnUnique" value="Unique Id Demo" onclick="uniqueIdDemo();"><br/>
     <input type="button" name="btnResult" value="Result Demo" onclick="resultDemo();"><br/>
@@ -58,6 +72,15 @@
                 // console.log(elem); // idx is the index of each array element, and list is the given array
                 $("#list").append("<li>" + elem + "</li>");
             });
+        }
+        
+        function eachFunctional2() {
+            var anArray = ["This","is","a","demo","of","underscore","javascript","library","."];
+            _(anArray).each(console.log);
+            
+            _(aBook).each(function(val, key, lst){
+                console.log(key + "-" + this.isbn);
+            }, aBook);
         }
         
         function eachObjectOrientated() {
@@ -223,11 +246,36 @@
                 $("#list").append("<li>isbn: " + elem.isbn + " title: " + elem.title + " published in " + elem.publishYear + "</li>");
             });
             
+            console.log(_.first([1,2,3,4,5,6,7], 4)); 
         }
         
         function getLast() {
             var last = _(books).last();
             $("#list").append("<li>isbn: " + last.isbn + " title: " + last.title + " published in " + last.publishYear + "</li>");
+            
+            console.log(_.last([1,2,3,4,5,6,7], 3)); 
+        }
+        
+        function uniqDemo() {
+            var people = [{name:"John", gender:"M"}, {name:"Mary", gender:"F"}, {name:"Sam", gender:"M"}, {name:"Sam", gender:"F"}];
+            var result = _.uniq(people, false, function(person){
+                return person.name;
+                // return person.gender;
+            });
+            $("#list").empty();
+            _(result).each(function(elem, idx, list){
+                $("#list").append("<li>Name: " + elem.name + " Gender: " + elem.gender + "</li>");
+            });
+        }
+        
+        function findIndexDemo() {
+            var nums = [1,3,5,3,1];
+            $("#list").empty();
+            $("#list").append("<li>The array is: " + nums + "</li>");
+            $("#list").append("<li>The (first) index of 3 is: " + _.indexOf(nums, 3) + "</li>");
+            $("#list").append("<li>find the index of any number greater than 3: " + _.findIndex(nums, function(val){
+                return val > 3;
+            }) + "</li>");
         }
         
         function getLotMax() { // function demontrates the time() and random functions of underscore
@@ -239,6 +287,47 @@
                myPick.push(_.random(minN, maxN)); 
             });
             $("#list").append("<li>My pick: " + myPick + "</li>");
+        }
+        
+        function bindDemo() {
+            var funcPrintMsg = function(msg){
+                return ( this.title + ': ' + msg);
+            };
+            var func = _.bind(funcPrintMsg, aBook, "Hello, world!");
+            console.log(func());
+        }
+        
+        function delayDemo() {
+            console.log("function starts..." + new Date());
+            var funcPrintMsg = function(msg){
+                console.log("Message: " + msg);
+            };
+            _.delay(funcPrintMsg, 5000, "Hello, world!");
+            console.log("function ends." + new Date());
+        }
+        
+        function wrapDemo() {
+            var sayHello = function(msg) {
+                return "Hello " + msg;
+            }
+
+            var helloWrapper= _.wrap(sayHello, function(func) {
+                return "from helloWrapper: " + func("there");
+            });
+            console.log(helloWrapper()); // From helloWrapper: Hello there
+        }
+        
+        function composeDemo() {
+            var dblFunc = function(num) {
+                console.log(num +" * 2 = " + num * 2);
+                return num * 2;
+            }
+            var tplFunc = function(num) {
+                console.log(num +" * 3 = " + num * 3);
+                return num * 3;
+            }
+            var func = _.compose(dblFunc, tplFunc);
+            func(3); // 18
         }
         
         function customizationDemo() { 
