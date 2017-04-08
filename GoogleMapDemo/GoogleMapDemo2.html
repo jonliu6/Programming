@@ -28,6 +28,7 @@
     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> // -->
 	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
     <!-- <script type="text/javascript" src="jquery-1.7.2.min.js"></script> //-->
     <script type="text/javascript">
@@ -39,6 +40,8 @@
       var directionsDisplay = new google.maps.DirectionsRenderer;
       var from;
       var to;
+	  
+	  var markerArray = [];
       
       function markOrigin() {
             var addr = document.getElementById("txtFromAddress").value;
@@ -66,7 +69,8 @@
                 if (typeof(results[0]) != "undefined" && results[0] != null ) {
                   foundLocation = results[0].geometry.location;
                   foundAddress = results[0].formatted_address;
-                  drawMarker(type + "0", type, foundLocation, foundAddress, iconURL);
+                  var aMarker = drawMarker(type + "0", type, foundLocation, foundAddress, iconURL);
+				  markerArray.push(aMarker);
                   
                   if (type == "ORIGIN") {
                         from = foundLocation;
@@ -244,6 +248,13 @@
                 }
               }
       }
+	  
+	  function showClusteredMarkers() {
+	      // imagePath is replaced by styles
+		  var mcStyles = [{width: 32, height: 32, textColor: 'white', textSize: 16, url: './clusterIcon.png'}];
+	      var mcOptions = {gridSize: 50, maxZoom: 12, styles: mcStyles};
+	      var mc = new MarkerClusterer(map, markerArray, mcOptions);
+	  }
       
       // initialize map to BC center
       function initialize() {
@@ -255,7 +266,7 @@
                 mapOptions);
       }
       google.maps.event.addDomListener(window, 'load', initialize);
-
+      
       // ]]>
     </script>
   </head>
@@ -306,6 +317,11 @@
               <td colspan="2">
                 <input type="button" name="btnDirection" value="Show Direction" onclick="showDirection();" />
                 <input type="button" name="btnBoundary" value="Show Boundary" onclick="showBoundary();" />
+              </td>
+            </tr>
+			<tr>
+              <td colspan="2">
+                <input type="button" name="btnCluster" value="Cluster Markers" onclick="showClusteredMarkers();" />
               </td>
             </tr>
           </table>
