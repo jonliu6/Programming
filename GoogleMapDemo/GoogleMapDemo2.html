@@ -186,9 +186,21 @@
 	  
 	  function showStreetView2( lat, lng, ctxMenuId ) {
 	      // the below is showing the street view by location if available
-          var panorama = map.getStreetView();
-          panorama.setPosition(new google.maps.LatLng(lat, lng));
-          panorama.setVisible(true);
+		  var streetViewService = new google.maps.StreetViewService();
+		  var panorama = map.getStreetView();
+		  streetViewService.getPanorama({location: new google.maps.LatLng(lat, lng), radius: 50}, function(data, status){
+			if (status === google.maps.StreetViewStatus.OK) {
+				alert('Loading street view...');
+				panorama.setPosition(data.location.latLng);
+			    panorama.setVisible(true);
+			}
+			else {
+				alert("No street view available around this location.");
+			}
+		  });
+          
+          // panorama.setPosition(new google.maps.LatLng(lat, lng));
+          // panorama.setVisible(true);
 		  var ctxMenu = document.getElementById(ctxMenuId); // "mapContextMenu"
 		  var ctxMenuStyle = ctxMenu.style;
 		  ctxMenuStyle.visibility = "hidden";
