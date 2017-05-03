@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Person JavaScript Demo Page</title>
+	<script type="text/javascript" src="Person.js"></script>
+	
+</head>
+<body>
+    <button name="btnTestPerson" onclick="testPerson();">Test</button>
+    <script type="text/javascript">
+	    var gn = 'John';
+		var sn = 'Smith';
+	    var p = new Person(gn, sn);
+		function testPerson() {
+		    console.log(p.getFullName());
+			gn = 'Mary';
+			console.log(p.getFullName()); // changed gn but not the firstName of p
+			p.firstName = 'Jane';
+			p.lastName = 'Doe';
+			console.log(p.getFullName()); // changed both first and last names of p
+			changeFirstName(p.firstName); 
+			console.log(p.getFullName()); // only changed the firstName inside changeFirstName() but not the properties/attributes of p
+			sn = 'Rose';
+			p.changeFullName(gn, sn);
+			console.log(p.getFullName()); // changed both first and last names of p by passing the new local values to the object method
+		}
+	</script>
+</body>
+</html>

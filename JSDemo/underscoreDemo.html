@@ -400,6 +400,11 @@
                                   ", Title: " + elem.title + ", Published on " + elem.publishYear + "</li>");
             });
         }
+		
+		$(document).ready(function(){
+		    alert('document.ready() is called thru jQuery.');
+		});
+		window.onload = alert("page is fully loaded.");
     </script>
 </body>
 </html>
