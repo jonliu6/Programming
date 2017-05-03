@@ -38,32 +38,83 @@ public class FileUploadServlet extends HttpServlet{
 	        out = new FileOutputStream(new File(path + File.separator +fileName));
 	        filecontent = filePart.getInputStream();
 
-	        int read = 0;
-	        final byte[] bytes = new byte[4096];
-
-	        while ((read = filecontent.read(bytes)) != -1) {
-	            out.write(bytes, 0, read);
-	        }
+//	        int read = 0;
+//	        final byte[] bytes = new byte[4096];
+//
+//	        while ((read = filecontent.read(bytes)) != -1) {
+//	            out.write(bytes, 0, read);
+//	        }
+	        copyFileStreamB(filecontent, out, 4096);
+	        
 	        writer.println("New file " + fileName + " created at " + path);
 	        System.out.printf( "File %s being uploaded to %s ", fileName, path);
-	    } catch (FileNotFoundException fne) {
+	    }
+	    catch (FileNotFoundException fne) {
 	        writer.println("You either did not specify a file to upload or are "
 	                + "trying to upload a file to a protected or nonexistent "
 	                + "location.");
 	        writer.println("<br/> ERROR: " + fne.getMessage());
 
 	        System.out.printf("Problems during file upload. Error: %s", fne.getMessage());
-	    } finally {
-	        if (out != null) {
-	            out.close();
-	        }
-	        if (filecontent != null) {
-	            filecontent.close();
-	        }
+	    } 
+	    finally {
+//	        if (out != null) {
+//	            out.close();
+//	        }
+//	        if (filecontent != null) {
+//	            filecontent.close();
+//	        }
 	        if (writer != null) {
-	            writer.close();
+	        	try {
+	        		writer.close();
+	        	}
+	        	catch (Exception ex) {
+	        		ex.printStackTrace();
+	        	}
 	        }
 	    }
+	}
+	
+	private void copyFileStreamB(InputStream is, OutputStream os, int bufferSize) {
+		if (is != null && os != null && bufferSize > 0) {
+			final byte[] buffer = new byte[bufferSize];
+			int numOfBytes = 0;
+			try {
+				while ((numOfBytes = is.read(buffer)) != -1) {
+					os.write(buffer, 0, numOfBytes);
+				}
+			}
+			catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			finally {
+				if (os != null) {
+					try {
+						os.close();
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+					finally {
+						os = null;
+					}
+				}
+				if (is != null) {
+					try {
+						is.close();
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
+					finally {
+						is = null;
+					}
+				}
+			}
+		}
 	}
 
 	private String getFileName(final Part part) {
