@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Viewing Active Orders</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        <link type="text/css" href="css/custom.css" rel="stylesheet" />
+    </head>
+    <body>
+	    <div class="container">
+            Current Active Orders:
+            
+		</div>
+        
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            function successCallback() {
+                alert('successCallback called.');
+                
+            }
+            
+            $(document).ready(function () {
+                
+                $.ajax({
+                    type: 'GET',   
+                    // url: 'http://localhost:8888/activeOrders',
+					url: 'http://localhost:8888/testJSON',
+                    dataType: 'jsonp',
+                    data: {},
+                    cache: false,
+                    jsonp: 'jsonp',
+					// contentType: 'application/json',
+                    jsonpCallback: successCallback,
+                    success: function(data) {
+                        alert(data);
+                    },
+                    error:function(jq, st, error){
+                        alert('ERROR:' + error);
+                    }
+                });
+            });
+        </script>   
+    </body>
+</html>
