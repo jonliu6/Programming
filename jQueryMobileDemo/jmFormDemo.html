@@ -37,7 +37,7 @@
                 </div>
             </div>
             
-			<form>
+	    <form>
                 
                 <!-- grid layout -->
                 <div class="ui-grid-a"> <!-- 2 columns layout -->
@@ -71,10 +71,29 @@
                     <li><a href="#">Item 2</a></li>
                     <li><a href="#">Item 3</a></li>
                 </ul>
+				
+		<div data-role="collapsible">
+		    <h2>Title content sample...</h2>
+		    <p>extended content showing here...</p>
+		    <div data-role="collapsible-set">
+			    <div data-role="collapsible" data-iconpos="right" data-collapsed="false">
+				<h2>Title 1</h2>
+				<p>expanded 1...</p>
+			    </div>
+			    <div data-role="collapsible" data-iconpos="right">
+				<h2>Title 2</h2>
+				<p>expanded 2...</p>
+			    </div>
+			    <div data-role="collapsible" data-iconpos="top">
+				<h2>Title 3</h2>
+				<p>expanded 3...</p>
+			    </div>
+		    </div>
+		</div>
                 
-			    <input type="range" min="0" max="100" value="45" />
-				<div id="datepicker"></div>
-			</form>
+		<input type="range" min="0" max="100" value="45" />
+		<div id="datepicker"></div>
+	    </form>
         </div>
         
         <div data-role="footer">
