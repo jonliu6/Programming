@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+    <head>
+        <title>jQuery Mobile Form Demo</title>
+        <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" type="text/css" />
+		<link rel="stylesheet" href="jqueryui.custom/jquery-ui.datepicker.min.css" type="text/css" />
+        <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+		<script type="text/javascript" src="jqueryui.custom/jquery-ui.datepicker.min.js"></script>
+                
+        <style type="text/css">
+            .ui-page-theme-a .ui-btn { // change the theme of button
+                font-family: "Comic Sans";
+                background-color: aqua;
+                color: red;
+            }
+            
+            .ui-icon-custom {
+                background-repeat: repeat;
+                background-image: url("custom_icon.gif");
+            }
+            
+            div.swipe {
+                width: 20em;
+                height: 5em;
+                background-color: red;
+            }
+            
+            div.swipe.swiped {
+                width: 5em;
+                height: 20em;
+                background-color: green;
+            }
+            
+        </style>
+    </head>
+    <body>
+	  <div data-role="page">
+        <div data-role="header" data-position="fixed" data-theme="a">
+		    <h1>This is a header</h1>
+            <a href="#" data-theme="b">Header</a>
+        </div>
+        
+        <div data-role="content" data-theme="b">
+            <h1>Content is in below</h1>
+            <a href="javascript:changePage();">Test Link</a>
+            
+            <div class="swipe"></div>
+        </div>
+        
+        <div data-role="footer">
+            <p>This is a footer</p>
+            <div data-role="navbar" class="ui-body-a">
+                <ul>
+                    <li><a href="#" data-icon="custom">Customer</a></li>
+
+                </ul>
+            </div>
+        </div>
+      </div>  
+        <script type="text/javascript">
+            $("#datepicker").datepicker();
+            
+            $(document).bind("mobileinit", function() { // launch as soon as jQuery Mobile is loaded
+                $.extend($.mobile, {
+                    ajaxEnabled: true
+                });
+            });
+            
+            function changePage() {
+                $.mobile.changePage("jmFormDemo.html", {transition: "slidedown", reloadPage: "true"});
+            }
+            
+            $("div.swipe").on("swipe", swipeHandler);
+            
+            function swipeHandler(event) {
+                $(event.target).addClass("swiped");
+            }
+        </script>
+    </body>
+</html>
