@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>jQuery Mobile Form Demo</title>
+        <title>jQuery Mobile PhoneGap Demo</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" type="text/css" />
@@ -29,6 +29,35 @@
         </div>
       </div>  
         <script type="text/javascript">
+            /** var cordova = device.cordova;
+            var version = device.version;
+            var uuid = device.uuid;
+            var platform = device.platform;
+            var model = device.model;
+            
+            alert(platform);
+            
+            function alertFunc() {
+                alert("alert here.");
+            }
+            function confirmFunc(button) {
+                alert("confirmed. Button:" + button);
+            }
+            function promptFunc(resp) {
+                alert("Prompted. Button:" + resp.argument + " Text:" + resp.input1);
+            }
+            
+            navigator.notification.alert("Message to display", alertFunc, "Title", "ButtonName");
+            navigator.notification.confirm("Message to display", confirmFunc, "Title", "ButtonName1,ButtonName2");
+            navigator.notification.alert("Message to display", promptFunc, "Title", "Ok,Exit");
+            navigator.notification.beep(5);
+            navigator.notification.vibrate(5000);
+            **/
+            
+            function doWhenDeviceReady() {
+                alert("device is ready now.");
+            }
+            document.addEventListener("deviceready", doWhenDeviceReady, false); // events: batterycritical, batterylow, batterystatus, online, offline, startcallbutton, endcallbutton, volumeupbutton, volumedownbutton, menubutton, searchbutton, backbutton, pause, resume
             
         </script>
     </body>
