@@ -1,0 +1,17 @@
+.bgImage {
+    background-image: url("./logo.gif");
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+table { width:100%; }
+table thead th { text-align: left; border-bottom-width: 1px; border-bottom-style: solid;}
+table th, td { text-align: left; padding: 6px;}
+@media (max-width:40em) {
+    .bgImage {
+        background-image: none;
+    }
+    table tbody tr td {border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px;}
+    table tbody tr td:first-child {background-color: rgba(0,0,200,.04); border-top-style: solid; border-top-width: 1px; border-bottom-style: solid; border-bottom-width: 1px;}
+    /* table tbody tr:nth-child(odd) td {background-color: rgba(200,200,0,0.2);} */
+}
