@@ -1,14 +1,14 @@
 package org.freecode.demo;
 
-import java.awt.HeadlessException;
 import java.util.List;
 
 import org.freecode.demo.model.TodoItem;
+import org.freecode.demo.model.User;
 import org.freecode.demo.util.HibernateHelper;
+import org.hibernate.Filter;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 /**
  * This is a demo using Hibernate Session Factory
@@ -23,6 +23,8 @@ public class App {
 		if (sf != null) {
 			queryTest(sf);
 		}
+		
+		System.exit(0);
 	}
 	
 	private static void queryTest(SessionFactory sf) {
@@ -32,7 +34,10 @@ public class App {
         try {
 			
 //        	tx = s.beginTransaction();
-        	List<TodoItem> todoList = s.createQuery("FROM TodoItem").setCacheable(true).list();
+        	Filter filter = s.enableFilter("itemTitleFilter");
+        	filter.setParameter("titleParam", "%9%");
+        	
+        	List<TodoItem> todoList = s.createQuery("FROM TodoItem").list(); // .setCacheable(true).
 			if ( todoList != null && todoList.size() > 0 ) {
 				System.out.println("Hibernate: ");
 				for (TodoItem i : todoList) {
@@ -41,7 +46,22 @@ public class App {
 					}
 				}
 			}
+			
+			s.disableFilter("itemTitleFilter");
 //			tx.commit();
+			
+			// list user with todo items
+			s.flush();
+			s.clear();
+			User u = (User) s.createQuery("FROM todoUser WHERE login = :loginId").setParameter("loginId", "jdoe").uniqueResult(); // use the entity names
+			System.out.println(u);
+			List<TodoItem> items = u.getTodoItems();
+			if (items != null) {
+				System.out.println("#####TODOs: ");
+				for (int i = 0, len = items.size(); i < len; ++i) {
+					System.out.println("\t" + items.get(i));
+				}
+			}
         }
         catch (HibernateException he) {
 //        	tx.rollback();

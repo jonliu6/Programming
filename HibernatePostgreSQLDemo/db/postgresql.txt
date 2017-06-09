@@ -22,9 +22,14 @@ ALTER USER "jonliu" WITH PASSWORD 'pgsql_2K'  # \password jonliu
 
 # Create table
 CREATE TABLE Todo_Item (Id BIGINT, Title VARCHAR(100), Description VARCHAR(1000));
+ALTER TABLE Todo_Item ADD COLUMN UserId BIGINT;
+CREATE TABLE Todo_User (Id BIGINT, Login VARCHAR(10), FirstName VARCHAR(20), LastName VARCHAR(20));
+# In case of hanging when altering a table, run the following to check locking tables
+SELECT * FROM pg_locks WHERE relation=(SELECT oid FROM pg_class WHERE relname='Todo_Item');
 
 # Create Sequence
 CREATE SEQUENCE todo_item_id_seq START 10 INCREMENT 1;
+CREATE SEQUENCE user_id_seq START 10 INCREMENT 2;
 
 # Show tables
 \dt
@@ -32,7 +37,10 @@ or
 SELECT * FROM pg_category
 
 # Insert records
-INSERT INTO Todo_Item (Id, Title, Description) VALUES (1,'Set up PostgreSQL database', 'For a quick demo of Hibernate + PostgreSQL.');
+INSERT INTO Todo_Item (Id, Title, Description) VALUES (1, 'Set up PostgreSQL database', 'For a quick demo of Hibernate + PostgreSQL.');
+COMMIT;
+INSERT INTO Todo_User (Id, Login, FirstName, LastName) VALUES(1, 'jsmith','John','Smith');
+INSERT INTO Todo_User (Id, Login, FirstName, LastName) VALUES(2, 'mrose','Mary','Rose');
 COMMIT;
 
 # QUIT

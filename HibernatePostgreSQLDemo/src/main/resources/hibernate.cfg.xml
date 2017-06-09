@@ -43,8 +43,9 @@
         <property name="hbm2ddl.auto">create</property>
 		-->
 		
-		<!-- Class or configuation file mapping -->
+		<!-- Class or configuation file mapping, used by SessionFactory Configuration -->
 		<mapping class="org.freecode.demo.model.TodoItem" />
+		<mapping class="org.freecode.demo.model.User" />
 		<!-- 		
 		<mapping resource="org/freecode/demo/model/Student.hbm.xml" />
 		-->

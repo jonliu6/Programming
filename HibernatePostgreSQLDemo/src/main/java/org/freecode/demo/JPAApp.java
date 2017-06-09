@@ -3,21 +3,17 @@ package org.freecode.demo;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 
 import org.freecode.demo.model.TodoItem;
-import org.freecode.demo.util.HibernateHelper;
+import org.freecode.demo.model.User;
 import org.freecode.demo.util.HibernateJPAHelper;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 public class JPAApp {
 	public static void main(String[] args) {
 		queryTest();
 		insertTest();
 		queryTest();
+		System.exit(0);
 	}
 	
 	private static void queryTest() {
@@ -57,7 +53,16 @@ public class JPAApp {
 			try {
                 em.getTransaction().begin();
                 
-                TodoItem itm = null;
+                // insert one new user with todo items
+                User u = new User("jdoe","Jane","Doe");
+                TodoItem itm = new TodoItem("jdItem1","1st Item of Jane");
+                itm.setItemOwner(u);
+                u.getTodoItems().add(itm);
+                itm = new TodoItem("jdItem2","2nd Item of Jane");
+                itm.setItemOwner(u);
+                u.getTodoItems().add(itm);
+                em.merge(u);
+                
     			for (int i = 0; i < 100; i++) {
     				itm = new TodoItem();
     				// itm.setId(Long.valueOf(i)); // no need since DB sequence handles
