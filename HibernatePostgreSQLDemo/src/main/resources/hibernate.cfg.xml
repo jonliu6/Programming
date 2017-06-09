@@ -33,7 +33,7 @@
 		<property name="hibernate.use_sql_comments">true</property>
 
 		<!-- Save occasionally when doing large insert -->
-		<property name="hibernate.jdbc.batch_size">10</property>
+		<property name="hibernate.jdbc.batch_size">30</property>
 		
 		<!-- Avoid Disabling contextual LOB creation as createClob() method threw error when booting up -->
 		<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>

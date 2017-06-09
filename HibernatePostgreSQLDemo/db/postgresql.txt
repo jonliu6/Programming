@@ -23,6 +23,9 @@ ALTER USER "jonliu" WITH PASSWORD 'pgsql_2K'  # \password jonliu
 # Create table
 CREATE TABLE Todo_Item (Id BIGINT, Title VARCHAR(100), Description VARCHAR(1000));
 
+# Create Sequence
+CREATE SEQUENCE todo_item_id_seq START 10 INCREMENT 1;
+
 # Show tables
 \dt
 or 
