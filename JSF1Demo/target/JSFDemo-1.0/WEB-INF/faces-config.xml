@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+              version="1.2">  
+     <application>
+       <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>    
+     </application> 
+     
+           
+     <managed-bean>
+       <managed-bean-name>EmployeeBean</managed-bean-name>
+       <managed-bean-scope>request</managed-bean-scope>
+       <managed-bean-class>org.freecode.demo.controller.EmployeeBean</managed-bean-class>
+     </managed-bean>  
+     
+     <!-- 
+     <navigation-rule>
+       <from-view-id>/view_employee_list.xhtml</from-view-id>
+       <navigation-case>
+         <from-outcome></from-outcome>
+         <from-action></from-action>
+         <to-view-id></to-view-id>
+       </navigation-case>
+     </navigation-rule>   
+      -->    
+</faces-config>

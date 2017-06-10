@@ -1,0 +1,36 @@
+<!doctype html>
+<html language="en-us">
+<head>
+<script language="javascript" type="text/javascript">
+  function openNewSession() {
+    var appURL = "http://kdcbchpoasd1/poweronremote/uat";
+    // Open this link or page in a new session (IE8 and greater)
+	
+	// alert(!!document.documentMode);
+	if ((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode)) {
+	  //var win = window.external.menuArguments;
+	  var WshShell=new ActiveXObject("wscript.shell");
+	  WshShell.Run('IExplore -nomerge \"' + appURL + '\"');
+	//if (win.event.srcElement.tagName == "A")
+	//{
+	//	WshShell.run('IExplore -nomerge \"' + win.event.srcElement.href + '\"');
+	//}
+	//else
+	//{
+	//	WshShell.Run('IExplore -nomerge \"' + win.document.URL + '\"');
+	//}
+	  WshShell = null;
+	}
+	else {
+	  alert(navigator.userAgent);
+	  window.open(appURL);
+	}
+  }
+</script>
+</head>
+
+<body>
+<input type="button" id="btnNew" name="btnNew" value="New PORM" onclick="openNewSession();" />
+
+</body>
+</html>

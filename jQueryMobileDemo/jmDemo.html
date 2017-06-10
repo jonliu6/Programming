@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+    <head>
+        <title>jQuery Mobile Demo</title>
+        <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" type="text/css" />
+        <!-- <link rel="stylesheet" href="jquery-ui.min.css" type="text/css" /> // jquery UI changed the layout of navbar within tabs-->
+        <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+        <!-- <script type="text/javascript" src="jquery-ui.min.js"></script> //-->
+        
+        <style type="text/css">
+            .ui-icon-custom {
+                background-repeat: repeat;
+                background-image: url("custom_icon.gif");
+            }
+        </style>
+    </head>
+    <body>
+        <div data-role="header" data-position="fixed">
+            <a href="#" data-icon="delete">Cancel</a>
+            <h1>This is a header</h1>
+            <a href="#" data-icon="check">OK</a>
+        </div>
+        
+        <div data-role="content">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#">Submit a Ticket</a></li>
+                    <li><a href="#" class="ui-btn-active ui_state-persist">View Tickets</a></li>
+                </ul>
+            </div>
+            
+            <div data-role="tabs">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="#tab1" data-icon="home">Home</a></li>
+                        <li><a href="#tab2" data-icon="info">Info</a></li>
+                    </ul>
+                </div>
+                <div id="tab1">
+                    <p>This is the content of the 1st tab</p>
+                </div>
+                <div id="tab2">
+                    <p>This is the content of the 2nd tab</p>
+                </div>
+            </div>
+            
+            <div class="segmented-control">
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <input name="gender" id="male" type="radio" checked/>
+                    <label for="male">Male</label>
+                    <input name="gender" id="female" type="radio" />
+                    <label for="female">Female</label>
+                </fieldset>
+            </div>
+            
+            <div class="segmented-control">
+                <fieldset data-role="controlgroup" data-type="vertical">
+                    <input name="language" id="english" type="checkbox"/>
+                    <label for="english">English</label>
+                    <input name="language" id="franch" type="checkbox" />
+                    <label for="franch">Franch</label>
+                </fieldset>
+            </div>
+            
+            <a href="#">Link</a>
+            <a href="#" data-role="button">Button 1</a>
+            <input type="button" id="btn3" value="Button 2" />
+            <input type="button" id="btn2" value="Inline Button" data-inline="true" />
+            
+            <div id="CreateButton">
+            </div>
+            
+        </div>
+        
+        <div data-role="footer">
+            <p>This is a footer</p>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#" data-icon="custom">Customer</a></li>
+
+                </ul>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            // put the custom JS blocks at the bottom of the page after all elements are rendered
+            var dynaBtn = "<a id='dynaBtn' href='#' data-role='button' data-icon='gear' data-iconpos='left'>Dynamic Button</a>";
+            $("#CreateButton").append(dynaBtn);
+            $("#dynaBtn").bind("click", function(event){
+                alert(this.text + " clicked");
+            });
+        </script>
+    </body>
+</html>

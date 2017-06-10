@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+<h:head>
+  <title>#{crewLocationBean.orderCount}</title>
+  <style type="text/css">
+      #map-canvas { width: 480px; height: 640px; margin: 0; padding: 0; border:#555555 0px solid;}
+  </style>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+  <!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
+  <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript">
+  //<![CDATA[
+  
+    var map;
+    var bc_center = new google.maps.LatLng(53.239622280409575, -130.122070312500005);
+    var default_zoom_level = 5;
+    var selectedCrews = [];
+    var bounds = new google.maps.LatLngBounds();
+    
+    function initialize() {
+  	  var mapOptions = { center: bc_center, zoom: default_zoom_level };
+      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    }
+
+    function displayCrewLocation(txt, lat, lng, imgpath) {
+    	var latLng = new google.maps.LatLng(lat, lng);
+
+    	// alert(image + "," + txt + ", [" + lat + "," + lng + "]");
+    	// var crewLoc = {imagePath: image, textMessage: txt, latitude: lat, longitude: lng};
+    	bounds.extend( latLng );
+    	var marker = new google.maps.Marker({ position: latLng, title: txt, icon: imgpath });
+    	selectedCrews.push(marker);
+        marker.setMap(map);
+        // var mapOptions = { center: latLng, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP};
+
+        // map.setOptions(mapOptions);    	
+    }
+
+    function displaySelectedCrewLocations(jsonStr) {
+        // alert( jsonStr );
+        var crewLocations = $.parseJSON(jsonStr);
+        // alert(crewLocations.length);
+//          if ( crewLocations != null && crewLocations.length > 0 ) {
+//              if ( crewLocations.length > 1 ) {
+//          	    var mapOptions = { center: bc_center, zoom: default_zoom_level };
+//                  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+//              }
+//              for (var i = 0; i < crewLocations.length; ++i) {
+//                  var crewLoc = crewLocations[i];
+//                  displayCrewLocation(crewLoc.crewId + crewLoc.bchMDTNo + " at " + crewLoc.streetIntersection, crewLoc.latitude, crewLoc.longitude, "images/truck.gif");
+//              }
+//          }
+         if ( crewLocations != null && crewLocations.length > 0 ) {
+             // create a bounding box for multiple latitude and longitude values
+             for (var i = 0; i < crewLocations.length; ++i) {
+                 var crewLoc = crewLocations[i];
+                 if ( crewLoc != null ) {
+                     var latLng = new google.maps.LatLng(crewLoc.latitude, crewLoc.longitude);
+                 	 bounds.extend( latLng );
+                 	 var txt = crewLoc.crewId + " (" + crewLoc.bchMDTNo + ") at " + crewLoc.streetIntersection + ", " + crewLoc.cityTown;
+                 	 var marker = new google.maps.Marker({ position: latLng, title: txt, icon: "images/truck.gif" });
+                 	 marker.setMap(map);
+                 	 selectedCrews.push(marker);
+                 }
+             }
+
+             map.fitBounds( bounds );
+         }
+    }
+
+
+    function clearAllCrewLocations() {
+        if ( selectedCrews != null && selectedCrews.length > 0 ) {
+            for ( var i = 0; i < selectedCrews.length; ++i ) {
+                var marker = selectedCrews[i];
+                if ( marker != null ) {
+                    marker.setMap(null);
+                }
+            }
+            selectedCrews = [];
+        }
+        var mapOptions = { center: bc_center, zoom: default_zoom_level };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    }
+
+    // ]]>
+    
+    google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+</h:head>
+
+<h:body>
+<h:form>
+<h:outputLabel value="Crew Locations:" />
+
+<div id="map-canvas" style="float:left;"></div>
+<a4j:commandButton id="btnClear" value="Clear" action="#{crewLocation.clearSelection}" oncomplete="clearAllCrewLocations()" render="crewLocationTable"></a4j:commandButton>
+<!-- data table -->
+<rich:extendedDataTable value="#{crewLocation.crewLocations}"
+                        style="width:200px;"
+                        var="crew" 
+                        id="crewLocationTable"
+                        selectionMode="multiple"
+                        selectedClass="dataTableSelectedRow"
+                        selection="#{crewLocation.selection}">
+
+  <a4j:ajax event="selectionchange"
+            listener="#{crewLocation.selectionListener}"
+            execute="@form"
+            oncomplete="displaySelectedCrewLocations('#{crewLocation.selectedCrewsInJSON}')" >
+  </a4j:ajax>
+  
+  <rich:column>
+    <f:facet name="header">
+      <h:outputText value="Crew #" />
+    </f:facet>
+    <h:outputText value="#{crew.crewId}" />
+  </rich:column>
+  
+  <rich:column>
+    <f:facet name="header">
+      <h:outputText value="Street" />
+    </f:facet>
+    <h:outputText value="#{crew.streetIntersection}" />
+  </rich:column>
+  
+  <rich:column>
+    <f:facet name="header">
+      <h:outputText value="City" />
+    </f:facet>
+    <h:outputText value="#{crew.cityTown}" />
+  </rich:column>
+  
+</rich:extendedDataTable>
+
+
+</h:form>  
+</h:body>
+
+</html>

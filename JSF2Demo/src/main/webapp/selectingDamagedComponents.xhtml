@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+ 
+<h:head>
+   <link href="css/main.css" rel="stylesheet" type="text/css" />
+   <script type="text/javascript">
+     
+   </script>
+</h:head>
+
+<h:body>
+<h:form id="mainForm">
+Equipment Failure? 
+<h:selectBooleanCheckbox value="#{damagedComponentBean.relatedToEquipmentFailure}">
+  <f:ajax event="click" execute="@this" render="mainForm:secondaryList" ></f:ajax>
+</h:selectBooleanCheckbox>
+<br/>
+Primary: 
+<h:selectOneMenu id="primaryList" value="#{damagedComponentBean.selectedPrimaryCode}">
+    <f:ajax event="change" render="secondaryList"></f:ajax>
+    <f:selectItems value="#{damagedComponentBean.primaryComponents}"/>
+</h:selectOneMenu>  
+Secondary: 
+<h:selectOneMenu id="secondaryList" value="#{damagedComponentBean.selectedSecondaryCode}">
+    <f:selectItems value="#{damagedComponentBean.secondaryComponents}" />
+</h:selectOneMenu>
+
+<a4j:commandButton value="Add Damaged Component" id="btnAdd" action="#{damagedComponentBean.addDamagedComponent}" render="mainForm:damagedComponentDataTable"></a4j:commandButton>
+
+<h:panelGroup id="tableWrapper">
+<h:dataTable id="damagedComponentDataTable" value="#{damagedComponentBean.selectedDamagedComponents}" var="aDamagedComponent" styleClass="dataTable">
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="Primary Component" />
+        </f:facet>
+        <h:outputText value="#{aDamagedComponent.primaryComponent}" /> 
+    </h:column>
+        
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="Secondary Component" />
+        </f:facet>
+        <h:outputText value="#{aDamagedComponent.secondaryComponent}" /> 
+    </h:column>
+    
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="Action" />
+        </f:facet>
+        <!-- NOTE: somehow <a4j:commandLink/> with render="mainForm:damagedComponentDataTable" doesn't refresh the dataTable. And, if use render="mainForm" or render="@this", refresh only worked once and then even the actions didn't work -->
+        <!-- Another way is to wrap the dataTable into a panelGroup. Then, use <a4j:commandLink/> with render="mainForm:tableWrapper" -->
+        <a4j:commandLink value="Remove" id="lnkRemove" action="#{damagedComponentBean.removeDamagedComponent()}" render="mainForm:tableWrapper">
+            <f:param name="selectedDamagedComponentCode" value="#{aDamagedComponent.code}"></f:param>
+        </a4j:commandLink>
+        <!-- Alternatively, use <h:commandLink/> with <f:ajax render="mainForm:damagedComponentDataTable" /> -->
+        <ui:remove>
+        <h:commandLink value="Remove" id="lnkRemove" action="#{damagedComponentBean.removeDamagedComponent()}">
+            <f:param name="selectedDamagedComponentCode" value="#{aDamagedComponent.code}"></f:param>
+            <f:ajax render="mainForm:damagedComponentDataTable"></f:ajax>
+        </h:commandLink>
+        </ui:remove> 
+    </h:column>
+</h:dataTable>
+</h:panelGroup>
+<a4j:commandButton id="btnSave" value="Save Damaged Component Codes" render="mainForm:txSavedCodes"></a4j:commandButton>&nbsp;&nbsp;
+<h:outputText id="txSavedCodes" value="#{damagedComponentBean.selectedDamagedComponentCodes}" styleClass="messageText"/>
+</h:form>
+
+<hr/>
+
+<h:form id="secondForm">
+All Available Damaged Component Codes:
+<br/>
+<h:selectManyListbox value="#{damagedComponentBean.receivedDamagedComponentCodes}">
+  <f:selectItems value="#{damagedComponentBean.allDamagedComponentCodes}"/>
+</h:selectManyListbox>
+<br/>
+<a4j:commandButton id="btnTranslate" value="Display Selected Damaged Components" render="secondForm:txReceivedCodes"></a4j:commandButton>
+<br/>
+<h:outputText id="txReceivedCodes" value="#{damagedComponentBean.receivedDamagedComponents}" styleClass="messageText" escape="false" />
+</h:form>
+</h:body> 
+
+</html>

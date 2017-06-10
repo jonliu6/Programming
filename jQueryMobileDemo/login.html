@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+    <title>Login Screen</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="es.css" />
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header" class="bgImage">
+            <h1>Emergency Services</h1>
+        </div>
+        
+        <div data-role="content">
+            <form action="" method="post">
+                <div class="ui-field-contain">
+	                <label for="userId" style="text-align: right;">User ID:</label>
+	                <input type="text" id="userId" placeholder="Please enter your login ID..."/>
+                </div>
+                <div class="ui-field-contain">
+                	<label for="password" style="text-align: right;">Password:</label>
+                	<input type="text" id="password" placeholder="Please enter your password..."/>
+                </div>
+                <input type="button" value="Login" onclick="javascript:location.replace('main.html');"/>
+                <input type="button" value="Forget Password" />
+                
+            </form>
+        </div>
+        
+        <div data-role="footer" style="text-align: right;">
+            <span style="margin-right: 10px;">Copyright © 2017. All rights reserved.</span>
+        </div>
+    
+    </div>
+
+    <script type="text/javascript" >
+    
+    </script>
+</body>
+</html>

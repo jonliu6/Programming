@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<html>
+<head>
+<title>Bing Map Demo</title>
+<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0">
+  <!-- parameters: v - version (v=7.0); s - SSL (s=0 or s=1); mkt - Locale (primary, secondary. e.g. mkt=en-us,fr-fr) -->
+</script>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+   var mapKey="Your key requested from Microsoft Bing Maps";
+   var map = null;
+   var currentLocation = null;
+   function getBingMap() {
+     // var map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), {credentials: <your map key>});
+     var mapOptions = { 
+       credentials: mapKey, 
+       center: new Microsoft.Maps.Location(49.228073120117188,-122.99903106689453), // 45.5, -122.5
+       mapTypeId: Microsoft.Maps.MapTypeId.road, // map type ids: road, arial, auto, birdseye and etc.
+       zoom: 10};
+     map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), mapOptions);
+     
+     Microsoft.Maps.Events.addHandler(map, 'click', addBCHLogo);
+   }
+   
+   function searchByAddressOrPostalCode() {
+     // Structural REST URL - Canada
+     // http://dev.virtualearth.net/REST/v1/Locations/CA/adminDistrict/postalCode/locality/addressLine?includeNeighborhood=includeNeighborhood&include=includeValue&maxResults=maxResults&key=BingMapsKey
+     // Unstructural Query - Any country
+     // http://dev.virtualearth.net/REST/v1/Locations?countryRegion=countryRegion&adminDistrict=adminDistrict&locality=locality&postalCode=postalCode&addressLine=addressLine&userLocation=userLocation&userIp=userIp&usermapView=usermapView&includeNeighborhood=includeNeighborhood&maxResults=maxResults&key=BingMapsKey
+     var address = document.getElementById("txtAddress").value;
+     if ( address != null && address.length > 0 ) {
+       address = "/" + address;
+     }
+     var city = document.getElementById("txtCity").value;
+     if ( city != null && city.length > 0 ) {
+       city = "/" + city;
+     }
+     var postalCode = document.getElementById("txtPostalCode").value;
+     if ( postalCode != null && postalCode.length > 0 ) {
+       postalCode = "/" + postalCode;
+     }
+     // REST URI
+     var restURL = "http://dev.virtualearth.net/REST/v1/Locations/CA/BC" + postalCode + city + address + "?key=" + mapKey;
+     document.getElementById("txtURL").value = restURL;
+     
+     // AJAX call to get the location information from the above REST service. Note: jsonp is used for bypassing the cross-domain issue
+     $.ajax( { url: restURL,
+               dataType: 'jsonp',
+               cache: false,
+               data: {},
+               jsonp: "jsonp",
+               success: function( reply ) {
+                 if ( reply != null && reply.resourceSets[0] != null ) {
+                   var strResult = eval(reply);
+                   
+                   if ( strResult.resourceSets[0].estimatedTotal == 1 ) {
+                     var coordinates = strResult.resourceSets[0].resources[0].point.coordinates;
+                     var latitude = coordinates[0];
+                     var longitude = coordinates[1];
+                     document.getElementById("txtCoordinate").value = latitude + "," + longitude;
+                     var location = new Microsoft.Maps.Location(latitude, longitude);
+                     
+                     // Change map options
+                     map.setView({center: location, zoom: 12});
+                     
+                     var formattedAddress = strResult.resourceSets[0].resources[0].name;
+                     
+                     // Add a pushpin to the center of the map
+                     var pin = new Microsoft.Maps.Pushpin(location, {text: 'A'}); 
+                     
+                     
+                     var pinInfobox = new Microsoft.Maps.Infobox(pin.getLocation(),
+                                                                 {title: formattedAddress, 
+                                                                  description: latitude + "," + longitude, 
+                                                                  visible: false, 
+                                                                  offset: new Microsoft.Maps.Point(1,20)});
+                     Microsoft.Maps.Events.addHandler(pin, 'mouseover', showInfobox );
+                     // Microsoft.Maps.Events.addHandler(pin, 'mouseout', hideInfobox );
+                     map.entities.push(pinInfobox);
+                     
+                     pin.setOptions({infobox: pinInfobox});
+                     map.entities.push(pin);
+                     
+                     
+                     // Add a polygon to the map 
+                     // var vertices = new Array(new Microsoft.Maps.Location(20,-20), new Microsoft.Maps.Location(20,20), new Microsoft.Maps.Location(-20,20), new Microsoft.Maps.Location(-20,-20), new Microsoft.Maps.Location(20,-20));
+                     // var polygoncolor = new Microsoft.Maps.Color(100,100,0,100);
+                     // var polygon = new Microsoft.Maps.Polygon(vertices,{fillColor: polygoncolor, strokeColor: polygoncolor});
+                     // map.entities.push(polygon);
+                     
+                   }
+                 }
+               }
+             } );
+   }
+   
+   function addBCHLogo(e) {
+     if (e.targetType == "map") {
+     var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+     var location = e.target.tryPixelToLocation(point);
+     // add a pushpin
+     var pin = new Microsoft.Maps.Pushpin(location, {icon: 'fclogo.png', width: 24, height: 18, draggable: true});
+     document.getElementById("txtCoordinate").value = location.latitude + ", " + location.longitude;
+     map.entities.push(pin);
+     }
+   }
+   
+   function showInfobox( e ) {
+     if (e.targetType == "pushpin") {
+       var infoBox = e.target._infobox;
+       infoBox.setOptions({visible:true});
+     }
+   }
+   
+   function hideInfobox( e ) {
+     if (e.targetType == "pushpin") {
+       var infoBox = e.target._infobox;
+       infoBox.setOptions({visible:false});
+     }
+   }
+   
+</script>
+
+<style>
+.mapStyle {
+   position: absolute;
+   top: 20;
+   left: 10;
+   width: 400px;
+   height: 400px;
+   border:#555555 2px solid;
+}
+</style>
+</head>
+<body onload="getBingMap()">
+<b>Find a Location in Map - British Columbia, Canada</b><p/>
+Address: <input type="text" id="txtAddress" name="txtAddress" value="4710 Kingsway" />&nbsp;&nbsp;
+City: <input type="text" id="txtCity" name="txtCity" value="Burnaby" />&nbsp;&nbsp;
+Postal Code: <input type="text" id="txtPostalCode" name="txtPostalCode" value="V5H4M2" />&nbsp;&nbsp;
+<input type="button" name="btnSearch" value="Search" onclick="searchByAddressOrPostalCode();"/><p/>
+<input type="hidden" size="100" id="txtURL" name="txtURL" value="" />
+Coordinates: <input type="text" size="100" id="txtCoordinate" name="txtCoordinate" value="" /> 
+<p/>
+<div id='mapDiv' class="mapStyle"></div>
+</body>
+</html>

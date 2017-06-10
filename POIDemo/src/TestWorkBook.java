@@ -10,13 +10,12 @@ import org.apache.poi.hssf.usermodel.DVConstraint;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataValidation;
-import org.apache.poi.hssf.usermodel.HSSFDataValidationHelper;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.DataValidation;
-import org.apache.poi.ss.usermodel.DataValidationConstraint;
-import org.apache.poi.ss.usermodel.DataValidationHelper;
 import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.util.CellRangeAddressList;
 
@@ -145,6 +144,22 @@ public class TestWorkBook {
 		sht.addValidationData(validation);
 //		XSSFWorkbook xwb = null;
 		
+		/**
+		 * Color Schema
+		 */
+		HSSFCellStyle cellFgRedStyle = wbk.createCellStyle();
+		cellFgRedStyle.setFillForegroundColor(HSSFColor.RED.index);
+		cellFgRedStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		
+		HSSFCellStyle cellFgGreyStyle = wbk.createCellStyle();
+		cellFgGreyStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+		cellFgGreyStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		
+		HSSFFont colFnt = wbk.createFont();
+		colFnt.setColor(HSSFColor.WHITE.index);
+		cellFgRedStyle.setFont(colFnt);
+		
+		
 		for( Iterator<EmployeeRecord> it = aList.iterator(); it.hasNext(); )
 		{
 			HSSFRow row = sht.createRow( i++ );
@@ -160,8 +175,16 @@ public class TestWorkBook {
 			cell3.setCellValue( er.getTheRating() );
 			cell3.setCellStyle( unlockedStyle );
 			cell4 = row.createCell( 3 );
-			cell4.setCellValue( er.getTheHRFlag() );
-			cell4.setCellStyle( lockedStyle );
+			String hrFlag = er.getTheHRFlag();
+			cell4.setCellValue( hrFlag );
+			if ("No".equalsIgnoreCase(hrFlag)) {
+				cell4.setCellStyle(cellFgRedStyle);
+			}
+			else {
+				cell4.setCellStyle(cellFgGreyStyle);
+			}
+			// cell4.setCellStyle( lockedStyle );
+			cell4.getCellStyle().setLocked(Boolean.TRUE); // combined with other cell styles
 		}
 		
 		sht.protectSheet("");

@@ -1,0 +1,24 @@
+.dataTable {
+	font-size:12px;
+	border-style:solid;
+	border-width: thin;
+}
+
+.dataTable td {
+	width: 200px;
+	background-color: #EEFFFF;
+}
+
+.messageText {
+	font-size: 12px;
+}
+
+.textSizeDefault {
+	font-size: 12px;
+}
+
+.textSizeBig {
+	font-size: 24px;
+	font: bold;
+	font-style: italic;
+}

@@ -1,0 +1,9 @@
+To run vcvarsall.bat to use a 64-bit toolset
+At the command prompt, change to the Visual C++ installation directory. (The location depends on the system and the Visual Studio installation, but a typical location is C:\Program Files (x86)\Microsoft Visual Studio version\VC\.) For example, enter:
+cd "\Program Files (x86)\Microsoft Visual Studio 12.0\VC"
+To configure this Command Prompt window for 64-bit command-line builds that target x64 platforms, at the command prompt, enter:
+vcvarsall amd64
+To configure this Command Prompt window for 64-bit command-line builds that target x86 platforms, at the command prompt, enter:
+vcvarsall amd64_x86
+To configure this Command Prompt window for 64-bit command-line builds that target ARM platforms, at the command prompt, enter:
+vcvarsall amd64_arm

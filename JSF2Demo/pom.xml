@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.freecode.demo</groupId>
+  <artifactId>JSF2Demo</artifactId>
+  <version>1.0</version>
+  <packaging>war</packaging>
+  
+  <name>JSF2Demo</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <application.name>JSF2Demo</application.name>
+    <application.home>${env.JBOSS_HOME}/porm</application.home>
+	<webapp.dir>${application.home}/deployments</webapp.dir>
+	<jdk.version>1.7</jdk.version>
+	<jsf.version>2.2.6</jsf.version>
+	<jsf.facelets.version>1.1.15.B1</jsf.facelets.version>
+    <richfaces.version>4.3.7.Final</richfaces.version>
+    <javax.el.version>2.2.4</javax.el.version>
+	<servlet.api.version>2.5</servlet.api.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- JSF Specification -->
+    <dependency>
+      <groupId>com.sun.faces</groupId>
+      <artifactId>jsf-api</artifactId>
+      <version>${jsf.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.faces</groupId>
+      <artifactId>jsf-impl</artifactId>
+      <version>${jsf.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- JSF Library -->
+    <dependency>
+        <groupId>org.richfaces.core</groupId>
+	    <artifactId>richfaces-core-api</artifactId>
+        <version>${richfaces.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.richfaces.core</groupId>
+	    <artifactId>richfaces-core-impl</artifactId>
+        <version>${richfaces.version}</version>
+    </dependency>
+    <dependency>
+	    <groupId>org.richfaces.ui</groupId>
+	    <artifactId>richfaces-components-ui</artifactId>
+	    <version>${richfaces.version}</version>
+    </dependency>
+    <!--  
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>5.2</version>
+    </dependency>
+    -->
+
+    <!-- Servlet -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>
+    
+    <!-- EL -->
+    <dependency>
+		<groupId>javax.el</groupId>
+		<artifactId>javax.el-api</artifactId>
+		<version>${javax.el.version}</version>
+		<scope>provided</scope>
+	</dependency>
+    
+    <!-- JSP -->
+    <!--
+    <dependency>
+	  <groupId>javax.servlet.jsp</groupId>
+	  <artifactId>jsp-api</artifactId>
+	  <version>2.2</version>
+	  <scope>provided</scope>
+    </dependency>
+    -->
+    
+    <!-- JSTL -->
+    <dependency>
+	  <groupId>javax.servlet.jsp.jstl</groupId>
+	  <artifactId>jstl-api</artifactId>
+	  <version>1.2</version>
+    </dependency>
+    
+    <!-- JavaEE 7 -->
+    <dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+	</dependency>
+	
+	<!-- Object to JSON -->
+	<dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>2.3.1</version>
+    </dependency>
+    
+    <!-- Oracle Geospatial -->
+    <dependency>
+	    <groupId>oracle.spatial.geometry</groupId>
+	    <artifactId>sdo-api</artifactId>
+	    <version>11.2.0.1.0</version>
+    </dependency>
+    
+    <dependency>
+	    <groupId>com.oracle</groupId>
+	    <artifactId>ojdbc</artifactId>
+	    <version>5.0</version>
+    </dependency>
+    <!--
+    <dependency>
+	    <groupId>oracle.spatial.geometry</groupId>
+	    <artifactId>sdo-api</artifactId>
+	    <version>1.0</version>
+    </dependency>
+    
+    <dependency>
+	    <groupId>com.oracle</groupId>
+	    <artifactId>ojdbc</artifactId>
+	    <version>1.4</version>
+    </dependency>
+    -->
+        
+</dependencies>    
+  
+  <build>
+    <plugins>
+      <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.3</version>
+            <configuration>
+                <source>${jdk.version}</source>
+                <target>${jdk.version}</target>
+            </configuration>
+        </plugin>
+        <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>2.7</version>
+		</plugin>
+        <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+				    <warName>${application.name}</warName>
+				    <!-- 
+					<webResources>
+						<resource>
+							<filtering>true</filtering>
+							<directory>src/main/webapp/WEB-INF</directory>
+							<includes>
+								<include>jboss-web.xml</include>
+							</includes>
+							<targetPath>/WEB-INF</targetPath>
+						</resource>
+					</webResources>
+					
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<webXml>src/main/webapp/WEB-INF/jboss-web.xml</webXml>
+					-->
+				    <outputDirectory>${webapp.dir}</outputDirectory>
+				</configuration>
+			</plugin>
+     </plugins>
+    </build>
+</project>

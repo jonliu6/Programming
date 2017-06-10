@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Yahoo Stock Service Demo</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" type="text/css"/>
+        <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page">
+            <div data-role="header" data-position="fixed">
+                <h1>Yahoo Stock Service</h1>
+            </div>
+            
+            <div data-role="content">
+                <label for="txIds">Stock Symbols</label>
+                <input type="text" value="" name="txIds" id="txIds" placeholder="Enter stock symbols separated with commas..."/>
+                <button class="ui-btn ui-icon-check ui-btn-icon-left ui-btn-action ui-corner-all" onclick="getStockInfo();">Get Stock Info.</button>
+                
+                <div id="stockInfo">
+                    <table id="stockTable" data-role="table" data-mode="reflow" class="ui-responsive">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Name</th>
+                                <th>Low</th>
+                                <th>High</th>
+                                <th>Change</th>
+                                <th>Last Trade Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div data-role="footer" style="text-align:right;">
+                Copyright © 2017.
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            var yahoo_ws_api = 'https://query.yahooapis.com/v1/public/yql?callback=?';
+            var ws_req = {
+                q: '',
+                format: 'json',
+                env: 'store://datatables.org/alltableswithkeys'
+            };
+            
+            function getStockInfo() {
+                var symbols = $('#txIds').val();
+                if (symbols) {
+                    $('#stockTable tbody').empty();
+                    if (symbols.indexOf(',') < 0) {
+                        symbols = '\"' +symbols+ '\"';
+                    }
+                    else {
+                        var symbolArray = symbols.split(',');
+                        if (symbolArray) {
+                            symbols = '';
+                            $.each(symbolArray, function(idx, elem){
+                                var symbolId = elem.trim();
+                                if (!symbols || symbols.length < 1) {
+                                    symbols = '\"' +symbolId+ '\"';
+                                }
+                                else {
+                                    symbols += ',' + '\"' +symbolId+ '\"';
+                                }
+                            });
+                        }
+                    }
+                    ws_req.q = 'select * from yahoo.finance.quote where symbol in (' + symbols + ')'; 
+                    
+                    $.getJSON(yahoo_ws_api,ws_req).then(function(data){
+                        // console.log(data);
+                        var quotes = data.query.results.quote;
+                        var html = '';
+                        
+                        // console.log(quotes.length + '-' + typeof(quotes));
+                        if (quotes.length) {
+                            $.each(quotes, function(idx, val){
+                                if (val) {
+                                    html += '<tr><td>' +val.symbol+ '</td><td>' +val.Name+ '</td><td>' +val.DaysLow+ '</td><td>' +val.DaysHigh+ '</td><td>' +val.Change+ '</td><td>' +val.LastTradePriceOnly+ '</td></tr>';
+                                }                            
+                            });
+                        }
+                        else {
+                            html += '<tr><td>' +quotes.symbol+ '</td><td>' +quotes.Name+ '</td><td>' +quotes.DaysLow+ '</td><td>' +quotes.DaysHigh+ '</td><td>' +quotes.Change+ '</td><td>' +quotes.LastTradePriceOnly+ '</td></tr>';
+                        }
+                        
+                        $('#stockTable tbody').append(html);
+                    });
+                }
+                else {
+                    alert('Please enter valid stock symbols.');
+                }
+            }
+        </script>
+    </body>
+</html>

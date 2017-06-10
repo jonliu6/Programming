@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Knockout JS Demo Page</title>
+</head>
+<body>
+    <strong>Text and Value Binding</strong>
+    <!-- NOTE: textInput is for immediate live updates, while value updates when focus changes -->
+    First Name<input data-bind="textInput: newFirstName"/><p/>
+    Last Name<input data-bind="textInput: newLastName"/><p/> <button data-bind="click: addPerson">Add</button>
+    Hello <strong data-bind="text: newFullName"></strong>
+    
+    <ul data-bind="foreach: people">
+        <li>
+            <span data-bind="text: firstName"></span>, <span data-bind="text: lastName"></span>
+        </li>
+    </ul>
+    
+    <script type="text/javascript" src="knockout-3.4.2-min.js"></script>
+    <script type="text/javascript">
+        var viewModel = function(givenName, surname) {
+            var self = this;
+            
+            this.newFirstName = ko.observable(givenName);
+            this.newLastName = ko.observable(surname);
+            this.newFullName = ko.computed(function(){
+                return this.newFirstName() + " " + this.newLastName();
+            }, this);
+            
+            self.people = ko.observableArray([{firstName:"John", lastName:"Smith"},
+                                              {firstName:"Mary", lastName:"Rose"},
+                                              {firstName:"Jan", lastName:"Doe"}]);
+            self.addPerson = function() {
+                // use self.newFirstName() instead of self.newFirstName; otherwise, like reference
+                self.people.push({firstName: self.newFirstName(), lastName: self.newLastName()}); 
+            };
+        };
+        
+        ko.applyBindings(new viewModel("John", "Smith"));
+    </script>
+</body>
+</html>

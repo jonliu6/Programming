@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"> 
+
+<h:head>
+<title>Viewing Order Locations</title>
+  <style type="text/css">
+      #map-canvas { width: 480px; height: 640px; margin: 0; padding: 0; border:#555555 0px solid;}
+  </style>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+  // <![CDATA[
+  var map;
+  var bc_center = new google.maps.LatLng(53.239622280409575, -130.122070312500005);
+  var bermuda_center = new google.maps.LatLng(24.886436490787712, -70.2685546875);
+  var default_zoom_level = 5;
+    
+  var jsonStr = "[{\"referenceId\":\"1073083-1\",\"orderId\":892849,\"incidentId\":882904,\"region\":\"Interior\",\"municipality\":\"Prince George\",\"area\":[ {\"longitude\":-122.765914901374,\"latitude\":53.9289541562634},{\"longitude\":-122.720095670442,\"latitude\":53.933255510678},{\"longitude\":-122.719816293158,\"latitude\":53.933297993773}, {\"longitude\":-122.719555482247,\"latitude\":53.9333707763175},{\"longitude\":-122.71059134555,\"latitude\":53.9365159693112},{\"longitude\":-122.710434783207,\"latitude\":53.9365789769726}, {\"longitude\":-122.710292678171,\"latitude\":53.9366529590099},{\"longitude\":-122.707297828451,\"latitude\":53.9384191004803},{\"longitude\":-122.707142904101,\"latitude\":53.9385260044016}, {\"longitude\":-122.613488837965,\"latitude\":54.0142738774673},{\"longitude\":-122.613465938158,\"latitude\":54.0142928681967},{\"longitude\":-122.612813696832,\"latitude\":54.0148488714161}, {\"longitude\":-122.612674234419,\"latitude\":54.014995324656},{\"longitude\":-122.612583417409,\"latitude\":54.0151544912991},{\"longitude\":-122.612544410804,\"latitude\":54.0153208253177}, {\"longitude\":-122.612558574383,\"latitude\":54.0154885308781},{\"longitude\":-122.612625415241,\"latitude\":54.0156517642888},{\"longitude\":-122.612742604874,\"latitude\":54.0158048376251}, {\"longitude\":-122.612906060242,\"latitude\":54.0159424169358},{\"longitude\":-122.613110085984,\"latitude\":54.0160597081221},{\"longitude\":-122.613347572838,\"latitude\":54.0161526240109}, {\"longitude\":-122.613610245371,\"latitude\":54.0162179267966},{\"longitude\":-122.743061166587,\"latitude\":54.0402181289741},{\"longitude\":-122.743338753302,\"latitude\":54.0402531499307}, {\"longitude\":-122.743622555912,\"latitude\":54.0402573474101},{\"longitude\":-122.743902780773,\"latitude\":54.0402305765632},{\"longitude\":-122.744169757727,\"latitude\":54.0401737612138}, {\"longitude\":-122.744414273868,\"latitude\":54.0400888619731},{\"longitude\":-122.744627891506,\"latitude\":54.0399788085703},{\"longitude\":-122.802837096398,\"latitude\":54.0037983053389}, {\"longitude\":-122.802998471281,\"latitude\":54.0036790731906},{\"longitude\":-122.80312333893,\"latitude\":54.003545496199},{\"longitude\":-122.803208111112,\"latitude\":54.003401413252}, {\"longitude\":-122.80325035199,\"latitude\":54.00325096513},{\"longitude\":-122.803566680544,\"latitude\":54.0008984668358},{\"longitude\":-122.803565640054,\"latitude\":54.0007490447676}, {\"longitude\":-122.803522629336,\"latitude\":54.000601785669},{\"longitude\":-122.772935198818,\"latitude\":53.9309412312321},{\"longitude\":-122.772834142921,\"latitude\":53.9307778355681}, {\"longitude\":-122.772681691092,\"latitude\":53.9306289715376},{\"longitude\":-122.772483543489,\"latitude\":53.9305002046597},{\"longitude\":-122.770239096258,\"latitude\":53.9292987466537}, {\"longitude\":-122.770036857437,\"latitude\":53.9292074299543},{\"longitude\":-122.769811682525,\"latitude\":53.9291372563483},{\"longitude\":-122.769569855551,\"latitude\":53.9290901841646}, {\"longitude\":-122.769318125169,\"latitude\":53.9290675270371},{\"longitude\":-122.766258060905,\"latitude\":53.9289450049289},{\"longitude\":-122.766086042944,\"latitude\":53.9289438574591}, {\"longitude\":-122.765914901374,\"latitude\":53.9289541562634}],\"minCoord\":{\"longitude\":-122.803900362533,\"latitude\":53.9290107701887},\"maxCoord\": {\"longitude\":-122.612318680838,\"latitude\":54.0399102821408},\"centerCoord\":{\"longitude\":-122.721820564442,\"latitude\":53.9880164319783} }]";
+
+  function initialize() {
+  	  // var mapOptions = { center: bc_center, zoom: default_zoom_level };
+  	  var mapOptions = { center: bermuda_center, zoom: default_zoom_level };
+      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  }
+
+  // static demo, deprecated
+  function viewOrderLocationDemo() {
+	  var i = 0;
+	  var orderBoundary = $.parseJSON(jsonStr);
+	  var polyPoints = [];
+	  var orderPolygon;
+	  var bounds = new google.maps.LatLngBounds();
+
+	  var mapOptions = {
+			    zoom: 5,
+			    center: bc_center,
+			    mapTypeId: google.maps.MapTypeId.TERRAIN
+	  };
+
+	  var mapOptions = { center: bc_center, zoom: default_zoom_level };
+	  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	  
+	  if ( orderBoundary != null ) {
+		  var areas = orderBoundary[i]["area"];
+		  
+		  //var minLatLng = new google.maps.LatLng(orderBoundary[i]["minCoord"]["latitude"], orderBoundary[i]["minCoord"]["longitude"]);
+		  //bounds.extend(minLatLng);
+		  //var maxLatLng = new google.maps.LatLng(orderBoundary[i]["maxCoord"]["latitude"], orderBoundary[i]["maxCoord"]["longitude"]);
+		  //bounds.extend(maxLatLng);
+		  var centreCoord = new google.maps.LatLng(orderBoundary[i]["centerCoord"]["latitude"], orderBoundary[i]["centerCoord"]["longitude"]);
+		  var txt = "Order#: " + orderBoundary[i]["referenceId"] + " at " + orderBoundary[i]["municipality"] + ", " + orderBoundary[i]["region"];
+      	  var marker = new google.maps.Marker({ position: centreCoord, title: txt, icon: "images/order.gif" });
+      	  marker.setMap(map);
+		  
+		  if ( areas != null ) {
+			  for (var j = 0; j < areas.length; ++j) {
+				  var latLng = new google.maps.LatLng(areas[j]["latitude"], areas[j]["longitude"]);
+				  polyPoints.push(latLng);
+				  bounds.extend(latLng);
+              }
+
+			  orderPolygon = new google.maps.Polygon({
+				    paths: polyPoints,
+				    strokeColor: '#FF0000',
+				    strokeOpacity: 0.8,
+				    strokeWeight: 2,
+				    fillColor: '#FF0000',
+				    fillOpacity: 0.35
+			  });
+							  
+		  } 
+
+		  orderPolygon.setMap(map);
+		  
+		  map.fitBounds( bounds );   
+      }
+	  
+  }
+
+  function viewOrderLocationOnMap( jsonStr ) {
+	  // alert( jsonStr );
+	  var orderBoundary = $.parseJSON(jsonStr);
+	  var polyPoints = [];
+	  var orderPolygon;
+	  var bounds = new google.maps.LatLngBounds();
+
+	  if ( orderBoundary != null ) {
+		  var areas = orderBoundary["area"];
+		  
+		  var centreCoord = new google.maps.LatLng(orderBoundary["centerCoord"]["latitude"], orderBoundary["centerCoord"]["longitude"]);
+		  var txt = "Order#: " + orderBoundary["referenceId"] + " at " + orderBoundary["municipality"] + ", " + orderBoundary["region"];
+      	  var marker = new google.maps.Marker({ position: centreCoord, title: txt, icon: "images/order.gif" });
+      	  marker.setMap(map);
+
+      	  if ( areas != null ) {
+			  for (var j = 0; j < areas.length; ++j) {
+				  var latLng = new google.maps.LatLng(areas[j]["latitude"], areas[j]["longitude"]);
+				  polyPoints.push(latLng);
+				  bounds.extend(latLng);
+              }
+
+			  orderPolygon = new google.maps.Polygon({
+				    paths: polyPoints,
+				    strokeColor: '#FF0000',
+				    strokeOpacity: 0.8,
+				    strokeWeight: 2,
+				    fillColor: '#FF0000',
+				    fillOpacity: 0.35
+			  });
+							  
+		  } 
+
+		  orderPolygon.setMap(map);
+		  
+		  map.fitBounds( bounds );   
+      }
+  }
+
+    google.maps.event.addDomListener(window, 'load', viewOrderLocationDemo);
+  // ]]>
+</script>
+</h:head>
+
+<h:body>
+  <div id="map-canvas" style="float:left;"></div>
+  <p/>
+  <h:form>
+  <h:dataTable value="#{orderLocation.orderLocations}" var="ordLoc">
+    <h:column>
+      <f:facet name="header">     
+      </f:facet>
+      <ui:remove>
+      <h:link id="viewMap" onclick="viewOrderLocation()">
+        <h:graphicImage value="/images/map.gif" style="border='0';" />
+      </h:link>
+      </ui:remove>
+      
+      <a4j:commandLink id="lnkOrder" execute="@form" actionListener="#{orderLocation.selectOrderIdListener}" oncomplete="viewOrderLocationOnMap('#{orderLocation.orderLocationInJSONById}')">
+        <f:attribute name="orderId" value="#{ordLoc.orderId}"></f:attribute>
+        <h:graphicImage value="/images/map.gif" style="border='0';" />
+      </a4j:commandLink>
+    </h:column>
+  
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Order #" />
+      </f:facet>
+      <h:outputText value="#{ordLoc.orderId}" /> 
+    </h:column>
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Reference Label" />
+      </f:facet>
+      <h:outputText value="#{ordLoc.referenceId}" /> 
+    </h:column>
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Incident #" />
+      </f:facet>
+      <h:outputText value="#{ordLoc.incidentId}" /> 
+    </h:column>
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Region" />
+      </f:facet>
+      <h:outputText value="#{ordLoc.region}" /> 
+    </h:column>
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Municipality" />
+      </f:facet>
+      <h:outputText value="#{ordLoc.municipality}" /> 
+    </h:column>
+    
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Min. Coord." />
+      </f:facet>
+      <h:outputText value="#{ordLoc.minCoord.text}" /> 
+    </h:column>
+    
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Max. Coord." />
+      </f:facet>
+      <h:outputText value="#{ordLoc.maxCoord.text}" /> 
+    </h:column>
+    
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Center Coord." />
+      </f:facet>
+      <h:outputText value="#{ordLoc.centerCoord.text}" /> 
+    </h:column>
+
+  </h:dataTable>
+  </h:form>
+</h:body>
+
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+ 
+    <application>
+		<resource-bundle>
+		    <base-name>messages</base-name>
+		    <var>msg</var>
+	    </resource-bundle>
+	</application>
+	
+	<!-- Use annotation in the class, without registering in faces-config.xml -->
+	<!--
+	<component>
+        <component-type>HELLO_WORLD</component-type>
+        <component-class>org.freecode.demo.faces.HelloWorldComponent</component-class>
+    </component>
+    -->
+        
+    <!-- Load custom tag into JSF web application -->
+    <!-- moved to web.xml  
+    <context-param>
+        <param-name>facelets.LIBRARIES</param-name>
+        <param-value>/WEB-INF/demo.tag.xml</param-value>
+    </context-param>
+    -->
+
+</faces-config>

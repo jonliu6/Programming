@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Bootstrap Demo</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        
+    </head>
+    <body data-spy="scroll" data-target="#myScrollspy" data-offset="200">
+        <div class="container">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingPeter">
+                        <h3 class="panel-title">
+                            <a role="button" data-toggle="collapse"
+                                 data-parent="#accordion" href="#peter"
+                                 aria-expanded="true" aria-controls="peter">
+                                Peter Pan <small>Chief Epicurious Officer</small></a>
+                        </h3>
+                    </div>
+                    <div role="tabpanel" class="panel-collapse collapse in"
+                         id="peter"    aria-labelledby="headingPeter">
+                        <div class="panel-body">
+                            <p>Blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingDanny">
+                        <h3 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse"
+                                 data-parent="#accordion" href="#danny"
+                                 aria-expanded="false" aria-controls="danny">
+                                Dhanasekaran Witherspoon <small>Chief Food Officer</small></a>
+                        </h3>
+                    </div>
+                    <div role="tabpanel" class="panel-collapse collapse"
+                         id="danny"    aria-labelledby="headingDanny">
+                        <div class="panel-body">
+                            <p>Blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah  </em></p>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10">
+                      Blah, blah, blah, blah, blah, blah, blah, blah, blah, blah, blah
+                    </div>
+                </div>
+            </div>
+    
+            <nav class="hidden-xs col-sm-2" id="myScrollspy">
+                <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="400">
+                    <li><a href="#history">Our History</a></li>
+                    <li><a href="#corporate">Corporate</a></li>
+                    <li><a href="#facts">Facts</a></li>
+                </ul>
+            </nav>
+    
+            <div id="history" class="row row-content">Blah, blah, blah, blah, blah</div>
+            <div id="corporate" class="row row-content"> Blah, blah, blah, blah, blah </div>
+            <div id="facts" class="row row-content"> Blah, blah, blah, blah, blah </div>
+        </div>
+        
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            
+        </script>   
+    </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:rich="http://richfaces.org/rich"> 
+
+<h:head>
+<script language="javascript" >
+  //<![CDATA[
+  function checkInput() {
+	  var isValid = false;
+	  var isbn = document.getElementById('bookForm:isbn').value;
+	  var bookName = document.getElementById('bookForm:bookName').value;
+	  // alert( isbn + " " + bookName);
+	  if ( isbn != "" && bookName != "" ) {
+		  isValid = true;
+	  }
+
+	  alert(isValid);
+	  return isValid;
+  }
+  // ]]>
+</script>
+</h:head> 
+<body> 
+  <h:outputLabel>Books</h:outputLabel><p />
+  <h:form id="bookForm">
+    <h:outputText value="ISBN" />&nbsp;<h:inputText id="isbn" name="isbn" value="#{bookBean.currentBook.isbn}"></h:inputText>&nbsp;&nbsp;
+    <h:outputText value="Name" />&nbsp;<h:inputText id="bookName" name="bookName" value="#{bookBean.currentBook.name}"></h:inputText>&nbsp;&nbsp;
+    <br/>
+    <h:commandButton id="addBook" onclick="if (checkInput() == true) { alert('addBook() is called...'); addBook(); }" value="Add Book"></h:commandButton>
+    <a4j:jsFunction name="addBook" action="#{bookBean.addBook}" execute="@all" render="bookTable" oncomplete="alert('Done')" onbegin="alert('Starting...')"></a4j:jsFunction>
+  </h:form>
+  <p />
+  <h:dataTable id="bookTable" value="#{bookBean.books}" var="book">
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="ISBN" />
+      </f:facet>
+      <h:outputText value="#{book.isbn}" /> 
+    </h:column>
+    <h:column> 
+      <f:facet name="header">
+        <h:outputText value="Name" />
+      </f:facet>
+      <h:outputText value="#{book.name}" />
+    </h:column>
+  </h:dataTable>
+</body> 
+</html>

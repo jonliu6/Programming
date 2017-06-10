@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Bootstrap Demo</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        <style type="text/css">
+            .tab-content {
+                border-left: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                padding: 10px;
+                border-color: black;
+            }
+        
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                <a href="#peter" aria-controls="peter"
+                 role="tab" data-toggle="tab">Peter Pan, CEO</a></li>
+                <li role="presentation"><a href="#danny"
+                 aria-controls="danny" role="tab"
+                 data-toggle="tab">Danny Witherspoon, CFO</a></li>
+                <li role="presentation"><a href="#alberto"
+                 aria-controls="alberto" role="tab"
+                 data-toggle="tab">Alberto Somayya, Exec. Chef</a></li>
+            </ul>
+        
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="peter">
+                    <h3>Peter Pan <small>Chief Epicurious Officer</small></h3>
+                    <p>Blah, blah, ...</p>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="danny">
+                    <h3>Danny Smith <small>Chief Financial Officer</small></h3>
+                    <p>Blah, blah, ...</p>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="alberto">
+                    <h3>Alberto Roses <small>Exec. Officer</small></h3>
+                    <p>Blah, blah, ...</p>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            
+        </script>   
+    </body>
+</html>

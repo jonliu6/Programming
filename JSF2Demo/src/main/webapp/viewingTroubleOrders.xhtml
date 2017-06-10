@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"> 
+
+<h:head>
+  <title>#{troubleOrderBean.orderCount}</title>
+</h:head> 
+<body> 
+
+<h:form id="fmTroubleOrders">
+
+  <h:outputLabel value="#{msg['title.activeOrders']}"/><p />
+  <h:graphicImage url="/images/refresh.gif" title="#{msg['title.activeOrders']}" />
+  <h:outputLabel>Total: #{troubleOrderBean.orderCount}</h:outputLabel>
+  
+  <h:link id="removeFilters" onclick="removeFilters();" >Remove Filters</h:link>
+  
+  <h:panelGroup id="toTableWrapper">
+  <h:dataTable id="toTable" value="#{troubleOrderBean.troubleOrders}" var="order">
+    <h:column name="referenceLabel">
+      <f:facet name="header">
+        <a4j:commandLink action="#{troubleOrderBean.sortOrderLabel}" render="fmTroubleOrders:toTableWrapper">
+            <h:outputText value="Order #" />
+        </a4j:commandLink>
+      </f:facet>
+      <h:outputText value="#{order.referenceLabel}" /> 
+    </h:column>
+    <h:column id="orderType"> 
+      <f:facet name="header">
+        <h:outputText value="Type" />
+      </f:facet>
+      <h:outputText value="#{order.type}" />
+    </h:column>
+    <h:column id="orderStatus" > 
+      <f:facet name="header">
+        <h:outputText value="Status" />
+      </f:facet>
+      <h:outputText value="#{order.status}" />
+    </h:column>
+    <h:column id="orderPriority"> 
+      <f:facet name="header">
+        <h:outputText value="Priority" />
+      </f:facet>
+      <h:outputText value="#{order.priority}" />
+    </h:column>
+  </h:dataTable>
+  </h:panelGroup>
+
+</h:form>
+
+  <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="js/underscore-1.8.3.min.js"></script>  
+  
+  <script type="text/javascript">
+    $(document).ready(function () {
+    	// Option 1 jQuery filter
+    	$('#fmTroubleOrders\\:toTable tbody').on('click','td',function(){
+    		console.log(this.cellIndex + "-" + this.innerText);
+    		filterData(this.cellIndex, this.innerText);
+    	});
+    	
+    	// Option 2: jQuery Datatable plugin
+    	// $('#fmTroubleOrders\\:toTable').DataTable();
+    });
+    
+    function filterData(colIdx, colVal) {
+    	$("#fmTroubleOrders\\:toTable tbody tr").each(function () {
+    		var tmpVal = $(this).find("td")[colIdx].innerText;
+    		if ( colVal == tmpVal ) {
+    			$(this).show();
+    		}
+    		else {
+    			$(this).hide();
+    		}
+    	});
+
+    }
+    
+    function removeFilters() {
+    	$("#fmTroubleOrders:toTable tbody tr").each(function () {
+    		$(this).show();
+    	});
+    }
+  </script>
+  
+</body> 
+</html>

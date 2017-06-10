@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /><!-- on some servers, the map doesn't fully display somehow the IE version was wrong, so need this line. the issue not happen in Firefox or Chrome -->
+    <style type="text/css">
+      html { height:100%; }
+	  body { height:96%; }
+      #map-canvas { 
+          width: 800px; height: 600px; margin: 0; padding: 0; border:#555555 0px solid;
+      }
+      #text-canvas {
+          background-color:#fff; position:absolute; top: 0px; right:10px; z-index:5; width:240px; float:right; overflow:auto;
+      }
+	  .contextmenu{
+		  visibility:hidden;
+		  background:#ffffff;
+		  border:1px solid #8888FF;
+		  z-index: 10;
+		  position: relative;
+		  width: 140px;
+      }
+	  .contextmenu div{
+		  padding-left: 5px
+	  }
+
+	  
+    </style>
+    <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> // -->
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
+    <!-- <script type="text/javascript" src="jquery-1.7.2.min.js"></script> //-->
+    <script type="text/javascript">
+      // <![CDATA[
+      var BC_CENTER_LATITUDE = 53.239622280409575;
+      var BC_CENTER_LONGITUDE = -130.122070312500005;
+      var map;
+      var directionsService = new google.maps.DirectionsService;
+      var directionsDisplay = new google.maps.DirectionsRenderer;
+      var from;
+      var to;
+	  
+	  var markerArray = [];
+      
+      function markOrigin() {
+            var addr = document.getElementById("txtFromAddress").value;
+            var city = document.getElementById("txtFromCity").value;
+            var province = document.getElementById("txtFromProvince").value;
+            var iconURL = "./toPrio1.gif";
+            findLocationByAddress(addr, city, province, iconURL, "ORIGIN");
+      }
+      
+      function markDestination() {
+            var addr = document.getElementById("txtToAddress").value;
+            var city = document.getElementById("txtToCity").value;
+            var province = document.getElementById("txtToProvince").value;
+            var iconURL = "./truck.gif";
+            findLocationByAddress(addr, city, province, iconURL, "DESTINATION");
+      }
+      
+      function findLocationByAddress(address, city, province, iconURL, type) {
+            var geocoder = new google.maps.Geocoder();
+            var foundLocation = null;
+            var foundAddress = null;
+            if (geocoder) {
+              geocoder.geocode({ 'address': address + ', ' + city + ', ' + province }, function (results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                if (typeof(results[0]) != "undefined" && results[0] != null ) {
+                  foundLocation = results[0].geometry.location;
+                  foundAddress = results[0].formatted_address;
+                  var aMarker = drawMarker(type + "0", type, foundLocation, foundAddress, iconURL);
+				  markerArray.push(aMarker);
+                  
+                  if (type == "ORIGIN") {
+                        from = foundLocation;
+                        document.getElementById("origin_latlng").innerText=from.lat() + "," + from.lng();
+                  }
+                  else {
+                        to = foundLocation;
+                        document.getElementById("destination_latlng").innerText=to.lat() + "," + to.lng();
+                  }
+                  
+                  var mapOptions = {
+                          center: foundLocation,
+                          zoom: 12
+                  };
+                  map.setOptions(mapOptions);
+                }             
+              }
+              });
+            }
+      }
+      
+      // @deprecated
+      function drawMarker(id, type, location, title, iconURL) {
+            var marker = new google.maps.Marker({ id: id,
+                                                  type: type,
+                                                  position: location,
+                                                  title: title,
+                                                  icon: iconURL });
+            if (typeof(map) != "undefined" && map != null) {
+              marker.setMap(map);
+            }
+            
+            // add marker click event
+            marker.addListener('click', function() {
+                // alert(id);
+                var elem = document.getElementById(id);
+                if ( elem != null ) {
+                    elem.onclick();
+                    var ckbxElem = null;
+                    ckbxElem = document.getElementById(type);
+                    
+                    if ( ckbxElem != null ) {
+                        //ckbxElem.checked = true;
+                        //ckbxElem.checked = !ckbxElem.checked; // toggle effect
+                        ckbxElem.click();
+                    }
+                    
+                }
+            });
+            
+            displayContextMenu2( marker, "mapContextMenu" );
+
+            return marker;
+      }
+	  
+	  // jQuery + JS implementation
+	  function displayContextMenu1(map, marker) {
+	      // add marker right-click event - open a streetview on map-canvas
+            marker.addListener('rightclick', function(event) {
+              //var panorama = new google.maps.StreetViewPanorama( 
+              //    document.getElementById('map-canvas'), { position: location,
+                                                     // pov: { heading: 270, pitch: 0 },
+              //                                       visible: true });
+              //map.setStreetView(panorama);
+              // the above method creates a new streetview and display in the map window; the below reuses the streetview from the current map, so it can be toggled on and off.
+			  // alert(event.latLng);
+			  
+			  //// the below is showing the street view by location if available
+              //// var panorama = map.getStreetView();
+              //// panorama.setPosition(event.latLng);
+              //// panorama.setVisible(true);
+			  
+			  // show a customized context menu
+			  var contextmenuDir = document.createElement("div");
+			  $('.contextmenu').remove();
+			  contextmenuDir.className  = 'contextmenu';
+              contextmenuDir.innerHTML = "<a id='menu1' onclick='showStreetView1(" + event.latLng.lat() + "," + event.latLng.lng() + ")'>Go to street view<\/a><br\/><a id='menu2' onclick='alert(\"" + event.latLng.lat() + ", "+ event.latLng.lng() + "\")'>Show Coordinations<\/a>";
+			  $(map.getDiv()).append(contextmenuDir);
+
+			  var coord = getCanvasXY(event.latLng);
+			  
+			  $('.contextmenu').css('left', coord.x  );
+              $('.contextmenu').css('top', coord.y );
+			  contextmenuDir.style.visibility = "visible";
+
+			  
+            });
+	  }
+	  
+	  function showStreetView1( lat, lng ) {
+	      // the below is showing the street view by location if available
+          var panorama = map.getStreetView();
+          panorama.setPosition(new google.maps.LatLng(lat, lng));
+          panorama.setVisible(true);
+		  $('.contextmenu').hide();
+	  }
+	  
+	  // JS only
+	  function displayContextMenu2( mkrk, ctxMenuId ) {
+	      mkrk.addListener('rightclick', function(event) {
+		      var ctxMenu = document.getElementById(ctxMenuId); // "mapContextMenu"
+			  if ( typeof(ctxMenu) != 'undefined' && ctxMenu != null ) {
+			      ctxMenu.innerHTML = "<a id='menu1' onclick='showStreetView2(" + event.latLng.lat() + "," + event.latLng.lng() + ",\"" + ctxMenuId + "\")'>Go to street view<\/a><br\/><a id='menu2' onclick='alert(\"" + event.latLng.lat() + ", "+ event.latLng.lng() + "\")'>Show Coordinations<\/a>";
+				  map.getDiv().appendChild(ctxMenu);
+				  var coord = getCanvasXY(event.latLng);
+				  var ctxMenuStyle = ctxMenu.style;
+				  ctxMenuStyle.left = coord.x + "px";
+				  ctxMenuStyle.top = coord.y + "px";
+				  ctxMenuStyle.visibility = "visible";
+			  }
+		  });
+	  }
+	  
+	  function showStreetView2( lat, lng, ctxMenuId ) {
+	      // the below is showing the street view by location if available
+		  var streetViewService = new google.maps.StreetViewService();
+		  var panorama = map.getStreetView();
+		  streetViewService.getPanorama({location: new google.maps.LatLng(lat, lng), radius: 50}, function(data, status){
+			if (status === google.maps.StreetViewStatus.OK) {
+				alert('Loading street view...');
+				panorama.setPosition(data.location.latLng);
+			    panorama.setVisible(true);
+			}
+			else {
+				alert("No street view available around this location.");
+			}
+		  });
+          
+          // panorama.setPosition(new google.maps.LatLng(lat, lng));
+          // panorama.setVisible(true);
+		  var ctxMenu = document.getElementById(ctxMenuId); // "mapContextMenu"
+		  var ctxMenuStyle = ctxMenu.style;
+		  ctxMenuStyle.visibility = "hidden";
+	  }
+	  
+	  function getCanvasXY(aLatLng){
+		  var scale = Math.pow(2, map.getZoom());
+		  var nw = new google.maps.LatLng(
+			  map.getBounds().getNorthEast().lat(),
+			  map.getBounds().getSouthWest().lng()
+		  );
+		  var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+		  var worldCoordinate = map.getProjection().fromLatLngToPoint(aLatLng);
+		  var latLngOffset = new google.maps.Point(
+			  Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+			  Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+		  );
+		  return latLngOffset;
+	  }
+
+	  
+	  function showDirection() {
+              directionsService.route({ origin: from,
+                                                    destination: to,
+                                                    travelMode: google.maps.TravelMode.DRIVING
+                                                  }, function(response, status) {
+                                                             if (status === google.maps.DirectionsStatus.OK) {
+                                                                 directionsDisplay.setDirections(response);
+                                                             } else {
+                                                                 window.alert('Directions request failed due to ' + status);
+                                                             }
+                                                  });
+              directionsDisplay.setMap(map);
+              directionsDisplay.setPanel(document.getElementById('text-canvas'));
+      }
+      
+      function showBoundary() {
+              if ( typeof(from) != "undefined" && from != null && typeof(to) != "undefined" && to != null ) {
+                var polyPoints = [];
+                var coord1 = new google.maps.LatLng(from.lat(), from.lng());
+                var coord2 = new google.maps.LatLng(to.lat(), from.lng());
+                var coord3 = new google.maps.LatLng(to.lat(), to.lng());
+                var coord4 = new google.maps.LatLng(from.lat(), to.lng());
+                polyPoints.push(coord1);
+                polyPoints.push(coord2);
+                polyPoints.push(coord3);
+                polyPoints.push(coord4);
+                
+                var orderBoundary = new google.maps.Polygon({ paths: polyPoints,
+                                                              strokeColor: '#FF0000',
+                                                              strokeOpacity: 0.8,
+                                                              strokeWeight: 2,
+                                                              fillColor: '#FF0000',
+                                                              fillOpacity: 0.35 });
+                if ( typeof(map) != "undefined" && map != null ) {
+                        orderBoundary.setMap(map);
+                }
+              }
+      }
+	  
+	  function showClusteredMarkers() {
+	      // imagePath is replaced by styles
+		  var mcStyles = [{width: 32, height: 32, textColor: 'white', textSize: 16, url: './clusterIcon.png'}];
+	      var mcOptions = {gridSize: 50, maxZoom: 12, styles: mcStyles};
+	      var mc = new MarkerClusterer(map, markerArray, mcOptions);
+	  }
+      
+      // initialize map to BC center
+      function initialize() {
+            var mapOptions = {
+              center: { lat: BC_CENTER_LATITUDE, lng: BC_CENTER_LONGITUDE},
+              zoom: 5
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+      
+      // ]]>
+    </script>
+  </head>
+  <body>
+    <table width="100%" cellpadding="0" cellspacing="0" border="1">
+      <tr>
+        <td width="20%" valign="top">
+          <table>
+            <tr>
+              <td>Origin:</td>
+              <td><input type="text" id="txtFromAddress" name="txtFromAddress" value="4555 Kingsway" /></td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td><input type="text" id="txtFromCity" name="txtFromCity" value="Burnaby" /></td>
+            </tr>
+            <tr>
+              <td>Province:</td>
+              <td><input type="text" id="txtFromProvince" name="txtFromProvince" value="BC" /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input id="ORIGIN0" type="button" name="btnMarkOrigin" value="Mark" onclick="markOrigin();"/>&nbsp;
+                <input id="ORIGIN" type="checkbox" name="ckbxOrigin" />&nbsp;
+                <span id="origin_latlng" style="font-size:9pt;"></span>
+              </td>
+            </tr>
+            <tr>
+              <td>Destination:</td>
+              <td><input type="text" id="txtToAddress" name="txtToAddress" value="6911 Southpoint" /></td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td><input type="text" id="txtToCity" name="txtToCity" value="Burnaby" /></td>
+            </tr>
+            <tr>
+              <td>Province:</td>
+              <td><input type="text" id="txtToProvince" name="txtToProvince" value="BC" /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input id="DESTINATION0" type="button" name="btnMarkDestination" value="Mark" onclick="markDestination();"/>&nbsp;
+                <input id="DESTINATION" type="checkbox" name="ckbxDestination" />&nbsp;
+                <span id="destination_latlng" style="font-size:9pt;"></span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" name="btnDirection" value="Show Direction" onclick="showDirection();" />
+                <input type="button" name="btnBoundary" value="Show Boundary" onclick="showBoundary();" />
+              </td>
+            </tr>
+			<tr>
+              <td colspan="2">
+                <input type="button" name="btnCluster" value="Cluster Markers" onclick="showClusteredMarkers();" />
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="60%" align="left">
+          <div id="map-canvas"></div>
+        </td>
+        <td width="20%">
+          <div id="text-canvas" onclick="this.style.display='none'"></div>
+        </td>
+      </tr>
+    </table>
+	<div id="mapContextMenu" class="contextmenu"></div>
+  </body>
+</html>

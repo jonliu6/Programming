@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <style type="text/css">
+      #map-canvas { 
+          width: 800px; height: 600px; margin: 0; padding: 0; border:#555555 0px solid;
+      }
+      #text-canvas {
+          background-color:#fff; position:absolute; top: 0px; right:10px; z-index:5; width:240px; float:right; overflow:auto;
+      }
+    </style>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
+    <!-- <script type="text/javascript" src="jquery-1.7.2.min.js"></script> //-->
+    <script type="text/javascript">
+      var BC_CENTER_LATITUDE = 53.239622280409575;
+      var BC_CENTER_LONGITUDE = -130.122070312500005;
+      var map;
+      var directionsService = new google.maps.DirectionsService;
+      var directionsDisplay = new google.maps.DirectionsRenderer;
+      var from;
+      var to;
+      
+      function markOrigin() {
+            var addr = document.getElementById("txtFromAddress").value;
+            var city = document.getElementById("txtFromCity").value;
+            var province = document.getElementById("txtFromProvince").value;
+            var iconURL = "logo1.png";
+            findLocationByAddress(addr, city, province, iconURL, "ORIGIN");
+      }
+      
+      function markDestination() {
+            var addr = document.getElementById("txtToAddress").value;
+            var city = document.getElementById("txtToCity").value;
+            var province = document.getElementById("txtToProvince").value;
+            var iconURL = "logo2.png";
+            findLocationByAddress(addr, city, province, iconURL, "DESTINATION");
+      }
+      
+      function findLocationByAddress(address, city, province, iconURL, type) {
+            var geocoder = new google.maps.Geocoder();
+            var foundLocation = null;
+            var foundAddress = null;
+            if (geocoder) {
+              geocoder.geocode({ 'address': address + ', ' + city + ', ' + province }, function (results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                if (typeof(results[0]) != "undefined" && results[0] != null ) {
+                  foundLocation = results[0].geometry.location;
+                  foundAddress = results[0].formatted_address;
+                  drawMarker(foundLocation, foundAddress, iconURL);
+                  drawPopup(foundAddress, foundLocation);
+                  
+                  if (type == "ORIGIN") {
+                        from = foundLocation;
+                        document.getElementById("origin_latlng").innerText=from.lat() + "," + from.lng();
+                  }
+                  else {
+                        to = foundLocation;
+                        document.getElementById("destination_latlng").innerText=to.lat() + "," + to.lng();
+                  }
+                  
+                  var mapOptions = {
+                          center: foundLocation,
+                          zoom: 12
+                  };
+                  map.setOptions(mapOptions);
+                }             
+              }
+              });
+            }
+      }
+      
+      // @deprecated
+      function drawMarker(location, title, iconURL) {
+            var marker = new google.maps.Marker({ position: location,
+                                                  title: title,
+                                                  icon: iconURL });
+            if (typeof(map) != "undefined" && map != null) {
+              marker.setMap(map);
+            }
+            return marker;
+      }
+      
+      function drawPopup(text, location) {
+          var popUp = new google.maps.InfoWindow({content: text, position: location}); 
+          if (typeof(map) != "undefined" && map != null) {
+              popUp.open(map);
+          }
+      }
+      
+      function showDirection() {
+              directionsService.route({ origin: from,
+                                                    destination: to,
+                                                    travelMode: google.maps.TravelMode.DRIVING
+                                                  }, function(response, status) {
+                                                             if (status === google.maps.DirectionsStatus.OK) {
+                                                                 directionsDisplay.setDirections(response);
+                                                             } else {
+                                                                 window.alert('Directions request failed due to ' + status);
+                                                             }
+                                                  });
+              directionsDisplay.setMap(map);
+              directionsDisplay.setPanel(document.getElementById('text-canvas'));
+      }
+      
+      function showBoundary() {
+              if ( typeof(from) != "undefined" && from != null && typeof(to) != "undefined" && to != null ) {
+                var polyPoints = [];
+                var coord1 = new google.maps.LatLng(from.lat(), from.lng());
+                var coord2 = new google.maps.LatLng(to.lat(), from.lng());
+                var coord3 = new google.maps.LatLng(to.lat(), to.lng());
+                var coord4 = new google.maps.LatLng(from.lat(), to.lng());
+                polyPoints.push(coord1);
+                polyPoints.push(coord2);
+                polyPoints.push(coord3);
+                polyPoints.push(coord4);
+                
+                var orderBoundary = new google.maps.Polygon({ paths: polyPoints,
+                                                              strokeColor: '#FF0000',
+                                                              strokeOpacity: 0.8,
+                                                              strokeWeight: 2,
+                                                              fillColor: '#FF0000',
+                                                              fillOpacity: 0.35 });
+                if ( typeof(map) != "undefined" && map != null ) {
+                        orderBoundary.setMap(map);
+                }
+              }
+      }
+      
+      // initialize map to BC center
+      function initialize() {
+            var mapOptions = {
+              center: { lat: BC_CENTER_LATITUDE, lng: BC_CENTER_LONGITUDE},
+              zoom: 5
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+    <table width="100%" cellpadding="0" cellspacing="0" border="1">
+      <tr>
+        <td width="20%" valign="top">
+          <table>
+            <tr>
+              <td>Origin:</td>
+              <td><input type="text" id="txtFromAddress" name="txtFromAddress" value="4555 Kingsway" /></td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td><input type="text" id="txtFromCity" name="txtFromCity" value="Burnaby" /></td>
+            </tr>
+            <tr>
+              <td>Province:</td>
+              <td><input type="text" id="txtFromProvince" name="txtFromProvince" value="BC" /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" name="btnMarkOrigin" value="Mark" onclick="markOrigin();"/>&nbsp;
+                <span id="origin_latlng" style="font-size:9pt;">
+              </td>
+            </tr>
+            <tr>
+              <td>Destination:</td>
+              <td><input type="text" id="txtToAddress" name="txtToAddress" value="6911 Southpoint" /></td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td><input type="text" id="txtToCity" name="txtToCity" value="Burnaby" /></td>
+            </tr>
+            <tr>
+              <td>Province:</td>
+              <td><input type="text" id="txtToProvince" name="txtToProvince" value="BC" /></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" name="btnMarkDestination" value="Mark" onclick="markDestination();"/>&nbsp;
+                <span id="destination_latlng" style="font-size:9pt;"></span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="button" name="btnDirection" value="Show Direction" onclick="showDirection();" />
+                <input type="button" name="btnBoundary" value="Show Boundary" onclick="showBoundary();" />
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="60%" align="left">
+          <div id="map-canvas"></div>
+        </td>
+        <td width="20%">
+          <div id="text-canvas" onclick="this.style.display='none'"></div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

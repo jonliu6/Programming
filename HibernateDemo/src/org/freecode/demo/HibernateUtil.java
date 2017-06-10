@@ -1,9 +1,9 @@
 package org.freecode.demo;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 public class HibernateUtil {
 	private static final SessionFactory sessionFactory = buildSessionFactory();
@@ -16,10 +16,12 @@ public class HibernateUtil {
     	try 
     	{
     		// Create the SessionFactory from hibernate.cfg.xml
-    		cfg.configure("/conf/hibernate.cfg.xml");
-    		ServiceRegistryBuilder srb = new ServiceRegistryBuilder();
-    		srb.applySettings( cfg.getProperties());
-    	    sr = srb.buildServiceRegistry();
+    		cfg.configure("/conf/hibernate.cfg.xml"); // specify this if hibernate.cfg.xml is not in classpath
+    		// cfg.addAnnotatedClass(Account.class); // instead of XML configuration, the entity can be added by this method
+    		// ServiceRegistryBuilder srb = new ServiceRegistryBuilder(); // deprecated in Hibernate 4.3+
+    		sr = new StandardServiceRegistryBuilder().applySettings( cfg.getProperties()).build();
+    		// srb.applySettings( cfg.getProperties());
+    	    // sr = srb.buildServiceRegistry();
     		sf = cfg.buildSessionFactory( sr );
     		
         } 

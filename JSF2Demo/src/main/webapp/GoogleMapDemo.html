@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <style type="text/css">
+      #map-canvas { width: 800px; height: 600px; margin: 0; padding: 0; border:#555555 0px solid;}
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?v=3.exp">
+    </script>
+	<!-- above is for experiments. For permanent usage, use a key, https://maps.googleapis.com/maps/api/js?key=API_KEY -->
+    <script type="text/javascript"
+      src="js/jquery-1.11.2.min.js">
+    </script>
+    <script type="text/javascript">
+      var map;
+
+      // <![CDATA[
+      function searchByAddress() {
+        var address = document.getElementById("txtAddress").value;
+        if ( address != null && address.length > 0 ) {
+          address = address.split(' ').join('+');
+        }
+        var city = document.getElementById("txtCity").value;
+        var province = document.getElementById("txtProvince").value;
+        
+        // REST URI
+        // Sample URI https://maps.googleapis.com/maps/api/geocode/json?address=somewhere&components=locality:city|administrative_area:province|country:CA&key=myKey
+        var restURL = "https://maps.googleapis.com/maps/api/geocode/json";
+        document.getElementById("txtURL").value = restURL;
+        var geocoder = new google.maps.Geocoder();
+        var foundLocation = null;
+        var foundAddress = null;
+        if (geocoder) {
+          geocoder.geocode({ 'address': address + ', ' + city + ', ' + province }, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            foundLocation = results[0].geometry.location
+            document.getElementById("txtCoordinate").value = foundLocation;
+            foundAddress = results[0].formatted_address
+            
+            var lat = foundLocation['k'];
+            var lng = foundLocation['D'];
+            // var latlong = new google.maps.LatLng(lat, lng);
+            // add a custom marker
+            var image = 'images/bchlogo.png';
+            var marker = new google.maps.Marker({ position: foundLocation,
+                                                  title: foundAddress,
+                                                  icon: image });
+            marker.setMap(map);
+            
+            // refresh map
+            var mapOptions = { center: foundLocation,
+                               zoom: 15,
+                               mapTypeId: google.maps.MapTypeId.ROADMAP};
+            map.setOptions(mapOptions);
+          }
+          else {
+            document.getElementById("txtCoordinate").value = "Geocoding failed: " + status;
+          }
+          
+          });
+        }    
+      }
+      
+      
+      function initialize() {
+        var mapOptions = {
+          center: { lat: 49.29514409999999, lng: -122.891689},
+          zoom: 10
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      // ]]>
+    </script>
+  </head>
+  <body>
+  <b>Find a Location in Map - British Columbia, Canada</b><p/>
+     Address: <input type="text" id="txtAddress" name="txtAddress" value="4710 Kingsway" />&nbsp;&nbsp
+     City: <input type="text" id="txtCity" name="txtCity" value="Burnaby" />&nbsp;&nbsp;
+     Province: <input type="text" id="txtProvince" name="txtProvince" value="BC" />&nbsp;&nbsp;
+     <input type="button" name="btnSearch" value="Search" onclick="searchByAddress();"/><p/>
+     <input type="hidden" size="100" id="txtURL" name="txtURL" value="" />
+     Coordinates: <input type="text" size="100" id="txtCoordinate" name="txtCoordinate" value="" /> 
+     <p/>
+     <div id="map-canvas"></div>
+  </body>
+</html>

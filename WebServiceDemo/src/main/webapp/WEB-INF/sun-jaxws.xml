@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+  <endpoint name="SOAPWebService" implementation="org.freecode.demo.soap.SOAPWebService" url-pattern="/SOAPWebService" ></endpoint>
+</endpoints>

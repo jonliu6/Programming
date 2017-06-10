@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<html>
+<head>
+<title>Bing Map Demo</title>
+    <style type="text/css">
+      #map-canvas { 
+          position: absolute; top:10px; width: 800px; height: 600px; margin: 0; padding: 0; border:#555555 0px solid;
+      }
+      #text-canvas {
+          background-color:#fff; position:absolute; top: 0px; right:10px; z-index:5; width:240px; float:right; overflow:auto;
+      }
+    </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.1.min.js" ></script>
+<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0">
+  <!-- parameters: v - version (v=7.0); s - SSL (s=0 or s=1); mkt - Locale (primary, secondary. e.g. mkt=en-us,fr-fr) -->
+</script>
+<script type="text/javascript">
+  var mapKey="You need to create a key first and put it here";
+  var map = null;
+  var BC_CENTER_LATITUDE = 53.239622280409575;
+  var BC_CENTER_LONGITUDE = -130.122070312500005;
+  var BASE_URL = "http://dev.virtualearth.net/REST/v1/Locations?";
+  var originLocation = null;
+  var destinationLocation = null;
+  
+  // initialize map to BC center
+  function initialize() {
+    var mapOptions = { 
+       credentials: mapKey, 
+       center: new Microsoft.Maps.Location(BC_CENTER_LATITUDE, BC_CENTER_LONGITUDE),
+       mapTypeId: Microsoft.Maps.MapTypeId.road, // map type ids: road, arial, auto, birdseye and etc.
+       zoom: 12};
+    map = new Microsoft.Maps.Map(document.getElementById("map-canvas"), mapOptions);
+  }
+  
+  function drawOrigin() {
+      var address = $("#txtFromAddress")[0].value;
+      var city = $('#txtFromCity')[0].value;
+      var province = $('#txtFromProvince')[0].value;
+      var wsURL = BASE_URL + "countryRegion=CA" + "&adminDistrict=" + province + "&locality=" + city + "&addressLine=" + address + "&key=" + mapKey;
+      
+      // AJAX call to get the location information from the above REST service. Note: jsonp is used for bypassing the cross-domain issue
+      $.ajax( { url: wsURL,
+         dataType: 'jsonp',
+         cache: false,
+         data: {},
+         jsonp: "jsonp",
+         success: function( reply ) {
+             if ( reply != null && reply.resourceSets[0] != null ) {
+                 var strResult = eval(reply);
+                 if ( strResult.resourceSets[0].estimatedTotal == 1 ) {
+             var coordinates = strResult.resourceSets[0].resources[0].point.coordinates;
+             var msg = strResult.resourceSets[0].resources[0].address.formattedAddress;
+             var latitude = coordinates[0];
+             var longitude = coordinates[1];
+             $("#origin_latlng").html(latitude + "," + longitude);
+             originLocation = new Microsoft.Maps.Location(latitude, longitude);
+             map.setView({center: originLocation, zoom: 12});
+             drawPushpin(originLocation, "", "logo1.png");
+             drawInfobox(originLocation, msg);
+                 }
+             }
+         }
+      });
+  }
+  
+  function drawDestination() {
+      var address = $("#txtToAddress")[0].value;
+      var city = $('#txtToCity')[0].value;
+      var province = $('#txtToProvince')[0].value;
+      var wsURL = BASE_URL + "countryRegion=CA" + "&adminDistrict=" + province + "&locality=" + city + "&addressLine=" + address + "&key=" + mapKey;
+      
+      // AJAX call to get the location information from the above REST service. Note: jsonp is used for bypassing the cross-domain issue
+      $.ajax( { url: wsURL,
+         dataType: 'jsonp',
+         cache: false,
+         data: {},
+         jsonp: "jsonp",
+         success: function( reply ) {
+             if ( reply != null && reply.resourceSets[0] != null ) {
+                 var strResult = eval(reply);
+                 if ( strResult.resourceSets[0].estimatedTotal == 1 ) {
+             var coordinates = strResult.resourceSets[0].resources[0].point.coordinates;
+             var msg = strResult.resourceSets[0].resources[0].address.formattedAddress;
+             var latitude = coordinates[0];
+             var longitude = coordinates[1];
+             $("#destination_latlng").html(latitude + "," + longitude);
+             destinationLocation = new Microsoft.Maps.Location(latitude, longitude);
+             // map.setView({center: location, zoom: 12});
+             drawPushpin(destinationLocation, "", "logo2.png");
+             drawInfobox(destinationLocation, msg);
+                 }
+             }
+         }
+      });
+  }
+  
+  function drawInfobox(location, message) {
+      var infBx = new Microsoft.Maps.Infobox(location, {title: message, 
+                                description: "above is the formatted address", 
+                                visible: true, 
+                                offset: new Microsoft.Maps.Point(1,20)});
+      map.entities.push(infBx);
+  }
+  
+  function drawPushpin(location, tooltip, iconFile) {
+      var pin = new Microsoft.Maps.Pushpin(location, {text: tooltip, icon: iconFile, width: 24, height: 18, draggable: false});
+      map.entities.push(pin);
+  }
+  
+  function showDirection() {
+      if ( originLocation == null || destinationLocation == null ) {
+           alert("Please mark both locations.");
+      }
+       
+      Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: directionsModuleLoaded });
+      $("#text-canvas").css("display", "block");
+  }
+  
+  function directionsModuleLoaded()
+  {
+      // Initialize the DirectionsManager
+      var directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+
+      // Create start and end waypoints
+      var startWaypoint = new Microsoft.Maps.Directions.Waypoint({location: originLocation});
+      var endWaypoint = new Microsoft.Maps.Directions.Waypoint({location: destinationLocation});
+
+      directionsManager.addWaypoint(startWaypoint);
+      directionsManager.addWaypoint(endWaypoint);
+
+      // Set the id of the div to use to display the directions
+      directionsManager.setRenderOptions({ itineraryContainer: document.getElementById('text-canvas') });
+
+      // Specify a handler for when an error occurs
+      Microsoft.Maps.Events.addHandler(directionsManager, 'directionsError', displayError);
+
+      // Calculate directions, which displays a route on the map
+      directionsManager.calculateDirections();
+
+   } 
+
+   function displayError(e)
+   {
+      alert(e.message);
+   }
+   
+   function showBoundary() {
+       if ( originLocation == null || destinationLocation == null ) {
+           alert("Please mark both locations.");
+       }
+       // based on the origin and destination locations, derive 4 locations
+       var location1 = new Microsoft.Maps.Location(originLocation.latitude, originLocation.longitude);
+       var location2 = new Microsoft.Maps.Location(destinationLocation.latitude, originLocation.longitude);
+       var location3 = new Microsoft.Maps.Location(destinationLocation.latitude, destinationLocation.longitude);
+       var location4 = new Microsoft.Maps.Location(originLocation.latitude, destinationLocation.longitude);
+       
+       // create polygon vertices
+       var locations = new Array(location1, location2, location3, location4, location1);
+       
+       // set styles for polygon
+       var shadeColor = new Microsoft.Maps.Color(100,100,0,100);
+       var lineColor = new Microsoft.Maps.Color(255,0,0,0);
+       
+       // draw
+       var polygon = new Microsoft.Maps.Polygon(locations,{fillColor: shadeColor, strokeColor: lineColor});
+       map.entities.push(polygon);
+       
+       // Based on the ploygon, adjust the view when necessary - centralize ploygon
+       map.setView({bounds: Microsoft.Maps.LocationRect.fromLocations(locations)});
+   }
+  
+  // Microsoft.Maps.Events.addHandler(window, 'load', initialize );
+</script>
+</head>
+<body onload="initialize();">
+  <table width="100%" cellpadding="0" cellspacing="0" border="1">
+      <tr>
+        <td width="20%" valign="top">
+          <table>
+      <tr>
+        <td>Origin:</td>
+        <td><input type="text" id="txtFromAddress" name="txtFromAddress" value="4555 Kingsway" /></td>
+      </tr>
+      <tr>
+        <td>City:</td>
+        <td><input type="text" id="txtFromCity" name="txtFromCity" value="Burnaby" /></td>
+      </tr>
+      <tr>
+        <td>Province:</td>
+        <td><input type="text" id="txtFromProvince" name="txtFromProvince" value="BC" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="button" name="btnMarkOrigin" value="Mark" onclick="drawOrigin();"/>&nbsp;
+          <span id="origin_latlng" style="font-size:9pt;"></span>
+        </td>
+      </tr>
+      <tr>
+        <td>Destination:</td>
+        <td><input type="text" id="txtToAddress" name="txtToAddress" value="6911 Southpoint" /></td>
+      </tr>
+      <tr>
+        <td>City:</td>
+        <td><input type="text" id="txtToCity" name="txtToCity" value="Burnaby" /></td>
+      </tr>
+      <tr>
+        <td>Province:</td>
+        <td><input type="text" id="txtToProvince" name="txtToProvince" value="BC" /></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="button" name="btnMarkDestination" value="Mark" onclick="drawDestination();"/>&nbsp;
+          <span id="destination_latlng" style="font-size:9pt;"></span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="button" name="btnDirection" value="Show Direction" onclick="showDirection();" />
+          <input type="button" name="btnBoundary" value="Show Boundary" onclick="showBoundary();" />
+        </td>
+      </tr>
+          </table>
+        </td>
+        <td width="60%" align="left">
+          <div id="map-canvas"></div>
+        </td>
+        <td width="20%">
+          <div id="text-canvas" onclick="this.style.display='none'"></div>
+        </td>
+      </tr>
+    </table>
+</body>
+</html>

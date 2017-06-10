@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+  <title>#{crewLocationBean.orderCount}</title>
+  <script type="text/javascript">
+    var map;
+    
+  </script>
+</h:head>
+
+<h:body>
+
+<h:outputLabel value="Crew Locations:" />
+<h:form>
+
+<h:dataTable value="#{crewLocation.crewLocations}" var="crew" >
+    <h:column>
+      <f:facet name="header">
+        <h:outputText value="Crew #" />
+      </f:facet>
+      <h:commandLink action="#{crewLocation.viewingOnMap}" value="#{crew.crewId}">
+        <f:param name="crewLatitude" value="#{crew.latitude}"></f:param>
+        <f:param name="crewLongitude" value="#{crew.longitude}"></f:param>
+        <f:param name="crewId" value="#{crew.crewId}"></f:param>
+      </h:commandLink>
+    </h:column>
+    <h:column> 
+      <f:facet name="header">
+        <h:outputText value="Street" />
+      </f:facet>
+      <h:outputText value="#{crew.streetIntersection}" />
+    </h:column>
+    <h:column> 
+      <f:facet name="header">
+        <h:outputText value="City" />
+      </f:facet>
+      <h:outputText value="#{crew.cityTown}" />
+    </h:column>
+    <h:column> 
+      <f:facet name="header">
+        <h:outputText value="X" />
+      </f:facet>
+      <h:outputText value="#{crew.coordX}" />
+    </h:column>
+    <h:column> 
+      <f:facet name="header">
+        <h:outputText value="Y" />
+      </f:facet>
+      <h:outputText value="#{crew.coordY}" />
+    </h:column>
+    <h:column> 
+      <f:facet name="header">
+        <h:outputText value="Latitude" />
+      </f:facet>
+      <h:outputText value="#{crew.latitude}" />
+    </h:column>
+    <h:column> 
+      <f:facet name="header">
+        <h:outputText value="Longitude" />
+      </f:facet>
+      <h:outputText value="#{crew.longitude}" />
+    </h:column>
+  </h:dataTable>
+
+</h:form>
+</h:body>
+
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="java.io.tmpdir/tempCache"></diskStore>
+
+    <defaultCache eternal="false" 
+                  maxElementsInMemory="1000" 
+                  overflowToDisk="false" 
+                  diskPersistent="false" 
+                  timeToIdleSeconds="0"
+                  timeToLiveSeconds="500"
+                  memoryStoreEvictionPolicy="LRU"
+                  statistics="true"></defaultCache>
+</ehcache>

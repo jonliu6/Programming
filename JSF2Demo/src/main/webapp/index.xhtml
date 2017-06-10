@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:e="http://example.com/test">
+ 
+<h:head>
+</h:head>
+<h:body>
+	<e:helloWorld helloworld="Hello JSF 2 + Richfaces!"/>
+	<p/>
+	<a href="viewingTroubleOrders.faces">Trouble Orders</a><p/>
+	<a href="viewingOrderLocations.faces">Order Locations (Point with Boundary)</a><p/>
+	<a href="viewingActiveCrewLocations.faces">Active Crew Locations</a><p/>
+	<a href="viewingActiveCrewLocations2.faces">Active Crew Locations (Richfaces)</a><p/>
+	<a href="viewingActiveCrewLocations3.faces">Active Crew Locations (Richfaces) - Multi-selection</a><p/>
+	<a href="refreshingDataTable.faces">Refresh Data Table</a>
+	
+	<hr/>
+	<a href="selectingDamagedComponents.faces">Damaged Components - Demo</a>
+	<p/>
+	
+	<hr/>
+	<ui:include src="subpage.xhtml">
+	    <ui:param name="param" value="textSizeBig" />
+	</ui:include>
+	
+</h:body>
+</html>

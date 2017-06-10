@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Underscore Demo Page</title>
+</head>
+<body>
+    <h3>Underscore JS Examples</h3><br/>
+    <input type="button" name="btnEachFunc" value="Functional Each" onclick="eachFunctional();"><br/>
+    <input type="button" name="btnEachFunc2" value="Functional Each 2" onclick="eachFunctional2();"><br/>
+    <input type="button" name="btnEachObj" value="Object-orientated Each" onclick="eachObjectOrientated();"><br/>
+    <input type="button" name="btnEachObjWithCtx" value="OO with Context Each" onclick="eachObjectOrientatedContext();"><br/>
+    <input type="button" name="btnFind" value="Find (First) Demo" onclick="findBookDesciption();"><br/>
+    <input type="button" name="btnWhere" value="Where Computer Books" onclick="whereComputerBooks();"><br/>
+    <input type="button" name="btnWhere" value="FindWhere 1st Computer Book" onclick="findWhereComputerBook();"><br/>
+    <input type="button" name="btnEvery" value="Every Book Computer?" onclick="everyBookComputer();">&#160;&#160;
+    <input type="button" name="btnSome" value="Some Books Computer?" onclick="someBooksComputer();"><br/>
+    <input type="button" name="btnContains" value="Contains Demo" onclick="containsDemo();"><br/>
+    <input type="button" name="btnMap" value="Map Demo" onclick="mapDemo();"><br/>
+    <input type="button" name="btnFilter" value="Filter Demo" onclick="filterDemo();"><br/>
+    <input type="button" name="btnPluck" value="Pluck all ISBNs" onclick="getAllISBNs();"><br/>
+    <input type="button" name="btnMax" value="Find Latest(Max)" onclick="getLatestBook();">&#160;&#160;<input type="button" name="btnMin" value="Find Earliest(Min)" onclick="getOldestBook();"><br/>
+    <input type="button" name="btnSort" value="Sort By Publish Year" onclick="sortByPublishYear();"><br/>
+    <input type="button" name="btnGroup" value="Group By Category" onclick="groupByCategory();"><br/>
+    <input type="button" name="btnFirst" value="First 2 Elements" onclick="getFirst(2);">&#160;&#160;
+    <input type="button" name="btnLast" value="Last Element" onclick="getLast();"><br/>
+    <input type="button" name="btnUnion" value="Union Arrays" onclick="alert(_.union([1,2,3,5], [2,4,6], [1,2,4,8]));">&#160;&#160;
+    <input type="button" name="btnIntersection" value="Intersection Arrays" onclick="alert(_.intersection([1,2,3,5], [2,4,6], [1,2,4,8]));">&#160;&#160;
+    <input type="button" name="btndifference" value="Differences in Arrays" onclick="alert(_.difference([1,2,3,5], [2,4,6], [1,2,4,8]));"><br/>
+    <input type="button" name="btnUniq" value="Uniq Demo" onclick="uniqDemo();"><br/>
+    <input type="button" name="btnRange" value="Range Demo" onclick="console.log(_.range(10)); console.log(_.range(2,20,3))"><br/>
+    <input type="button" name="btnFindIndex" value="FindIndex Demo" onclick="findIndexDemo()"><br/>
+    <input type="button" name="btnLotMax" value="Quick Pick of Lot Max" onclick="getLotMax();"><br/>
+    
+    <input type="button" name="btnDelay" value="Delay Function" onclick="delayDemo();"><br/>
+    <input type="button" name="btnBind" value="Bind Function" onclick="bindDemo();"><br/>
+    <input type="button" name="btnWrap" value="Wrap Function" onclick="wrapDemo();"><br/>
+    <input type="button" name="btnCompose" value="Compose Function" onclick="composeDemo();"><br/>
+    
+    <!-- Utility Functions //-->
+    <input type="button" name="btnCustomization" value="Customization Demo" onclick="customizationDemo();"><br/>
+    <input type="button" name="btnUnique" value="Unique Id Demo" onclick="uniqueIdDemo();"><br/>
+    <input type="button" name="btnResult" value="Result Demo" onclick="resultDemo();"><br/>
+    <input type="button" name="btnExtend" value="Extend Demo" onclick="extendDemo();"><br/>
+    <input type="button" name="btnChain" value="Function Chain Demo" onclick="findOldest2ArtBooks();"><br/>
+    
+    <div id="results">
+        <ul id="list">
+        </ul>
+    </div>
+    
+    <script type="text/javascript" src="underscore-1.8.3.min.js"></script>
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script> <!-- not dependency, for DOM lookup purpose //-->
+    <script type="text/javascript">
+        var books = [{isbn: "1234567890", title: "Underscore Javascript Library Examples", category: "Computer", publishYear: 2017},
+                     {isbn: "9876543210", title: "jQuery Library Examples", category: "Computer", publishYear: 2012},
+                     {isbn: "abcdefghij", title: "Drawing for dummy", category: "Art", publishYear: 2010},
+                     {isbn: "xyzuvw-1234", title: "Drawing with your right-side of brain", category: "Art", publishYear: 2005},
+                     {isbn: "dddd-99999-d", title: "Learning Water Coloring", category: "Art", publishYear: 2008},
+                     {isbn: "99988877766", title: "Advanced JavaScript", category: "Computer", publishYear: 2015},
+                    ];
+        var aBook = {isbn: "1234567890",
+                     title: "Underscore Javascript Library Examples",
+                     description: "This is a book demonstrating the usage of Underscore.js library."
+                    };
+        
+        function eachFunctional() {
+            console.log("Functional approach");
+            var anArray = ["This","is","a","demo","of","underscore","javascript","library","."];
+            $("#list").empty();
+            _.each(anArray, function(elem,idx,list){
+                // console.log(elem); // idx is the index of each array element, and list is the given array
+                $("#list").append("<li>" + elem + "</li>");
+            });
+        }
+        
+        function eachFunctional2() {
+            var anArray = ["This","is","a","demo","of","underscore","javascript","library","."];
+            _(anArray).each(console.log);
+            
+            _(aBook).each(function(val, key, lst){
+                console.log(key + "-" + this.isbn);
+            }, aBook);
+        }
+        
+        function eachObjectOrientated() {
+            console.log("Object-orientated approach");
+            var anObj = {isbn: "1234567890", title: "Underscore Javascript Library Examples", description: "This is a book demonstrating the usage of Underscore.js library."};
+            $("#list").empty();
+            _(anObj).each(function(val,key,object){
+                // console.log(key + ": " + val);
+                $("#list").append("<li>" + key + ": " + val + "</li>");
+            });
+        }
+        
+        function eachObjectOrientatedContext() {
+            console.log("Object-orientated approach with Context");
+            var bookshelf = {
+                category: "Computer",
+                books: [{isbn: "1234567890", title: "Underscore Javascript Library Examples", category: "Computer"},
+                        {isbn: "9876543210", title: "jQuery Library Examples", category: "Computer"},
+                        {isbn: "abcdefghij", title: "Drawing for dummy", category: "Art"},
+                       ],
+                onCorrectShelf: function(bookCategory){
+                    var isCorrect = "No";
+                    if (bookshelf.category === bookCategory) {
+                        isCorrect = "Yes";
+                    }
+                    return isCorrect;
+                }
+            };
+            
+            $("#list").empty();
+            _(bookshelf.books).each(function(elem, idx, list){
+                var bookItem = "<li>" + "ISBN: " + elem.isbn + ", " +
+                                        "Title: " + elem.title + ", " + 
+                                        "Category: " + elem.category + ", " +
+                                        "Placed Correct: " + this.onCorrectShelf(elem.category) + 
+                               "</li>";
+                $("#list").append(bookItem);
+            },bookshelf); // bookshelf here is the context
+        }
+        
+        function findBookDesciption() {
+            console.log("Find function demo");
+            var book = {isbn: "1234567890", title: "Underscore Javascript Library Examples", description: "This is a book demonstrating the usage of Underscore.js library."};
+            var bookDescription = _(book).find(function(val,key){
+                return key == "description";
+            });
+            $("#list").append("<li>Description: " + bookDescription + "</li>");
+        }
+        
+        function whereComputerBooks() {
+            console.log("Where are computer books");
+            
+            $("#list").append("<li>Computer Books: </li>");
+            var computerBooks = _(books).where({category:"Computer"});
+            _(computerBooks).each(function(elem, idx, list){
+                $("#list").append("<li>title: " + elem.title + "</li>");
+            });
+            
+            $("#list").append("<li>Computer Books with isbn 1234567890: </li>");
+            var computerBooks = _(books).where({category:"Computer", isbn:"1234567890"});
+            _(computerBooks).each(function(elem, idx, list){
+                $("#list").append("<li>isbn: " + elem.isbn + "    title: " + elem.title + "</li>");
+            });
+        }
+        
+        function findWhereComputerBook() {
+            console.log("findWhere (first) Computer Book is");
+            var book = _(books).findWhere({category:"Computer"});
+            $("#list").append("<li>isbn: " + firstComputerBook.isbn + "    title: " + firstComputerBook.title + "</li>");
+        }
+        
+        function everyBookComputer() {
+            var resultEvery = _(books).every(function(book){
+                return (book.category == "Computer")
+            });
+            
+            alert("every book is computer book: " + resultEvery);
+        }
+        
+        function someBooksComputer() {
+            var resultSome = _(books).some(function(book){
+                return (book.category == "Computer")
+            });
+            alert("some book(s) are computer book: " + resultSome);
+        }
+        
+        function containsDemo() { // NOTE: contains() only works the values, not keys 
+            var result = _(aBook).contains("1234567890");
+            alert("Contains '1234567890?': " + result);
+        }
+        
+        function mapDemo() {
+            var book = _(aBook).map(function(val, key){
+                return val.toUpperCase(); // map returns all fields/values with uppercases
+            });
+            
+            $("#list").append("<li>book: " + book + "</li>");
+        }
+        
+        // this is only demonstrate for filtering by an object value or key, not practical.
+        // filter function is more used for filtering a list of values in an array
+        function filterDemo() { 
+            var filteredISBN = _(aBook).filter(function(val,key){
+                return key == "isbn";
+            });
+            $("#list").append("<li>isbn: " + filteredISBN + "</li>");
+            var nums = [1,2,3,4,5,6,7,8,9,10];
+            var evens = _(nums).filter(function(val){
+                return val % 2 == 0;
+            });
+            $("#list").append("<li>In [" + nums + "], even numbers: " + evens + "</li>");
+        }
+        
+        function getAllISBNs() {
+            var isbns = _(books).pluck("isbn");
+            
+            $("#list").empty();
+            _(isbns).each(function(val){
+                $("#list").append("<li>ISBN: " + val + "</li>");
+            }); 
+        }
+        
+        function getLatestBook() {
+            var latestBook = _(books).max(function(list, val, ctx){
+                return list.publishYear;
+            });
+            $("#list").append("<li>isbn: " + latestBook.isbn + " title: " + latestBook.title + " published in " + latestBook.publishYear + "</li>");
+        }
+        
+        function getOldestBook() {
+            var oldestBook = _(books).min(function(list, val, ctx){
+                return list.publishYear;
+            });
+            $("#list").append("<li>isbn: " + oldestBook.isbn + " title: " + oldestBook.title + " published in " + oldestBook.publishYear + "</li>");
+        }
+        
+        function sortByPublishYear() {
+            var booksByPublishYear = _(books).sortBy("publishYear");
+            $("#list").empty();
+            _(booksByPublishYear).each(function(val){
+                $("#list").append("<li>isbn: " + val.isbn + " title: " + val.title + " published in " + val.publishYear + "</li>");
+            });
+        }
+        
+        function groupByCategory() {
+            var groupByCategory = _(books).groupBy(function(val){
+                return "Category: " + val.category;
+            });
+            
+            $("#list").empty();
+            _(groupByCategory).each(function(val,key){
+                $("#list").append("<h3>" + key + " (" + _(val).size() + ")</h3>");
+                _(val).each(function(value, idx, lst){
+                    $("#list").append("<dd><dd><p>" + value.title + "</p>");
+                });
+            });
+        }
+        
+        function getFirst(n) {
+            var firstN = _(books).first(n);
+            $("#list").empty();
+            _(firstN).each(function(elem, idx, lst){
+                $("#list").append("<li>isbn: " + elem.isbn + " title: " + elem.title + " published in " + elem.publishYear + "</li>");
+            });
+            
+            console.log(_.first([1,2,3,4,5,6,7], 4)); 
+        }
+        
+        function getLast() {
+            var last = _(books).last();
+            $("#list").append("<li>isbn: " + last.isbn + " title: " + last.title + " published in " + last.publishYear + "</li>");
+            
+            console.log(_.last([1,2,3,4,5,6,7], 3)); 
+        }
+        
+        function uniqDemo() {
+            var people = [{name:"John", gender:"M"}, {name:"Mary", gender:"F"}, {name:"Sam", gender:"M"}, {name:"Sam", gender:"F"}];
+            var result = _.uniq(people, false, function(person){
+                return person.name;
+                // return person.gender;
+            });
+            $("#list").empty();
+            _(result).each(function(elem, idx, list){
+                $("#list").append("<li>Name: " + elem.name + " Gender: " + elem.gender + "</li>");
+            });
+        }
+        
+        function findIndexDemo() {
+            var nums = [1,3,5,3,1];
+            $("#list").empty();
+            $("#list").append("<li>The array is: " + nums + "</li>");
+            $("#list").append("<li>The (first) index of 3 is: " + _.indexOf(nums, 3) + "</li>");
+            $("#list").append("<li>find the index of any number greater than 3: " + _.findIndex(nums, function(val){
+                return val > 3;
+            }) + "</li>");
+        }
+        
+        function getLotMax() { // function demontrates the time() and random functions of underscore
+            var n = 7;
+            var minN = 1;
+            var maxN = 49;
+            var myPick = [];
+            _.times(n, function(){
+               myPick.push(_.random(minN, maxN)); 
+            });
+            $("#list").append("<li>My pick: " + myPick + "</li>");
+        }
+        
+        function bindDemo() {
+            var funcPrintMsg = function(msg){
+                return ( this.title + ': ' + msg);
+            };
+            var func = _.bind(funcPrintMsg, aBook, "Hello, world!");
+            console.log(func());
+        }
+        
+        function delayDemo() {
+            console.log("function starts..." + new Date());
+            var funcPrintMsg = function(msg){
+                console.log("Message: " + msg);
+            };
+            _.delay(funcPrintMsg, 5000, "Hello, world!");
+            console.log("function ends." + new Date());
+        }
+        
+        function wrapDemo() {
+            var sayHello = function(msg) {
+                return "Hello " + msg;
+            }
+
+            var helloWrapper= _.wrap(sayHello, function(func) {
+                return "from helloWrapper: " + func("there");
+            });
+            console.log(helloWrapper()); // From helloWrapper: Hello there
+        }
+        
+        function composeDemo() {
+            var dblFunc = function(num) {
+                console.log(num +" * 2 = " + num * 2);
+                return num * 2;
+            }
+            var tplFunc = function(num) {
+                console.log(num +" * 3 = " + num * 3);
+                return num * 3;
+            }
+            var func = _.compose(dblFunc, tplFunc);
+            func(3); // 18
+        }
+        
+        function customizationDemo() { 
+            // function demonstrates noConflict() - define your own notation for _, and mixin() - use customized functions,  of underscore
+            var myUnderscoreCalculator = {
+                add: function(a, b) {
+                    return a + b;
+                },
+                subtract: function(a, b) {
+                    return a - b;
+                }
+            };
+            // var mc = _.noConflict(); // not here since we need _.mixin below
+            _.mixin(myUnderscoreCalculator);
+            var mc = _.noConflict(); // from here, _. is replaced to mc.
+            $("#list").append("<li>add(9, 18) = " + mc.add(9,18) + "</li>");
+            $("#list").append("<li>subtract(16, 8) = " + mc.subtract(16,8) + "</li>");
+        }
+        
+        function uniqueIdDemo() {
+            $("#list").empty();
+            _(books).each(function(bk, idx, lst){
+                $("#list").append("<li id=" + _.uniqueId("idx_") + ">ISBN: " + bk.isbn + " title: " + bk.title + "</li>");
+            });
+        }
+        
+        function resultDemo() {
+            var myBook = {isbn: "1234567890",
+                          title: "Underscore Javascript Library Examples",
+                          description: "This is a book demonstrating the usage of Underscore.js library.",
+                          uppercaseTitle: function() {
+                              return this.title.toUpperCase();
+                          }
+                         };
+            console.log(_.result(myBook, 'title'));
+            console.log(_.result(myBook, 'uppercaseTitle'));
+        }
+        
+        function extendDemo() {
+            var person = {
+                firstName: 'John',
+                lastName: 'Smith',
+                getName: function() {
+                    return firstName + ' ' + lastName;
+                }
+            }
+            
+            var student = {
+                studentId: '00000001',
+                firstName: 'Mary'
+            }
+            
+            console.log(_(student).extend(person));
+        }
+        
+        function findOldest2ArtBooks() {
+            var oldest2ArtBooks = _(books).chain() // start chaining
+                                          .where({category: 'Art'})
+                                          .sortBy(function(bk){
+                                              return bk.publishYear;
+                                          })
+                                          .first(2)
+                                          .each(function(bk){
+                                              bk.title = _.uniqueId() + ' ' + bk.title.toLocaleUpperCase();
+                                          })
+                                          .value(); // end of chain
+            $("#list").empty();
+            _(oldest2ArtBooks).each(function(elem, idx, lst) {
+                $("#list").append("<li id=" + _.uniqueId("idx_") + ">ISBN: " + elem.isbn +
+                                  ", Title: " + elem.title + ", Published on " + elem.publishYear + "</li>");
+            });
+        }
+		
+		$(document).ready(function(){
+		    alert('document.ready() is called thru jQuery.');
+		});
+		window.onload = alert("page is fully loaded.");
+    </script>
+</body>
+</html>

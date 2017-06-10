@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /><!-- on some servers, the map doesn't fully display somehow the IE version was wrong, so need this line. the issue not happen in Firefox or Chrome -->
+    <style type="text/css">
+      html { height:100%; }
+	  body { height:96%; }
+      #map-canvas { 
+          width: 100%; height: 100%; margin: 0; padding: 0; border:#555555 0px solid;
+      }
+	  .loading{
+	      display:none; width:70px; height:48px; border:1px solid black; position:absolute; top:50%;left:50%; padding:2px; background-color:white; align:center;
+      }
+    </style>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+  </head>
+  <body>
+    <table width="100%" cellpadding="0" cellspacing="0" border="1">
+      <tr>
+        <td>
+		  Crew #:<input type="text" id="crewNumber" name="crewNumber" value="0080" />&nbsp;&nbsp;
+		  since <input type="text" id="numDaysBefore" name="numDaysBefore" value="15" /> days ago&nbsp;&nbsp;
+		  Service URL:<input type="text" id="serviceURL" name="serviceURL" size="100" value="http://localhost:8888/recentCrewLocations" />&nbsp;&nbsp;
+		  <input type="button" name="btnViewLocations" value="Mark" onclick="viewCrewRecentLocations();"/>&nbsp;&nbsp;<input type="button" name="btnClear" value="Clear" onclick="clearMap();"/>
+		</td>
+      </tr>
+    </table>
+    <div id="map-canvas"></div>
+	<div id="loadingBar" class="loading"><img src='img/truck_moving.gif' /><br/>Loading...</div>
+    
+    <script type="text/javascript">
+      var BC_CENTER_LATITUDE = 53.239622280409575;
+      var BC_CENTER_LONGITUDE = -130.122070312500005;
+      var map;
+      var bounds;
+      
+      // initialize map to BC center
+      function initialize() {
+            var mapOptions = {
+              center: { lat: BC_CENTER_LATITUDE, lng: BC_CENTER_LONGITUDE},
+              zoom: 6
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            bounds = new google.maps.LatLngBounds();
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      function viewCrewRecentLocations() {
+    	  var crewNo = $("#crewNumber").val();
+		  var numDaysBefore = $("#numDaysBefore").val();
+    	  var serviceURL = $("#serviceURL").val();
+		  if (crewNo != null) {
+		    serviceURL += "?crewNumber=" + crewNo;
+			if (numDaysBefore != null) {
+			  serviceURL += "&daysBefore=" + numDaysBefore;
+			}
+		  }
+		  
+    	  $.support.cors = true; // very important when testing locally (open .html) using $.ajax to solve cross domain issues
+    	  $.ajax({
+              type: 'GET',   
+              url: serviceURL,
+              // dataType: 'jsonp',
+              // data: {},
+              cache: false,
+              jsonp: 'jsonp',
+				// contentType: 'application/json',
+				crossDomain: true,
+              // jsonpCallback: successCallback,
+              success: function(data) {
+                  displayLocationsOnMap(data);
+              },
+              error:function(jq, st, error){
+                  alert('ERROR:' + error);
+              }
+          });
+      }
+      
+      function displayLocationsOnMap(coords) {
+    	  if (typeof(map) != 'undefined' && map != null && typeof(coords) != 'undefined' && coords != null) {
+    		  var polyPoints = [];
+    		  var aCoord;
+    		  for (var i=0; i < coords.length; ++i) {
+			      var lat = coords[i].LATITUDE;
+				  var lng = coords[i].LONGITUDE;
+			      if (typeof(lat) != 'undefined' && isNaN(lat) == false && typeof(lng) != 'undefined' && isNaN(lng) == false) {
+				      aCoord = new google.maps.LatLng(lat, lng);
+					  polyPoints.push(aCoord);
+					  if (typeof(bounds) != 'undefined' && bounds != null) {
+						  bounds.extend(aCoord);
+					  }
+				  }
+    			  
+    		  }
+    		  
+    		  var locations = new google.maps.Polyline({
+    	          path: polyPoints,
+    	          geodesic: true,
+    	          strokeColor: '#FF0000',
+    	          strokeOpacity: 1.0,
+    	          strokeWeight: 2
+    	      });
+    		  
+    		  locations.setMap(map);
+    		  
+    		  if (typeof(aCoord) != 'undefined' && aCoord != null) {
+    			  var currentLocation = new google.maps.Marker({id: $("#crewNumber").val(), position: aCoord, title: aCoord.lat() + ',' + aCoord.lng(), icon: 'img/truck.gif'});
+    			  currentLocation.setMap(map);
+    		  }
+    		  
+    		  map.fitBounds(bounds);
+    	  }
+      }
+      
+      function clearMap() {
+    	  if (typeof(map) != 'undefined' && map != null) {
+    		  document.location.reload();
+    	  }
+      }
+	  
+	  $(document).ready(function () {
+			$(document).ajaxStart(function(){
+				$("#loadingBar").css("display", "block");
+			});
+			$(document).ajaxComplete(function(){
+				$("#loadingBar").css("display", "none");
+			});
+	  });
+      
+    </script>
+  </body>
+</html>
