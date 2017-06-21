@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+		<title>HTML 5 Form Demo</title>
+    </head>
+
+    <body>
+        <header>
+            <h2>Form Elements</h2>
+            <div id="description">This demo is for HTML 5 elements...</div>
+        </header>
+        <section>
+		  <form id="fmHtml5">
+		    <label for="txPhone">Phone #</label>
+		    <input type="tel" id="txPhone" placeholder="Please enter a 10-digit phone number." pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="" maxlength="10" required /><br/>
+			<label for="txEmail">Email</label>
+			<input type="email" id="txEmail" placeholder="Please enter a valid email address." value="" autofocus="on" /><br/>
+			<label for="txSearch">Search</label>
+			<input type="search" id="txSearch" placeholder="Please enter a valid for a quick search." value="" /><br/>
+			<label for="txURL">URL</label>
+			<input type="url" id="txURL" placeholder="Please enter a valid URL." value="" /><br/>
+			<label for="txCity">City</label>
+			<input type="list" id="txCity" list="lstCities" placeholder="Please choose a city." value="" /><br/>
+			<datalist id="lstCities">
+			    <option value="bby">Burnaby</option>
+				<option value="van">Vancouver</option>
+				<option value="coq">Coquitlam</option>
+				<option value="sry">Surrey</option>
+				<option value="rim">Richmond</option>
+			</datalist>
+			<label for="txColor">Color</label>
+			<input type="color" id="txColor" /><br/> <!-- //only for Chrome, Opera-->
+			<label for="txDate">Date</label>
+			<input type="date" id="txDate" min="2017-01-01" max="2017-12-31" /><br/> <!-- //only for Chrome, Opera-->
+			<label for="txAge">Age</label>
+			<input type="number" id="txAge" min="1" max="150" placeholder="Please enter your age." /><br/> <!-- //only for Chrome, Opera-->
+			<label for="rng1">Range 1</label>
+			<input id="rng1" type="range" min="1" max="100"/><br/>
+			<label for="rng2">Range 2</label>
+			<input id="rng2" type="range" list="lstRange"/><br/>
+			<datalist id="lstRange">
+			    <option value="100" label="100"></option>
+				<option value="200">200</option>
+				<option value="300">300</option>
+				<option value="400">400</option>
+				<option value="500" label="500">500</option>
+				<option value="600">600</option>
+				<option value="700">700</option>
+				<option value="800">800</option>
+				<option value="900">900</option>
+				<option value="1000" label="1000">1000</option>
+			</datalist>
+          </form>
+		</section>
+        <footer>2017 Copyright</footer>
+        
+        <script type="text/javascript">
+        </script>
+    </body>
+</html>

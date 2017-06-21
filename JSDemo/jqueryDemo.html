@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>Test Undefined or Null</title>
+		<script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+	</head>
+	<body>
+	    <table>
+		  <tr><th>First Name</th><th>Last Name</th></tr>
+		  <tr><td>John</td><td>Smith</td></tr>
+		  <tr><td>Jean</td><td>Doe</td></tr>
+		  <tr><td>Rose</td><td>Mary</td></tr>
+		  <tr><td>Mike</td><td>Green</td></tr>
+		</table>
+	
+	    <script type="text/javascript">
+		    var val1;
+			var val2 = null;
+			console.log("val1 is " + val1);
+			console.log("val2 is " + val2);
+			if ( (! val1) && (! val2) ) {
+			    console.log("undefined or null is false");
+			}
+			
+			alert($("td").first().next().text());
+			$("tr").not(":even").css("color", "red");
+		</script>
+	</body>
+</html>
