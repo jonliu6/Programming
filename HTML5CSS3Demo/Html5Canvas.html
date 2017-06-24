@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+		<title>HTML 5 Canvas Demo</title>
+    </head>
+
+    <body>
+        <header>
+            <h2>Daily News</h2>
+            <div id="DailyNews">Today is a ...</div>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="#">Tab 1</a></li>
+                <li><a href="#">Tab 2</a></li>
+                <li><a href="#">Tab 3</a></li>
+            </ul>
+        </nav>
+        <canvas id="canvas" width="300" height="200" style="border: 1px solid;">
+            Your browser needs to be HTML 5 ready.
+        </canvas>
+        <button id="btnDraw" onclick="drawCanvas();">Draw</button>
+        <button id="btnClear" onclick="clearCanvas();">Clear</button>
+        
+        <footer>2017 Copyright</footer>
+        
+        <script type="text/javascript">
+            function drawCanvas() {
+                var canvas = document.getElementById('canvas');
+                var context = canvas.getContext('2d');
+                
+                context.lineWidth = 2;
+                context.strokeStyle = '#ff0000';
+                context.lineJoin = 'round';
+                context.beginPath();
+                context.moveTo(10,10);
+                context.lineTo(150,10);
+                context.lineTo(150,150);
+                context.lineTo(10,150);
+                context.lineTo(10,10);
+                context.closePath();
+                context.stroke();
+                
+                // has to be above fill(), better before drawing
+                context.shadowColor='#0000ff';
+                context.shadowOffsetX=20;
+                context.shadowOffsetY=15;
+                context.shadowBlur=8;
+                                
+                context.fillStyle='#00ff00';
+                context.fill();
+                
+                
+            }
+            
+            function clearCanvas() {
+                var canvas = document.getElementById('canvas');
+                var context = canvas.getContext('2d');
+                context.clearRect(0,0,canvas.width,canvas.height);
+                canvas.width = canvas.width;
+            }
+        </script>
+    </body>
+</html>

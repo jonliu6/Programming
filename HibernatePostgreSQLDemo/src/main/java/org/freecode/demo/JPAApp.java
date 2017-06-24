@@ -3,16 +3,22 @@ package org.freecode.demo;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.freecode.demo.model.TodoItem;
 import org.freecode.demo.model.User;
+import org.freecode.demo.model.User_;
 import org.freecode.demo.util.HibernateJPAHelper;
+import org.hibernate.HibernateException;
 
 public class JPAApp {
 	public static void main(String[] args) {
-		queryTest();
-		insertTest();
-		queryTest();
+//		queryTest();
+//		insertTest();
+//		queryTest();
+		queryBooksByUserId("jdoe");
 		System.exit(0);
 	}
 	
@@ -42,6 +48,26 @@ public class JPAApp {
 		finally {
 			// em.close();
 			em = null;
+		}
+	}
+	
+	private static void queryBooksByUserId(String uid) {
+		EntityManager em = null;
+		CriteriaBuilder cb = null;
+		try {
+			em = HibernateJPAHelper.getEntityManager();
+			cb = em.getCriteriaBuilder();
+			CriteriaQuery<User> cq = cb.createQuery(User.class);
+			Root<User> u = cq.from(User.class);
+//			cq.multiselect(ti.get("login"));
+			cq.where(cb.equal(u.get(User_.login), uid));
+			List<User> users = em.createQuery(cq).getResultList();
+			for (User user: users) {
+				System.out.println(user.getLastName() + "," + user.getFirstName());
+			}
+		}
+		catch (HibernateException he) {
+			he.printStackTrace();
 		}
 	}
 	

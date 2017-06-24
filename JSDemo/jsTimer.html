@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>JavaScript Timer Test</title>
+    </head>
+    <body>
+        <article>You can enter a time interval (in seconds) to test a JavaScript timer for a dummy tasks - printing out thousands of integers.</article>
+        <label for="txTotalSeconds">Every x Seconds</label>
+        <input type="number" id="txTotalSeconds" value="" placeholder="Please enter a number of seconds." onclick="setTotalSeconds(this.value);"/>
+        <button id="btnStart" onclick="startTimer();">Start</button>&nbsp;&nbsp;<button id="btnStop" onclick="stopTimer();">Stop</button>&nbsp;&nbsp;<button id="btnPause" onclick="togglePause();">Pause</button>
+        <span id="txRemainingSeconds">0</span> second(s) left
+        <p/>
+        <span id="log"></span>
+        
+        <script type="text/javascript">
+            var totalSeconds = 0; // total time interval (in seconds) specified by the user
+            var remainingSeconds = 0; // remaining time (in seconds) for the countdown of the timer
+            var timerHandler; // a handler to the timeInterval for clearInterval()
+			var isPaused= false; // a flag determining if the timer continues the countdown
+            
+            function setTotalSeconds(t) {
+                totalSeconds = t;
+            }
+			
+			function togglePause() {
+                if (remainingSeconds == 0) {
+                    alert('Timer is not set up or running.');
+                    return;
+                }
+			    isPaused = ! isPaused;
+                // change the button label to indicate the correct action(s)
+                var btn = document.getElementById('btnPause');
+                if (btn) {
+                    if (isPaused) {
+                        btn.innerText = 'Resume';
+                    }
+                    else {
+                        btn.innerText = 'Pause';
+                    }
+                }
+			}
+            
+            function runLongTransaction() {
+                writeLog('Long transaction started at' + new Date() + '...');
+                var msg = '';
+                for (var i=0; i<10000; i++) {
+                    msg += i + ' ';
+                }
+                writeLog('Transaction log:\n' + msg);
+                writeLog('Long transaction finished at' + new Date() + '.');
+            }
+            
+            function displayRemainingSeconds() {
+                var tx = document.getElementById('txRemainingSeconds');
+                if (tx) {
+                    tx.innerText = remainingSeconds;
+                }
+            }
+            
+            function writeLog(txt) {
+                var tx = document.getElementById('log');
+                if (tx) {
+                    tx.innerHTML += txt;
+                }
+            }
+            
+            function clearLog() {
+                var tx = document.getElementById('log');
+                if (tx) {
+                    tx.innerHTML = '';
+                }
+            }
+            
+			/**
+			 * execute a dummy task - looping and printing out thousands of integers - when the remaining time runs out. Otherwise, count down the remaining seconds when the timer is NOT paused
+			 * 
+			 */
+            function executeTask() {
+                displayRemainingSeconds();
+                if (remainingSeconds < 1) {
+				    isPaused = true;
+                    runLongTransaction();
+					isPaused = false;
+                    remainingSeconds = totalSeconds;
+                }
+                else {
+				    if (!isPaused) {
+					    remainingSeconds--;
+					}
+                }
+            }
+            
+			/**
+			 * start a time interval (per second) for periodically executing a task 
+			 */
+            function startTimer() {
+                clearLog();
+                var ts = document.getElementById('txTotalSeconds');
+                if (ts) {
+                    totalSeconds = ts.value;
+                }
+                
+                if (totalSeconds > 0) {
+                    remainingSeconds = totalSeconds;
+                    timerHandler = setInterval(executeTask, 1000);
+                }
+                else {
+                    alert('Please set up an interval in seconds for the timer.');
+                }
+            }
+            
+			// stop the timer by clearing up the time interval
+            function stopTimer() {
+                if (timerHandler) {
+                    clearInterval(timerHandler);
+                }
+                remainingSeconds = 0;
+            }
+        </script>
+    </body>
+</html>

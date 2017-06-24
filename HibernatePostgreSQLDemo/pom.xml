@@ -53,7 +53,11 @@
 	    <version>${hibernate.version}</version>
 	    <scope>compile</scope>
 	</dependency>
-	
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-jpamodelgen</artifactId>
+	    <version>${hibernate.version}</version>
+	</dependency>
 
   </dependencies>
   
@@ -67,6 +71,9 @@
             <configuration>
                 <source>${jdk.version}</source>
                 <target>${jdk.version}</target>
+                <compilerArguments>
+		        	<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+		        </compilerArguments>
             </configuration>
         </plugin>
         <!-- replaced by maven-assembly-plugin in below
