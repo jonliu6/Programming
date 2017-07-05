@@ -49,6 +49,7 @@ public class BookController {
     	bookFactory.persistBook(newBook);
     	setBooks(bookFactory.findAllBooks());
     	// return "viewingBooks";
+    	System.out.println("addBook() in BookController was called.");
     }
     
     public void add() {

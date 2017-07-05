@@ -24,14 +24,16 @@
   // ]]>
 </script>
 </h:head> 
-<body> 
+<h:body> 
   <h:outputLabel>Books</h:outputLabel><p />
   <h:form id="bookForm">
     <h:outputText value="ISBN" />&nbsp;<h:inputText id="isbn" name="isbn" value="#{bookBean.currentBook.isbn}"></h:inputText>&nbsp;&nbsp;
     <h:outputText value="Name" />&nbsp;<h:inputText id="bookName" name="bookName" value="#{bookBean.currentBook.name}"></h:inputText>&nbsp;&nbsp;
     <br/>
-    <h:commandButton id="addBook" onclick="if (checkInput() == true) { alert('addBook() is called...'); addBook(); }" value="Add Book"></h:commandButton>
+    <h:commandButton id="addBook" onclick="if (checkInput() == true) { alert('addBook() is called...'); addBook(); } else { alert('addBook not called'); }" value="Add Book"></h:commandButton>
+    <h:commandButton id="addBook2" onclick="if (checkInput() == true) { alert('addBook() is called...'); addBook(); } else {alert('checkInput failed.');}" value="Add Book2"></h:commandButton>
     <a4j:jsFunction name="addBook" action="#{bookBean.addBook}" execute="@all" render="bookTable" oncomplete="alert('Done')" onbegin="alert('Starting...')"></a4j:jsFunction>
+    <input type="button" id="clearBtn" value="Clear" onclick="document.getElementById('bookForm:isbn').value=''; document.getElementById('bookForm:bookName').value='';" />
   </h:form>
   <p />
   <h:dataTable id="bookTable" value="#{bookBean.books}" var="book">
@@ -48,5 +50,5 @@
       <h:outputText value="#{book.name}" />
     </h:column>
   </h:dataTable>
-</body> 
+</h:body> 
 </html>
