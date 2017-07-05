@@ -13,7 +13,7 @@ public class HashCodeVerifier {
 
 	public static void main(String[] args) {
 		
-		String filePath = "c:/Temp/commons-fileupload-1.3.2-bin.zip";
+		String filePath = "C:/Users/jonliu/Downloads/commons-codec-1.10-bin.zip";
 		System.out.println("File path: " + filePath);
 		System.out.println("MD5: " + generateMD5Hash(filePath, "MD5"));
 		System.out.println("SHA1: " + generateMD5Hash(filePath, "SHA1"));

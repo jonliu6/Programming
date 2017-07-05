@@ -1,3 +1,5 @@
+package org.freecode.demo;
+
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

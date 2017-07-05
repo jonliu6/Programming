@@ -1,3 +1,5 @@
+package org.freecode.demo;
+
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -71,8 +73,11 @@ public class ConvertType {
         Object obj = rsList.get(i);
         if (obj instanceof String) {
           System.out.print(obj.toString());
-        } else if (obj instanceof ) {
-
+        } else if (obj instanceof Boolean) {
+        	System.out.print("True/False");
+        }
+        else {
+        	System.out.println("Something else");
         }
       }
     }

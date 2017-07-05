@@ -1,3 +1,5 @@
+package org.freecode.demo;
+
 import java.io.*;
 
 public class CopyFile

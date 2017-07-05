@@ -1,3 +1,5 @@
+package org.freecode.demo;
+
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
