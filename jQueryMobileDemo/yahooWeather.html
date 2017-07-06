@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Yahoo Weather Where On Earth IDentifier Demo</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" type="text/css"/>
+        <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page">
+            <div data-role="header" data-position="fixed">
+			    <h1>Yahoo Weather Forecast</h1>
+            </div>
+            
+            <div data-role="content">
+                <label for="txAddr">City</label>
+                <input type="text" value="" name="txAddr" id="txAddr" placeholder="Enter city, country..."/>
+                <button class="ui-btn ui-icon-check ui-btn-icon-left ui-btn-action ui-corner-all" onclick="getCityWeather();">Get Weather</button>
+                
+                <div id="weatherInfo">
+				    <table id="weatherTable" data-role="table" data-mode="reflow" class="ui-responsive">
+						<thead>
+							<tr>
+								<th>Day, Date</th>
+								<th>Low <span id='lowTempUnit'></span></th>
+								<th>High <span id='highTempUnit'></span></th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+                </div>
+            </div>
+            
+            <div data-role="footer" style="text-align:right;">
+                Copyright © 2017.
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            var yahoo_ws_api = 'https://query.yahooapis.com/v1/public/yql?callback=?';
+            var ws_req = {
+                q: '',
+                format: 'json',
+                env: 'store://datatables.org/alltableswithkeys'
+            };
+            
+            function getCityWeather() {
+                var cityName = $('#txAddr').val();
+                if (cityName) {
+                    $('#weatherTable tbody').empty();
+                    ws_req.q = 'select woeid from geo.places where text=\"' + cityName + '\"'; //woeid stands for Where On Earth IDentifier
+                    
+                    $.getJSON(yahoo_ws_api,ws_req).then(function(data){
+                        // console.log(data);
+                        var results = data.query.results;
+                        var woeid = null;
+                        if (results.place) {
+                            if (results.place.length) {
+                                woeid = parseInt(results.place[0].woeid, 10);
+                            }
+                            else {
+                                woeid = parseInt(results.place.woeid, 10)
+                            }
+                        }
+                        ws_req.q = 'select * from weather.forecast where woeid=' + woeid + ' and u=\"c\"'; // query the weather of specific woeid with temperature unit = Celsius
+                        return $.getJSON(yahoo_ws_api, ws_req);
+                    }).done(function(data){
+                        // $('#weatherInfo').text(data.query.results.channel.item.description);
+                        var forecast = data.query.results.channel.item.forecast;
+                        var units = data.query.results.channel.units;
+                        var tempUnit = '(' + units.temperature + ')';
+                        // alert(units);
+                        var html = '';
+                        $.each(forecast, function(idx, val){
+                            if (val) {
+                                // console.log(val.date + '\t' + val.day + '\t' + val.low + '-' + val.high + '\t' + val.text);
+                                html += '<tr><td>' + val.day + ', ' + val.date + '</td><td>' + val.low + '</td><td>' + val.high + '</td><td>' + val.text + '</td></tr>';
+                            }
+                        });
+                        $('#weatherTable tbody').append(html);
+                        $('#lowTempUnit').text(tempUnit);
+                        $('#highTempUnit').text(tempUnit);
+                        // $('#weatherTable').table('refresh');
+                    });
+                }
+                else {
+                    alert('Please enter a valid city name.');
+                }
+            }
+        </script>
+    </body>
+</html>

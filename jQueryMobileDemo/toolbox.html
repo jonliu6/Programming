@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Toolbox</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" type="text/css"/>
+        <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page">
+            <div data-role="header" data-position="fixed"><h1>Toolbox</h1></div>
+        
+            <div data-role="content">
+                <ul data-role="listview" data-inset="true">
+                    <li><a href="yahooWeather.html" data-ajax="false"><img src="img/yahooWeather.png" /><h2>Yahoo Weather</h2></a></li>
+                    <li><a href="yahooStock.html"><img src="img/yahooStock.png" /><h2>Yahoo Stock</h2></a></li>
+                </ul>
+            </div>
+            
+            <div data-role="footer" style="text-align:right;">Copyright © 2017.</div>
+        </div>
+        
+        <script type="text/javascript">
+//            $(document).on("mobileinit", function () {
+//                $.mobile.ajaxEnabled = false;
+//            });
+            $(document).ready(function(){
+			    $.support.cors = true;
+                $.mobile.ajaxEnabled = false;
+			});
+            
+            function changePageTo(url) { // this navigation may not reload the page, so the JS code in the destination may not be loaded
+                // $.mobile.changePage(url, {transition: "slidedown", reloadPage: true}); // jQuery Mobile 1.3.x
+                $.mobile.pageContainer.pagecontainer("change", url, {transition: "slidedown", reload: true}); // jQueryMobile 1.4.x, url is either "#page_id" or "URL", still not refresh the JS code of the target URL
+            }
+        </script>
+    </body>
+<html>
