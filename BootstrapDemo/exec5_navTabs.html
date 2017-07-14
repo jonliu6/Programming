@@ -9,17 +9,16 @@
     </head>
     <body>
 	    <div class="container">
-			<ul class="breadcrumb" >
-			  <li class="active"><a href="#potc" >POTC</a></li>
-			  <li><a href="#pocc" >POCC</a></li>
-			  <li><a href="#porm" >PORM</a></li>
-			  <li><a href="#svlk" >SVLK</a></li>
-			  <li><a href="#pat" >PAT</a></li>
-			  <li><a href="#es" >ES</a></li>
+		    <ul class="nav nav-tabs" role="tablist">
+			  <li class="active"><a href="#potc" aria-controls="potc" role="tab" data-toggle="tab">POTC</a></li>
+			  <li><a href="#pocc" aria-controls="pocc" role="tab" data-toggle="tab">POCC</a></li>
+			  <li><a href="#porm" aria-controls="porm" role="tab" data-toggle="tab">PORM</a></li>
+			  <li><a href="#svlk" aria-controls="svlk" role="tab" data-toggle="tab">SVLK</a></li>
+			  <li><a href="#pat" aria-controls="pat" role="tab" data-toggle="tab">PAT</a></li>
+			  <li><a href="#es" aria-controls="es" role="tab" data-toggle="tab">ES</a></li>
 			</ul>
-		</div>
-		
-		<div class="tab-content">
+
+			<div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="potc">
                     <p>PowerOn Trouble Centre is a GIS system that displays outages in a list in one window and on a map in another window. It is the central repository for outage information. It allows dispatchers in the Trouble Centre to view and update the state of outages. </p>
                 </div>
@@ -39,6 +38,7 @@
                     <p>Emergency Services is a central source of information for the Emergency Services application.</p>
                 </div>
 			</div>
+		</div>
         
         <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
