@@ -22,7 +22,12 @@
 	  .contextmenu div{
 		  padding-left: 5px
 	  }
-
+	  
+	  @media print{
+		.hideWhenPrinting {
+		  display:none;
+		}
+      }
 	  
     </style>
     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> // -->
@@ -301,7 +306,7 @@
             </tr>
             <tr>
               <td colspan="2">
-                <input id="ORIGIN0" type="button" name="btnMarkOrigin" value="Mark" onclick="markOrigin();"/>&nbsp;
+                <input id="ORIGIN0" type="button" name="btnMarkOrigin" value="Mark" onclick="markOrigin();" class="hideWhenPrinting" />&nbsp;
                 <input id="ORIGIN" type="checkbox" name="ckbxOrigin" />&nbsp;
                 <span id="origin_latlng" style="font-size:9pt;"></span>
               </td>
@@ -320,22 +325,28 @@
             </tr>
             <tr>
               <td colspan="2">
-                <input id="DESTINATION0" type="button" name="btnMarkDestination" value="Mark" onclick="markDestination();"/>&nbsp;
+                <input id="DESTINATION0" type="button" name="btnMarkDestination" value="Mark" onclick="markDestination();" class="hideWhenPrinting" />&nbsp;
                 <input id="DESTINATION" type="checkbox" name="ckbxDestination" />&nbsp;
                 <span id="destination_latlng" style="font-size:9pt;"></span>
               </td>
             </tr>
             <tr>
               <td colspan="2">
-                <input type="button" name="btnDirection" value="Show Direction" onclick="showDirection();" />
-                <input type="button" name="btnBoundary" value="Show Boundary" onclick="showBoundary();" />
+                <input type="button" name="btnDirection" value="Show Direction" onclick="showDirection();" class="hideWhenPrinting"/>
+                <input type="button" name="btnBoundary" value="Show Boundary" onclick="showBoundary();" class="hideWhenPrinting"/>
               </td>
             </tr>
 			<tr>
               <td colspan="2">
-                <input type="button" name="btnCluster" value="Cluster Markers" onclick="showClusteredMarkers();" />
+                <input type="button" name="btnCluster" value="Cluster Markers" onclick="showClusteredMarkers();" class="hideWhenPrinting"/>
+				<input type="button" name="btnPrint" value="Print Page" onclick="printContent();" class="hideWhenPrinting"/>
               </td>
             </tr>
+			<tr>
+			  <td colspan="2">
+			    <input type="button" name="btnStaticMap" value="Generate Static Page" onclick="generateStaticMap();" class="hideWhenPrinting"/>
+			  </td>
+			</tr>
           </table>
         </td>
         <td width="60%" align="left">
@@ -346,6 +357,64 @@
         </td>
       </tr>
     </table>
+	
+	<div id="printArea"></div>
 	<div id="mapContextMenu" class="contextmenu"></div>
+	
+	<script type="text/javascript">
+	    function printContent() {
+		    var txtDisplayArea = document.getElementById('text-canvas');
+			var txtPrintArea = document.getElementById('printArea');
+			txtPrintArea.innerHTML = txtDisplayArea.innerHTML;
+			txtDisplayArea.innerHTML = '';
+			// var bottomOfMapCanvas = document.getElementById('text-canvas').getBoundingClientRect().bottom;
+			// document.getElementById('text-canvas').setAttribute("style", "left: 0px; top: " + bottomOfMapCanvas + "px;");
+			// document.getElementById("map-canvas").style.pageBreakAfter = "always";
+		    window.print();
+		}
+		
+		function generateStaticMap() {
+		   var staticURL = "https://maps.googleapis.com/maps/api/staticmap?size=640x480";
+		   if (map) {
+		      var mapCenter = map.getCenter();
+			  var cLat;
+			  var cLng;
+			  if (mapCenter) {
+			    cLat = mapCenter.lat();
+				cLng = mapCenter.lng();
+				if (cLat && cLng) {
+				  staticURL += "&center=" + cLat + "," + cLng;
+				}
+			  }
+			  var zoomLevel = map.getZoom();
+			  if (zoomLevel) {
+			    staticURL += "&zoom=" + zoomLevel;
+			  }
+			  
+			  if (markerArray) {
+			      var markerURL = "&markers=icon:http://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico";
+			      for (var i=0,len=markerArray.length; i<len; i++) {
+				      var aMarker = markerArray[i];
+					  if (aMarker) {
+					      var pos = aMarker.getPosition();
+						  var lat;
+						  var lng;
+						  if (pos) {
+						      lat = pos.lat();
+							  lng = pos.lng();
+							  if (lat && lng) {
+							      markerURL += "|" + lat + "," + lng;
+							  }
+						  }
+					  }
+				  }
+				  
+				  staticURL += markerURL;
+			  }
+			  
+			  document.getElementById('printArea').innerHTML = "<img src='" + staticURL + "' border='0' />";
+		   }
+		}
+	</script>
   </body>
 </html>
