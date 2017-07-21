@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+		<title>HTML 5 Web Storage Demo</title>
+    </head>
+
+    <body>
+        <header>
+            <h2>Web Storage</h2>
+            <div id="DailyNews">Test session and local storages ...</div>
+        </header>
+        
+        <button id="btnTestSessionStorage" onclick="testSessionStorage();">Test Session Storage</button>
+        <button id="btnTestLocalStorage" onclick="testLocalStorage();">Test Local Storage</button>
+        
+        <footer>2017 Copyright</footer>
+        
+        <script type="text/javascript">
+            function testSessionStorage() {
+                if (window.sessionStorage) {
+				  alert('Support Session Storage');
+				} else {
+				  alert('NOT Support Session Storage');
+				}
+            }
+            
+            function testLocalStorage() {
+                if (window.localStorage) {
+				  alert('Support Local Storage');
+				} else {
+				  alert('NOT Support Local Storage');
+				}
+            }
+        </script>
+    </body>
+</html>

@@ -117,9 +117,9 @@
     
     <!-- Oracle Geospatial -->
     <dependency>
-	    <groupId>oracle.spatial.geometry</groupId>
-	    <artifactId>sdo-api</artifactId>
-	    <version>11.2.0.1.0</version>
+	    <groupId>com.oracle.spatial.geometry</groupId>
+	    <artifactId>sdoapi</artifactId>
+	    <version>11g</version>
     </dependency>
     
     <dependency>
