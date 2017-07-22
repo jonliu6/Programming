@@ -9,24 +9,47 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style type="text/css">
             .error {color: red; font-weight: bold;}
-            .titleFont {font-size: 2em; font-family: serif;}
+            .warn {color: orange; font-weight: bold;}
+            .titleFont {font-size: 2em; font-family: serif; font-weight: bold;}
+            .subtitleFont {font-size: 1em; font-family: serif;}
         </style>
+        
+        <f:metadata>
+            <f:viewParam name="recordId" value="#{uploadBean.recordId}"></f:viewParam>
+        </f:metadata>
     </h:head>
     
     <h:body>
         <h:outputText value="#{msg['application.title']}" styleClass="titleFont" /><p/>
-        <h:form enctype="multipart/form-data">
+        <h:form id="fmMain" enctype="multipart/form-data">
             <label for="recordId">Record Id</label>
             <h:inputText id="recordId" value="#{uploadBean.recordId}"></h:inputText><br/>
         
-            <h:message for="fileHolder" styleClass="error"></h:message><br/>
+            <h:message for="fileHolder" errorClass="error" warnClass="warn" ></h:message><br/>
             <h:inputFile id="fileHolder" value="#{uploadBean.uploadedFile}" >
                 <f:validator validatorId="fileSizeValidator" >
                 </f:validator>
             </h:inputFile>
             <h:commandButton action="#{uploadBean.upload()}" value="Upload File"></h:commandButton>
+            <p/>
+            
         </h:form>
-    
+        
+        <h:panelGroup rendered="#{not empty uploadBean.fileNames}">
+        	<h:form id="fmFiles">
+	            <h:outputText value="File Attachments" styleClass="subtitleFont"></h:outputText><p/>
+	            <ui:repeat var="fileName" value="#{uploadBean.fileNames}">
+	                <h:commandLink action="#{uploadBean.download(fileName)}" value="#{fileName}" target="_blank"></h:commandLink>&#160;&#160;
+	                <h:outputLink value="#{request.contextPath}/downloadFile" target="_blank">
+	                    <f:param name="recordId" value="#{uploadBean.recordId}"></f:param>
+	                    <f:param name="fileName" value="#{fileName}"></f:param>
+	                    <h:outputText value="(#{fileName})" title="Alternative download link"></h:outputText>
+	                </h:outputLink>
+	                <br/>
+	            </ui:repeat>
+        	</h:form>
+        </h:panelGroup>
+            
         <script type="text/javascript">
         
         </script>

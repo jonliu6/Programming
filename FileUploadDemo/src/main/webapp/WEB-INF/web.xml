@@ -38,7 +38,7 @@
     <servlet>
         <servlet-name>FileUploadComponent</servlet-name>
         <servlet-class>org.freecode.demo.util.FileUploadServlet</servlet-class>
-        <multipart-config>
+        <multipart-config> <!-- the below parameters will be substituted during the build and package time -->
             <location>${file.upload.location}</location>
             <file-size-threshold>${file.upload.size.threshold}</file-size-threshold>
             <max-file-size>${file.upload.size.max}</max-file-size>
@@ -50,5 +50,5 @@
         <servlet-name>FileUploadComponent</servlet-name>
         <url-pattern>/uploadFile</url-pattern>
     </servlet-mapping>
- 
+     
 </web-app>

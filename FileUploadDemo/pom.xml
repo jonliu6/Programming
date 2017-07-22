@@ -11,7 +11,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <application.name>FileUploadDemo</application.name>
-    <application.home>${env.JBOSS_HOME}/pat</application.home>
+    <application.home>${env.JBOSS_HOME}/standalone</application.home>
 	<webapp.dir>${application.home}/deployments</webapp.dir>
 	<jdk.version>1.7</jdk.version>
 	<jsf.version>2.2.6</jsf.version>

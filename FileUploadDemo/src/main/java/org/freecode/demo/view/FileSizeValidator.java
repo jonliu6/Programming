@@ -12,12 +12,13 @@ import javax.servlet.http.Part;
 
 @FacesValidator("fileSizeValidator")
 public class FileSizeValidator implements Validator{
+	public static final String FILE_UPLOAD_MAX_SIZE = "file.upload.size.max";
 
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		// validate file size 
 		// String maxFileSizeAttr = (String) component.getAttributes().get("maxFileSize");
-		String maxFileSizeAttr = ResourceBundle.getBundle("messages").getString("file.upload.size.max");
+		String maxFileSizeAttr = ResourceBundle.getBundle("messages").getString(FILE_UPLOAD_MAX_SIZE);
 		long maxFileSize = 0;
 		if (maxFileSizeAttr != null) {
 			maxFileSize = Long.valueOf(maxFileSizeAttr);
