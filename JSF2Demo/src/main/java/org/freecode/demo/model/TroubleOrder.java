@@ -13,7 +13,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * @author jonliu
  *
  */
 @NamedQueries({

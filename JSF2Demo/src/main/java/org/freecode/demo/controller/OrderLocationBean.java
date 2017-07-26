@@ -1,6 +1,7 @@
 package org.freecode.demo.controller;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -31,7 +32,7 @@ public class OrderLocationBean implements Serializable{
     public List<OrderLocation> getOrderLocations() {
         return orderLocations;
     }
-
+    
     public void setOrderLocations(List<OrderLocation> orderLocations) {
         this.orderLocations = orderLocations;
     }

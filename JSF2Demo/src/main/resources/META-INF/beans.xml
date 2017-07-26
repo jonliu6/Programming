@@ -1,0 +1,17 @@
+<!-- 
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+       version="1.2" bean-discovery-mode="annotated">
+</beans>
+-->
+
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
+
+<!--
+    beans.xml (even if empty) is required for CDI to work in JEE6.
+    If the application is upgraded to JEE7 this can be deleted.
+-->
+
+</beans>
