@@ -5,6 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+// iText v2.0.8
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfCopy;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
+/** different version of iText
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfCopy;
@@ -13,6 +21,7 @@ import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+ */
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +29,8 @@ import com.itextpdf.text.pdf.PdfWriter;
  * Date: Sep 5, 2012
  * Time: 12:48:19 PM
  * To change this template use File | Settings | File Templates.
+ * Usage: MyPDFCopier filename [from page#] [to page#]
+ * C:\Workspace\GitRepo\JavaDemo\bin>java -classpath .;../lib/itext-2.0.8.jar org.freecode.demo.MyPDFCopier c:/temp/TestPDF.pdf 2 12
  */
 public class MyPDFCopier
 {

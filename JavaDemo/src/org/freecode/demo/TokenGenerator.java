@@ -12,18 +12,20 @@ import org.apache.commons.codec.binary.Base64;
 public class TokenGenerator {
 	
 	public static void main(String[] args) {
-		String uid = "lkai";
+		String uid = "jon";
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dtStr = df.format(cal.getTime()); // "2017-07-01 00:00:00";
-		// String orig = "192.168.1.1";
+		String appID = "PowerOn";
 		
-		String srcStr = uid + "|" + dtStr; // + ":" + orig;
-		int saltLen = uid.length();
+		String srcStr = uid + "|" + dtStr + "|" + appID;
+		// int saltLen = uid.length();
+		int saltLen = appID.length();
 //		byte[] encStr = Base64.encodeBase64(srcStr.getBytes());
 //		String decStr = new String(Base64.decodeBase64(encStr));
-		String encStr = encodeString(srcStr, saltLen);
-		String decStr = decodeString(encStr, saltLen);
+		// double encoded
+		String encStr = encodeString(encodeString(srcStr, saltLen));
+		String decStr = decodeString(decodeString(encStr), saltLen);
 		
 		if (srcStr.equalsIgnoreCase(decStr)) {
 			System.out.println("Successfully encoded and decoded.");
