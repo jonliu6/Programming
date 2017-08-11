@@ -8,6 +8,7 @@
 	xmlns:e="http://example.com/test">
  
 <h:head>
+    <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 </h:head>
 <h:body>
 	<e:helloWorld helloworld="Hello JSF 2 + Richfaces!"/>
@@ -17,8 +18,25 @@
 	<a href="viewingActiveCrewLocations.faces">Active Crew Locations</a><p/>
 	<a href="viewingActiveCrewLocations2.faces">Active Crew Locations (Richfaces)</a><p/>
 	<a href="viewingActiveCrewLocations3.faces">Active Crew Locations (Richfaces) - Multi-selection</a><p/>
-	<a href="refreshingDataTable.faces">Refresh Data Table</a>
-	
+	<a href="refreshingDataTable.faces">Refresh Data Table</a><p/>
+	<h:form id="fmMain">
+	    <h:outputLabel for="reportYear" value="Year"></h:outputLabel>&#160;&#160;<h:inputText id="reportYear" value="#{troubleOrderBean.reportYear}"></h:inputText>&#160;&#160;
+	    <h:outputLabel for="reportMonth" value="Month"></h:outputLabel><h:inputText id="reportMonth" value="#{troubleOrderBean.reportMonth}"></h:inputText>&#160;&#160;
+	    <h:outputLabel for="reportDate" value="Day"></h:outputLabel><h:inputText id="reportDate" value="#{troubleOrderBean.reportDate}"></h:inputText>&#160;&#160;
+	    <h:outputLabel for="reportHour" value="Hour"></h:outputLabel><h:inputText id="reportHour" value="#{troubleOrderBean.reportHour}"></h:inputText>&#160;&#160;
+	    <h:commandLink id="btnReport" action="#{troubleOrderBean.downloadReport()}" value="Get Report"></h:commandLink>&#160;&#160;
+	    
+	    <a href="#" onclick="javascript: downloadSystemStatusReport();" title="Alternative download link">(Download)</a>
+	    <ui:remove>
+	    <h:outputLink value="#{request.contextPath}/SystemStatusReportDownload" target="_blank">
+	        <f:param name="reportYear" value="#{troubleOrderBean.reportYear}"></f:param>
+            <f:param name="reportMonth" value="#{troubleOrderBean.reportMonth}"></f:param>
+            <f:param name="reportDate" value="#{troubleOrderBean.reportDate}"></f:param>
+            <f:param name="reportHour" value="#{troubleOrderBean.reportHour}"></f:param>
+            <h:outputText value="(Download)" title="Alternative download link"></h:outputText>
+        </h:outputLink>
+        </ui:remove>
+	</h:form>
 	<hr/>
 	<a href="selectingDamagedComponents.faces">Damaged Components - Demo</a>
 	<p/>
@@ -27,6 +45,18 @@
 	<ui:include src="subpage.xhtml">
 	    <ui:param name="param" value="textSizeBig" />
 	</ui:include>
-	
+	<script type="text/javascript">
+	    function downloadSystemStatusReport() {
+	    	var url = "#{request.contextPath}/SystemStatusReportDownload";
+	    	// <![CDATA[ // escape '&' for xhtml/xml
+	    	url += "?reportYear=" + $('#fmMain\\:reportYear').val();
+	    	url += "&reportMonth=" + $('#fmMain\\:reportMonth').val();
+	    	url += "&reportDate=" + $('#fmMain\\:reportDate').val();
+	    	url += "&reportHour=" + $('#fmMain\\:reportHour').val();
+	    	// ]]>
+	    	
+	    	document.location.replace(url);
+	    }
+	</script>
 </h:body>
 </html>

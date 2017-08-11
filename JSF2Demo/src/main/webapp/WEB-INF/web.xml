@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" 
-	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	id="WebApp_ID" version="2.5">
+<web-app xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
  
   <display-name>Java Server Faces 2 Demo</display-name>
  
@@ -50,4 +49,14 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
  
+    <!-- Custom Servlet -->
+    <servlet>
+        <servlet-name>SystemStatusReportDownload</servlet-name>
+        <servlet-class>org.freecode.demo.controller.SystemStatusReportDownloadServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>SystemStatusReportDownload</servlet-name>
+        <url-pattern>/SystemStatusReportDownload</url-pattern>
+    </servlet-mapping>
 </web-app>

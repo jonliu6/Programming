@@ -1,13 +1,24 @@
 package org.freecode.demo.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.freecode.demo.model.DataService;
 import org.freecode.demo.model.TroubleOrder;
@@ -88,5 +99,89 @@ public class TroubleOrderBean implements Serializable {
 			});
 		}
 		sortAscending = !sortAscending;
+	}
+	
+	/**
+     * fields for System Status Report
+     */
+    private Integer reportYear = 2017;
+    private Integer reportMonth = 5;
+    private Integer reportDate = 21;
+    private Integer reportHour = 18;
+
+	public Integer getReportYear() {
+		return reportYear;
+	}
+
+	public void setReportYear(Integer reportYear) {
+		this.reportYear = reportYear;
+	}
+
+	public Integer getReportMonth() {
+		return reportMonth;
+	}
+
+	public void setReportMonth(Integer reportMonth) {
+		this.reportMonth = reportMonth;
+	}
+
+	public Integer getReportDate() {
+		return reportDate;
+	}
+
+	public void setReportDate(Integer reportDate) {
+		this.reportDate = reportDate;
+	}
+
+	public Integer getReportHour() {
+		return reportHour;
+	}
+
+	public void setReportHour(Integer reportHour) {
+		this.reportHour = reportHour;
+	}
+
+	public void downloadReport() {
+		if (reportYear != null && reportMonth != null && reportDate != null && reportHour != null) {
+			
+			
+			Calendar cal = new GregorianCalendar();
+			cal.set(reportYear, reportMonth, reportDate, reportHour, 0, 0);
+			Date reportHour = cal.getTime();
+			String reportData = dataService.getSysStatRptData(reportHour);
+			
+			ServletOutputStream anOutputStream = null;
+			final FacesContext fc = FacesContext.getCurrentInstance();
+			final ExternalContext ec = fc.getExternalContext();
+			HttpServletResponse resp = (HttpServletResponse) ec.getResponse();
+						
+			try {
+				resp.setHeader( "Content-Disposition", "attachment;filename=SystemStatusHistoryReport_" + String.valueOf(reportHour) + ".csv" );
+	            // resp.setContentType( "text/csv" );
+				resp.setContentType("application/octet-stream");
+	            anOutputStream = resp.getOutputStream();
+	            
+	            anOutputStream.write(reportData.getBytes());
+	            anOutputStream.flush();
+			}
+			catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+			finally {
+				if (anOutputStream != null) {
+					try {
+						anOutputStream.close();
+					}
+					catch (IOException ioe1) {
+						ioe1.printStackTrace();
+					}
+					finally {
+						anOutputStream = null;
+					}
+				}
+				fc.getResponseComplete();
+			}
+		}
+		
 	}
 }

@@ -1,5 +1,6 @@
 package org.freecode.demo.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -41,5 +42,9 @@ public class DataService {
     
     public List<OrderLocation> findAllOrderLocations() {
         return dataDAO.findAllOrderLocations();
+    }
+    
+    public String getSysStatRptData(Date aDate) {
+    	return dataDAO.retrieveSysStatRptArchByTime(aDate);
     }
 }
