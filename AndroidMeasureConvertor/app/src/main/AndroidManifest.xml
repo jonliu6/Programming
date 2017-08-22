@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.freecode.demo.measureconvertor"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher_2b"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="org.freecode.demo.measureconvertor.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.freecode.demo.measureconvertor.TemperatureActivity"
+            android:label="@string/title_activity_temperature"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="org.freecode.demo.measureconvertor.LengthActivity"
+            android:label="@string/title_activity_length"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="org.freecode.demo.measureconvertor.WeightActivity"
+            android:label="@string/title_activity_weight" >
+        </activity>
+        <activity
+            android:name="org.freecode.demo.measureconvertor.VolumeActivity"
+            android:label="@string/title_activity_volume" >
+        </activity>
+        <activity
+            android:name="org.freecode.demo.measureconvertor.AreaActivity"
+            android:label="@string/title_activity_area" >
+        </activity>
+    </application>
+
+</manifest>
