@@ -1,19 +1,5 @@
 "use strict";
 
-var YARD_TO_METER = 0.9144;
-var MILE_TO_METER = 1609.34;
-var METER_TO_FOOT = 3.2808;
-var INCH_TO_CENTIMETER = 2.54;
-var FOOT_TO_INCH = 12;
-var METER_TO_CENTIMETER = 100;
-
-var OUNCE_TO_GRAM = 28.3495;
-var POUND_TO_OUNCE = 16;
-var POUND_TO_KILOGRAM = 0.453592;
-var QUARTER_TO_POUND  = 27.777778;
-
-var SQFT_TO_SQMT = 0.09290304;
-
 function clearInputFields(containerId) {
     $('#' + containerId).find("input").val("");
 }
@@ -37,6 +23,12 @@ function fahrenheit2Celsius(fVal) {
 }
 
 // Length
+var YARD_TO_METER = 0.9144;
+var MILE_TO_METER = 1609.34;
+var METER_TO_FOOT = 3.2808;
+var INCH_TO_CENTIMETER = 2.54;
+var FOOT_TO_INCH = 12;
+
 function centimeter2Inch(cVal) {
     return cVal / INCH_TO_CENTIMETER;
 }
@@ -73,6 +65,11 @@ function mile2Meter(mlVal) {
 }
 
 // Weight
+var OUNCE_TO_GRAM = 28.3495;
+var POUND_TO_OUNCE = 16;
+var POUND_TO_KILOGRAM = 0.453592;
+var QUARTER_TO_POUND  = 27.777778;
+
 function gram2Ounce(gVal) {
     return gVal / OUNCE_TO_GRAM;
 }
@@ -102,8 +99,58 @@ function quarter2Pound(qVal) {
 }
 
 // Volume
+var FLOZ_TO_TBSP = 2;
+var CUP_TO_FLOZ = 8;
+var GALLON_TO_CUP = 16;
+var GALLON_TO_PINT = 8;
+var GALLON_TO_QUART = 4;
+var GALLON_TO_LITRE = 3.78541;
+
+function tbsp2Floz(tbspVal) {
+    return tbspVal / FLOZ_TO_TBSP;
+}
+function floz2Tbsp(flozVal) {
+    return flozVal * FLOZ_TO_TBSP;
+}
+
+function floz2Cup(flozVal) {
+    return flozVal / CUP_TO_FLOZ;
+}
+function cup2Floz(cupVal) {
+    return cupVal * CUP_TO_FLOZ;
+}
+
+function cup2Gallon(cupVal) {
+    return cupVal / GALLON_TO_CUP;
+}
+function gallon2Cup(galVal) {
+    return galVal * GALLON_TO_CUP;
+}
+
+function pint2Gallon(ptVal) {
+    return ptVal / GALLON_TO_PINT;
+}
+function gallon2Pint(galVal) {
+    return galVal * GALLON_TO_PINT;
+}
+
+function quart2Gallon(qtVal) {
+    return qtVal / GALLON_TO_QUART;
+}
+function gallon2Quart(galVal) {
+    return galVal * GALLON_TO_QUART;
+}
+
+function litre2Gallon(lVal) {
+    return lVal / GALLON_TO_LITRE;
+}
+function gallon2Litre(galVal) {
+    return galVal * GALLON_TO_LITRE;
+}
 
 // Area
+var SQFT_TO_SQMT = 0.09290304;
+
 function sqFeet2SqMeter(sqftVal) {
     return sqftVal * SQFT_TO_SQMT;
 }
