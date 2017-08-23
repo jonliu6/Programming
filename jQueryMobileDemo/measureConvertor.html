@@ -28,6 +28,7 @@
         </style>
         <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script> <!-- for calling Cordova plugins and APIs -->
         <script type="text/javascript" src="js/measureConvertor.js"></script>
     </head>
     
@@ -42,6 +43,7 @@
                 <li><a href="#area">Area</a></li>
                 <li data-role="list-divider">&#160;</li>
                 <li><a href="http://en.wikipedia.org/wiki/Conversion_of_units" rel="external" target="_blank">Conversion of Units</a></li>
+                <li><a href="#" onclick="navigator.app.exitApp();">Exit</a></li> <!-- use a Cordova API-->
             </ul>
         </div>
         
