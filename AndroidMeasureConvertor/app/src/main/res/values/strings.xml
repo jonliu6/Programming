@@ -9,5 +9,9 @@
     <string name="title_activity_weight">WeightActivity</string>
     <string name="title_activity_volume">VolumeActivity</string>
     <string name="title_activity_area">AreaActivity</string>
-
+    <string name="title_temperature">Temperature</string>
+    <string name="title_length">Length</string>
+    <string name="title_weight">Weight</string>
+    <string name="title_volume">Volume</string>
+    <string name="title_area">Area</string>
 </resources>

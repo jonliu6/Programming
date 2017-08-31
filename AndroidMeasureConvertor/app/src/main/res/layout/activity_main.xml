@@ -29,35 +29,35 @@
             android:id="@+id/rbTemperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Temperature"
+            android:text="@string/title_temperature"
             android:onClick="loadMeasureCategory" />
 
         <RadioButton
             android:id="@+id/rbLength"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Length" 
+            android:text="@string/title_length"
             android:onClick="loadMeasureCategory"/>
 
         <RadioButton
             android:id="@+id/rbWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weight" 
+            android:text="@string/title_weight"
             android:onClick="loadMeasureCategory"/>
         
         <RadioButton
             android:id="@+id/rbVolume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Volume"
+            android:text="@string/title_volume"
             android:onClick="loadMeasureCategory" />
         
         <RadioButton
             android:id="@+id/rbArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Area"
+            android:text="@string/title_area"
             android:onClick="loadMeasureCategory" />
     </RadioGroup>
 

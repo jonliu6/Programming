@@ -2,12 +2,20 @@ package org.freecode.demo.measureconvertor;
 
 public class VolumeCalculator extends AbstractMeasureCalculator {
     private final Double GALLON_TO_LITRE = 3.78541;
-    private final Double LITRE_TO_FLOZ = 33.814;
-    private final Double GALLON_TO_FLOZ = 128.0d;
-    private final Double GALLON_TO_PINT = 8.0d;
-    private final Double GALLON_TO_QUART = 4.0d;
-    private final Double GALLON_TO_USCUP = 16.0d;
-    private final Double QUART_TO_USCUP = 4.0d;
+    private final Double GALLON_TO_FLOZ = 128d;
+    private final Double GALLON_TO_PINT = 8d;
+    private final Double GALLON_TO_QUART = 4d;
+    private final Double GALLON_TO_USCUP = 16d;
+    private final Double QUART_TO_USCUP = 4d;
+    private final Double FLOZ_TO_TBSP = 2d;
+
+    public Double calcTbspByFloz( Double floz ) {
+        return floz * FLOZ_TO_TBSP;
+    }
+
+    public Double calcFlozByTbsp( Double tbsp) {
+        return tbsp / FLOZ_TO_TBSP;
+    }
     
     public Double calcGallonByUSCup( Double usCupValue )
     {

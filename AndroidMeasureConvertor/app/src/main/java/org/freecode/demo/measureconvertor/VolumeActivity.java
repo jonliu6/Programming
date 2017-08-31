@@ -10,6 +10,7 @@ import android.widget.Toast;
 public class VolumeActivity extends Activity {
 
 	EditText etxLitre = null;
+	EditText etxTbsp = null;
 	EditText etxFloz = null;
 	EditText etxPint = null;
 	EditText etxQuart = null;
@@ -25,6 +26,7 @@ public class VolumeActivity extends Activity {
 		
 		etxLitre = (EditText) findViewById(R.id.etxLitre);
 		etxFloz = (EditText) findViewById(R.id.etxFloz);
+		etxTbsp = (EditText) findViewById(R.id.etxTbsp);
 		etxPint = (EditText) findViewById(R.id.etxPint);
 		etxQuart = (EditText) findViewById(R.id.etxQuart);
 		etxGallon = (EditText) findViewById(R.id.etxGallon);
@@ -48,6 +50,9 @@ public class VolumeActivity extends Activity {
 		if ( etxLitre != null )
 		{
 			etxLitre.setText("");
+		}
+		if (etxTbsp != null) {
+			etxTbsp.setText("");
 		}
 		if ( etxFloz != null )
 		{
@@ -75,6 +80,7 @@ public class VolumeActivity extends Activity {
 	{
 		Double dLitre = null;
 		Double dFloz = null;
+		Double dTbsp = null;
 		Double dPint = null;
 		Double dQuart = null;
 		Double dGallon = null;
@@ -84,12 +90,13 @@ public class VolumeActivity extends Activity {
 		
 		if ( (etxLitre.getText() == null || etxLitre.getText().toString().length() < 1) &&
 				(etxFloz.getText() == null || etxFloz.getText().toString().length() < 1) &&
+				(etxTbsp.getText() == null || etxTbsp.getText().toString().length() < 1) &&
 				(etxPint.getText() == null || etxPint.getText().toString().length() < 1) && 
 				(etxQuart.getText() == null || etxQuart.getText().toString().length() < 1) &&
 				(etxGallon.getText() == null || etxGallon.getText().toString().length() < 1) && 
 				(etxUSCup.getText() == null || etxUSCup.getText().toString().length() < 1))
 		{
-			Toast.makeText(this, "Please enter any of the Weight fields.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Please enter any of the Volume fields.", Toast.LENGTH_SHORT).show();
 		}
 		
 		else if ( etxLitre.getText() != null && etxLitre.getText().toString().length() > 0 )
@@ -98,6 +105,8 @@ public class VolumeActivity extends Activity {
 			
 			dFloz = calculator.calcFlozByLitre( dLitre );
 			etxFloz.setText( calculator.formatValue( dFloz) );
+			dTbsp = calculator.calcTbspByFloz(dFloz);
+			etxTbsp.setText(calculator.formatValue(dTbsp) );
 			dPint = calculator.calcPintByLitre( dLitre );
 			etxPint.setText( calculator.formatValue( dPint) );
 			dQuart = calculator.calcQuartByLitre( dLitre );
@@ -111,7 +120,8 @@ public class VolumeActivity extends Activity {
 		else if ( etxFloz.getText() != null && etxFloz.getText().toString().length() > 0 )
 		{
 			dFloz = Double.parseDouble(etxFloz.getText().toString());
-			
+			dTbsp = calculator.calcTbspByFloz(dFloz);
+			etxTbsp.setText(calculator.formatValue(dTbsp) );
 			dLitre = calculator.calcLitreByFloz(dFloz);
 			etxLitre.setText( calculator.formatValue( dLitre) );
 			dPint = calculator.calcPintByFloz( dFloz );
@@ -130,6 +140,8 @@ public class VolumeActivity extends Activity {
 			
 			dFloz = calculator.calcFlozByPint( dPint );
 			etxFloz.setText( calculator.formatValue( dFloz) );
+			dTbsp = calculator.calcTbspByFloz(dFloz);
+			etxTbsp.setText(calculator.formatValue(dTbsp) );
 			dLitre = calculator.calcLitreByPint( dPint );
 			etxLitre.setText( calculator.formatValue( dLitre) );
 			dQuart = calculator.calcQuartByPint( dPint );
@@ -146,6 +158,8 @@ public class VolumeActivity extends Activity {
 			
 			dFloz = calculator.calcFlozByQuart( dQuart );
 			etxFloz.setText( calculator.formatValue( dFloz) );
+			dTbsp = calculator.calcTbspByFloz(dFloz);
+			etxTbsp.setText(calculator.formatValue(dTbsp) );
 			dLitre = calculator.calcLitreByQuart( dQuart );
 			etxLitre.setText( calculator.formatValue( dLitre) );
 			dPint = calculator.calcPintByQuart( dQuart );
@@ -162,6 +176,8 @@ public class VolumeActivity extends Activity {
 			
 			dFloz = calculator.calcFlozByGallon( dGallon );
 			etxFloz.setText( calculator.formatValue( dFloz) );
+			dTbsp = calculator.calcTbspByFloz(dFloz);
+			etxTbsp.setText(calculator.formatValue(dTbsp) );
 			dLitre = calculator.calcLitreByGallon( dGallon );
 			etxLitre.setText( calculator.formatValue( dLitre) );
 			dPint = calculator.calcPintByGallon( dGallon );
@@ -175,18 +191,37 @@ public class VolumeActivity extends Activity {
 		else if ( etxUSCup.getText() != null && etxUSCup.getText().toString().length() > 0 )
 		{
 			dUSCup = Double.parseDouble(etxUSCup.getText().toString());
-			
-			dFloz = calculator.calcFlozByUSCup( dGallon );
-			etxFloz.setText( calculator.formatValue( dFloz) );
-			dLitre = calculator.calcLitreByUSCup( dGallon );
-			etxLitre.setText( calculator.formatValue( dLitre) );
-			dPint = calculator.calcPintByUSCup( dGallon );
-			etxPint.setText( calculator.formatValue( dPint) );
-			dQuart = calculator.calcQuartByUSCup( dGallon );
-			etxQuart.setText( calculator.formatValue( dQuart ));
+
 			dGallon = calculator.calcGallonByUSCup( dUSCup );
 			etxGallon.setText( calculator.formatValue(dGallon));
+			dFloz = calculator.calcFlozByGallon( dGallon );
+			etxFloz.setText( calculator.formatValue( dFloz) );
+			dTbsp = calculator.calcTbspByFloz(dFloz);
+			etxTbsp.setText(calculator.formatValue(dTbsp) );
+			dLitre = calculator.calcLitreByUSCup( dUSCup );
+			etxLitre.setText( calculator.formatValue( dLitre) );
+			dPint = calculator.calcPintByGallon( dGallon );
+			etxPint.setText( calculator.formatValue( dPint) );
+			dQuart = calculator.calcQuartByGallon( dGallon );
+			etxQuart.setText( calculator.formatValue( dQuart ));
+
 		}
-		
+		else if (etxTbsp.getText() != null && etxTbsp.getText().toString().length() > 0) {
+			dTbsp = Double.parseDouble(etxTbsp.getText().toString());
+
+			dFloz = calculator.calcFlozByTbsp(dTbsp);
+			etxFloz.setText( calculator.formatValue( dFloz) );
+
+			dLitre = calculator.calcLitreByFloz( dFloz );
+			etxLitre.setText( calculator.formatValue( dLitre) );
+			dGallon = calculator.calcGallonByLitre( dLitre );
+			etxGallon.setText( calculator.formatValue(dGallon));
+			dPint = calculator.calcPintByGallon( dGallon );
+			etxPint.setText( calculator.formatValue( dPint) );
+			dQuart = calculator.calcQuartByGallon( dGallon );
+			etxQuart.setText( calculator.formatValue( dQuart ));
+            dUSCup = calculator.calcUSCupByGallon( dGallon );
+			etxUSCup.setText( calculator.formatValue( dUSCup ));
+		}
 	}
 }

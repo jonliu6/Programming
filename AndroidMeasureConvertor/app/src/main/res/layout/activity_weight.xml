@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="22dp"
-        android:text="Weight"
+        android:text="@string/title_weight"
         android:textSize="18sp"
         android:textStyle="bold" />
 

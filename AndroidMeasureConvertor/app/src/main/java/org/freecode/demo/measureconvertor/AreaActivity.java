@@ -3,6 +3,7 @@ package org.freecode.demo.measureconvertor;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -82,6 +83,19 @@ public class AreaActivity extends Activity {
 			dSqrM = Double.parseDouble( etxSqrM.getText().toString());
 			dSqrFt= calculator.calcSqrFeetBySqrMeter( dSqrM );
 			etxSqrFt.setText( calculator.formatValue( dSqrFt ) );
+		}
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+			case R.id.action_temperature:
+				Toast.makeText(this, "Temperature...", Toast.LENGTH_SHORT).show();
+				return true;
+			case R.id.action_length:
+				Toast.makeText(this, "Length...", Toast.LENGTH_SHORT).show();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 }
