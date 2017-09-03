@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/miTemperature"
+        android:title="@string/miTemperature"
+        />
+    <item android:id="@+id/miLength"
+        android:title="@string/miLength"
+        />
+    <item android:id="@+id/miWeight"
+        android:title="@string/miWeight"
+        />
+    <item android:id="@+id/miVolume"
+        android:title="@string/miVolume"
+        />
+    <item android:id="@+id/miArea"
+        android:title="@string/miArea"
+        />
+    <item android:id="@+id/miWikiURL"
+        android:title="Conversion of Units"
+        />
+    <item android:id="@+id/miExit"
+        android:title="Exit"
+        />
+</menu>
