@@ -1,0 +1,1 @@
+This application is for validate checksums from either plain text or a file, and it's coded by using Visual Studio 2015 Express.
