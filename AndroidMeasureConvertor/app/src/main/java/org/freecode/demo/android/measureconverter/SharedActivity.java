@@ -44,14 +44,24 @@ public abstract class SharedActivity extends AppCompatActivity {
                 return true;
             case R.id.miExit:
                 finish(); // finish the current activity
-                if (MainActivity.theInstance != null) {
-                    MainActivity.theInstance.finish();
-                }
-                System.exit(0);
+                finishMainActivity();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishMainActivity();
+    }
+
+    private void finishMainActivity() {
+        if (MainActivity.theInstance != null) {
+            MainActivity.theInstance.finish();
+        }
+        System.exit(0);
     }
 
     private void startActivityByClass(Class aClass)

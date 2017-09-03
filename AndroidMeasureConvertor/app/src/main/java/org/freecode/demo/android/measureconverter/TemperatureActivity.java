@@ -15,6 +15,8 @@ public class TemperatureActivity extends SharedActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temperature);
 
+        getSupportActionBar().setTitle(getString(R.string.miTemperature) + " Calculator"); // getSupportActionBar() for all supported ones
+
         etxCelsius = (EditText)findViewById(R.id.etxCelsius);
         etxFahrenheit = (EditText)findViewById(R.id.etxFahrenheit);
     }
