@@ -23,3 +23,14 @@ This project uses Android SDK+Cordova to demonstrate a Hybrid Mobile version of 
    - NOTE: Gradle must be configured, and ANDROID_HOME must point to the Android SDK folder.
 9. cordova run android 
    - NOTE: Android Virtual Device must be ready. Creating an AVD from Android Studio is easier; or try the command line(packages may vary): android create avd -n testAVD --package "system-images;android-25;google_apis;x86"
+
+Optional commands:
+List emulators: 
+	android.exe list avd
+Start emulator:
+	emulator -avd <emulator name>
+Install application package to emulator:
+	adb install <emulator name> <package name.apk>
+Stop emulator: (not work??)
+	adb kill-server
+	adb -s <emulator name> emu kill
