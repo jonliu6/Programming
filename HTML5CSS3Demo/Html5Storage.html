@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	    <meta charset="utf-8" />
+		<title>HTML 5 Storage Demo</title>
+	</head>
+	
+	<body>
+	    <header>Session Storage versus Local Storage (may be disabled by some security policy)</header>
+        <article>
+            <section>
+                Session Storage:
+                Name: <input type="text" id="nameField" value=""/><br/>
+                <button id="btnSave">Store</button>
+                <button id="btnLoad">Retrieve</button>
+                <span id="outputS"></span>
+            </section>
+        </article>
+        <footer>2017</footer>
+        <script type="text/javascript">
+            var name, oname;
+            
+            window.onload = function() {
+                name = document.getElementById("nameField");
+                oname = document.getElementById("outputS");
+                document.getElementById("btnSave").addEventListener("click", storeData, false);
+                document.getElementById("btnLoad").addEventListener("click", retrieveData, false);
+            }
+            
+            function storeData() {
+                sessionStorage.name = name.value;
+            }
+            function retrieveData() {
+                oname.innerHTML = sessionStorage.name;
+            }
+        </script>
+	</body>
+</html>

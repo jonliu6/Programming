@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	    <meta charset="utf-8" />
+		<title>HTML 5 Query Demo</title>
+        <style type="text/css">
+            .sect1 {
+                color: red;
+            }
+        </style>
+        <script type="text/javascript">
+            function changeOne() {
+                var firstSelected = document.querySelector(".sect1");
+                firstSelected.style.color = "blue";
+            }
+            
+            function changeAll() {
+                var selectedItems = document.querySelectorAll(".sect1");
+                for (var i = 0, len = selectedItems.length; i < len; i++) {
+                    selectedItems[i].style.fontSize = "20pt";
+                }
+            }
+        </script>
+	</head>
+	
+	<body>
+	    <header>Query Selector Examples</header>
+        <article>
+            <section>
+                <div class="sect1">The first division</div>
+                <div class="sect1">The second division</div>
+                <div class="sect1">The three division</div>
+            </section>
+            <section>
+                <button id="btnChgOne" onclick="changeOne();">Change One</button>
+                <button id="btnChgAll" onclick="changeAll();">Change All</button>
+            </section>
+        </article>
+        <footer>2017</footer>
+	</body>
+</html>
