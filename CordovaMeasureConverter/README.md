@@ -34,3 +34,9 @@ Install application package to emulator:
 Stop emulator: (not work??)
 	adb kill-server
 	adb -s <emulator name> emu kill
+Connect to Emulator shell (NOTE: need to start the emulator first)
+    adb shell
+Copy file from PC to emulator, vice versa (emulator needs to be running)
+    adb push c:/temp/test.apk /data/local/tmp/test.apk
+	adb pull /data/local/tmp/test.apk c:/temp/test.apk
+
