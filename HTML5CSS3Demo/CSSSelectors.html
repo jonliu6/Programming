@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+	<title>CSS Selector Demos</title>
+	<style type="text/css" rel="stylesheet">
+	   div div { /* same as div > div*/
+	     color: red;
+	   }
+	   
+	   div span {
+	     font-family: Arial;
+		 font-size: 16pt;
+		 font-weight: bold;
+	   }
+	   
+	   #inner a, div span a {
+	     text-decoration: none;
+		 background-color: blue;
+		 color: white;
+	   }
+	   #inner a:hover, div span a:hover {
+	     /* text-decoration: none; */
+		 background-color: white;
+		 color: blue;
+	   }
+	   
+	   span+a {
+	     background-color: yellow;
+		 color: brown;
+	   }
+	   
+	</style>
+</head>
+<body>
+    <header>
+    </header>
+	
+	<main>
+	    <div id="container">
+		    <span>Outmost Text<br/><a href="#">Top Link</a></span>
+		    <div id="outer">
+			    <span>Outer Text</span>&nbsp;&nbsp;<a href="#">Outer Link</a>
+			    <div id="inner"><span>Inner Text<span>&nbsp;&nbsp;<a href="#">Inner Link</a></div>
+			</div>
+        </div>		
+	</main>
+	
+	<footer>
+	</footer>
+</body>
+</html>
