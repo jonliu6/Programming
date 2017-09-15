@@ -115,6 +115,9 @@
 	<profiles>
 	    <profile>
 	        <id>dev</id>
+	        <activation>
+	            <activeByDefault>true</activeByDefault>
+	        </activation>
 	        <properties>
 	            <application.environment>Development</application.environment>
 	            <file.upload.location>c:/Temp</file.upload.location>
