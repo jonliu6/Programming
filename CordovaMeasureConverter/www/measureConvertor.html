@@ -43,7 +43,7 @@
                 <li><a href="#area">Area</a></li>
                 <li data-role="list-divider">&#160;</li>
                 <li><a href="http://en.wikipedia.org/wiki/Conversion_of_units" rel="external" target="_blank">Conversion of Units</a></li>
-                <li><a href="#" onclick="navigator.app.exitApp();">Exit</a></li> <!-- use a Cordova API-->
+                <li><a href="#" onclick="closeApp();">Exit</a></li> <!-- use a Cordova API-->
             </ul>
         </div>
         
@@ -322,6 +322,18 @@
                 
                 $("[data-role='footer']").html("<span style='margin-right: 10px;'>Copyright © 2017. All rights reserved.</span>");
             });
+			
+			function closeApp() {
+				var isMobile = false;
+				if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+					isMobile = true;
+					navigator.app.exitApp();
+				}
+				else {
+					window.close();
+				}
+				
+			}
             
             function formatFootInchValue(val) {
                 var ftVal = Math.floor(val);
