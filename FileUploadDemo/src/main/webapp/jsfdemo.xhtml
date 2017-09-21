@@ -22,8 +22,11 @@
     <h:body>
         <h:outputText value="#{msg['application.title']}" styleClass="titleFont" /><p/>
         <h:form id="fmMain" enctype="multipart/form-data">
+            <h:message for="recordId" errorClass="error" warnClass="warn" ></h:message><br/>
             <label for="recordId">Record Id</label>
-            <h:inputText id="recordId" value="#{uploadBean.recordId}"></h:inputText><br/>
+            <h:inputText id="recordId" value="#{uploadBean.recordId}">
+                <f:validator validatorId="recordIdValidator" />
+            </h:inputText><br/>
         
             <h:message for="fileHolder" errorClass="error" warnClass="warn" ></h:message><br/>
             <h:inputFile id="fileHolder" value="#{uploadBean.uploadedFile}" >
@@ -37,21 +40,32 @@
         
         <h:panelGroup rendered="#{not empty uploadBean.fileNames}">
         	<h:form id="fmFiles">
-	            <h:outputText value="File Attachments" styleClass="subtitleFont"></h:outputText><p/>
+        	    <h:outputText id="fileListTitle" value="File Attachments" styleClass="subtitleFont"></h:outputText><p/>
 	            <ui:repeat var="fileName" value="#{uploadBean.fileNames}">
 	                <h:commandLink action="#{uploadBean.download(fileName)}" value="#{fileName}" target="_blank"></h:commandLink>&#160;&#160;
 	                <h:outputLink value="#{request.contextPath}/downloadFile" target="_blank">
 	                    <f:param name="recordId" value="#{uploadBean.recordId}"></f:param>
 	                    <f:param name="fileName" value="#{fileName}"></f:param>
 	                    <h:outputText value="(#{fileName})" title="Alternative download link"></h:outputText>
-	                </h:outputLink>
+	                </h:outputLink>&#160;&#160;
+	                <h:commandLink onclick="return confirm('Do you want to delete this file?');" action="#{uploadBean.delete(uploadBean.recordId, fileName)}">Delete</h:commandLink>
 	                <br/>
 	            </ui:repeat>
         	</h:form>
         </h:panelGroup>
             
         <script type="text/javascript">
-        
+            // <![CDATA[
+            function hasRecordId() {
+            	var recId = document.getElementById("fmMain:recordId").value;
+            	if (recId && recId != null && recId.length > 0) {
+            		return true;
+            	}
+            	alert("Please enter a record ID.");
+            	return false;
+            }
+            
+            // ]]>
         </script>
     </h:body>
 </html>

@@ -96,6 +96,9 @@ public class UploadBean {
 				if (recordId != null ) {
 					tgtFileName.append(recordId).append(File.separator);
 				}
+//				else {
+//					FacesContext.getCurrentInstance().addMessage("No record ID provided.", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Null Value", "You need to have a unique record ID assciated to the uploaded file(s)."));
+//				}
 				String fileName = uploader.getFileName(uploadedFile);
                 tgtFileName.append(fileName);
                 
@@ -144,6 +147,22 @@ public class UploadBean {
 					fc.responseComplete();
 				}
 				
+			}
+		}
+	}
+	
+	public void delete(String recordId, String fileName) {
+		if (getRootFolderName() != null && recordId != null && fileName != null) {
+			String fullFileName = getRootFolderName() + File.separator + recordId + File.separator + fileName;
+			Path fullPath = Paths.get(fullFileName);
+			if (Files.exists(fullPath) && Files.isDirectory(fullPath) == false ) { // only downloading when the actual file exists
+				try {
+					Files.delete(fullPath);
+				}
+				catch (IOException ioe) {
+					ioe.printStackTrace();
+					FacesContext.getCurrentInstance().addMessage("IOException caught", new FacesMessage(FacesMessage.SEVERITY_ERROR, "IOException caught", "File " + fileName + " could not be deleted."));
+				}
 			}
 		}
 	}
