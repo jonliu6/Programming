@@ -3,7 +3,7 @@
     <head>
         <title>Measure Convertor</title>
         <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
         <style type="text/css">
             .width20px { max-width: 20px; }
@@ -47,13 +47,13 @@
             </ul>
         </div>
         
-        <div data-role="page" id="temperature">
+        <div data-role="page" id="temperature" data-url="temperature">
             <div data-role="header" data-position="fixed">
                 <h1>Temperature</h1>
                 <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
             </div>
             
-            <div data-role="content">
+            <div role="main" class="ui-content">
                 <div id="temperatureInput" class="ui-grid-b">
                     <div class="ui-block-a width120px marginTop12px">
                         <label for="txCelsius">Celsius</label>
@@ -83,13 +83,13 @@
             <div data-role="footer" style="text-align: right;"></div>
         </div>
         
-        <div data-role="page" id="length">
+        <div data-role="page" id="length" data-url="length">
             <div data-role="header" data-position="fixed">
                 <h1>Length</h1>
                 <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
             </div>
             
-            <div data-role="content">
+            <div role="main" class="ui-content">
                 <div id="lengthInput" class="ui-grid-b">
                     <div class="ui-block-a width120px marginTop12px">
                         <label for="txInch">Inch</label>
@@ -147,13 +147,13 @@
             <div data-role="footer" style="text-align: right;"></div>
         </div>
         
-        <div data-role="page" id="weight">
+        <div data-role="page" id="weight" data-url="weight">
             <div data-role="header" data-position="fixed">
                 <h1>Weight</h1>
                 <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
             </div>
             
-            <div data-role="content">
+            <div role="main" class="ui-content">
                 <div id="weightInput" class="ui-grid-b">
                     <div class="ui-block-a width120px marginTop12px">
                         <label for="txGram">Gram</label>
@@ -204,13 +204,13 @@
             <div data-role="footer" style="text-align: right;"></div>
         </div>
         
-        <div data-role="page" id="volume">
+        <div data-role="page" id="volume" data-url="volume">
             <div data-role="header" data-position="fixed">
                 <h1>Volume (US)</h1>
                 <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
             </div>
             
-            <div data-role="content">
+            <div role="main" class="ui-content">
                 <div id="volumeInput" class="ui-grid-b">
                     <div class="ui-block-a width120px marginTop12px">
                         <label for="txTablespoon">Tablespoon</label>
@@ -275,13 +275,13 @@
             <div data-role="footer" style="text-align: right;"></div>
         </div>
         
-        <div data-role="page" id="area">
+        <div data-role="page" id="area" data-url="area">
             <div data-role="header" data-position="fixed">
                 <h1>Area</h1>
                 <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
             </div>
             
-            <div data-role="content">
+            <div role="main" class="ui-content">
                 <div id="areaInput" class="ui-grid-b">
                     <div class="ui-block-a width120px marginTop12px">
                         <label for="txSqFeet">Sq. Feet</label>

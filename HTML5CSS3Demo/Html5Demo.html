@@ -6,6 +6,7 @@
 	</head>
 	
 	<body>
+	    <header></header>
 	    <nav><!-- recognize something other than main page -->
 		    <ul>
 			    <li>Item 1</li>
@@ -14,15 +15,20 @@
 			
 		</nav>
 		
+		<main>
 		<article> <!-- recognize a section within the page -->
-		    <header><h2>Header Article</h2></header>
-			<details></details>
-			<footer></footer>
+		    <section><!-- Bi-directional Orientation -->
+				<h2><bdo dir="rtl">Main Section</bdo></h2>
+			</section>
+			<section>
+				<h2>Details Section</h2>
+				<span id="details" contenteditable="true">Once upon a time, there was a king, ... then end.
+				</span>
+			</section>
 		</article>
 		
-		<main></main>
-		<section><!-- Bi-directional Orientation -->
-		    <h2><bdo dir="rtl">Main Section</bdo></h2>
-		</section>
+		
+		
+		</main>
 	</body>
 </html>

@@ -2,7 +2,7 @@
 <widget id="org.freecode.demo.hybrid.meansureConverter" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Measure Converter</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A sample Apache Cordova application that calculates measurements.
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
@@ -21,7 +21,9 @@
         <icon density="mdpi" src="res/icon/android/48-mdpi.png" />
         <icon density="hdpi" src="res/icon/android/72-hdpi.png" />
         <icon density="xhdpi" src="res/icon/android/96-xhdpi.png" />
-        <resource-file src="res/screen/android/mc.png" target="res/drawable-hdpi/mc.png" />
+		<icon density="xxhdpi" src="res/icon/android/144-xxhdpi.png" />
+		<icon density="xxxhdpi" src="res/icon/android/192-xxxhdpi.png" />
+        <!-- <resource-file src="res/screen/android/mc.png" target="res/drawable-hdpi/mc.png" /> //-->
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
