@@ -1,0 +1,13 @@
+.yellowBackground,
+.mediumDiv {
+  background-color: yellow;
+}
+.myDiv {
+  background-color: red;
+  width: 320px;
+  height: 200px;
+}
+.mediumDiv {
+  width: 720px;
+  height: 480px;
+}
