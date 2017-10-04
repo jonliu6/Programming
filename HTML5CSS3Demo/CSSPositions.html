@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS Position Elements</title>
+        <meta charset="utf-8" />
+        <style type="text/css">
+            .inline {
+                display: inline; /* take spaces when necessary. eg. <a> <span> */
+                padding: 10px;
+            }
+            
+            .block {
+                display: block; /* take space as much as a line. e.g. <br> <ul> */
+            }
+            
+            div {
+                width: 400px;
+                border: 1px solid black;
+                background-color: #ccc;
+                padding: 5px;
+                margin-top: 10px;
+            }
+            #div1 {
+                position: fixed;
+                left: 10px;
+                top: 20px;
+            }
+            #div2 {
+                position: fixed;
+                right: 10px;
+                top: 20px;
+            }
+            
+            #div4 {
+                position: relative;
+                top: -50px;
+                left: -50px;
+                float: right;
+            }
+        </style>
+    </head>
+    
+    <body>
+        Normal list:
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+        </ul>
+        
+        Inline list:
+        <ul>
+            <li class="inline">Item 1</li>
+            <li class="inline">Item 2</li>
+            <li class="inline">Item 3</li>
+        </ul>
+        
+        Normal text:
+        <p>This is a <span>test</span> showing <a href="#">block</a> text.</p>
+        Block text:
+        <p>This is a <span class="block">test</span> showing <a href="#" class="block">block</a> text.</p>
+        
+        <hr/>
+        Static position:
+        <div>
+            This file was created to demonstrate CSS Position elements, static.
+        </div>
+        <div>
+            This file was created to demonstrate CSS Position elements, static.
+        </div>
+        Fixed position:
+        <div id="div1">
+            This file was created to demonstrate CSS Position elements, showing the differences between static and fixed position
+        </div>
+        <div id="div2">
+            This file was created to demonstrate CSS Position elements, showing the differences between static and fixed position
+        </div>
+        
+        Relative Position
+        <div id="div3">
+            This file was created to demonstrate CSS Position elements, showing the differences between static and relative.
+        </div>
+        <div id="div4">
+            This file was created to demonstrate CSS Position elements, showing the differences between static and relative.
+        </div>
+    </body>
+</html>
