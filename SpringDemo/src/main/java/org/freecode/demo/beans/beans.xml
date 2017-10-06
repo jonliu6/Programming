@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- this is an application context file -->
 	<bean id="product" class="org.freecode.demo.Product">
 		<constructor-arg value="777" index="0" name="productId"
 			type="String">
@@ -16,8 +18,16 @@
 		</property>
 		
 		<property name="part" ref="part"></property>
+		
+		<property name="productComponents">
+		    <map>
+		        <entry key="A215L" value="9" />
+		        <entry key="BG2X" value="4" />
+		        <entry key="LT300x" value="2" />
+		    </map>
+		</property>
 	</bean>
-
+	
 	<bean id="part" class="org.freecode.demo.Part">
 
 		<constructor-arg index="0" name="partNo" value="123456"
@@ -27,4 +37,16 @@
 			value="Demo">
 		</constructor-arg>
 	</bean>
+	
+	<bean id="partWithVendorList" class="org.freecode.demo.Part">
+	    <property name="vendors">
+	        <list>
+		        <value>IBM</value>
+		        <value>Microsoft</value>
+		        <value>Oracle</value>
+	        </list>
+	    </property>
+	</bean>
+	
+	<bean id="partWithPName" class="org.freecode.demo.Part" p:partNo="111" p:partName="Test" />
 </beans>

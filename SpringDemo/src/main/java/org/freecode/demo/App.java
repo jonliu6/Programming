@@ -25,6 +25,12 @@ public class App {
 		System.out.println( prod );
 //		System.out.println( part );
 		
+		Part aPart = (Part) context.getBean("partWithVendorList");
+		System.out.println( "Part vendors: " + aPart.getVendors() );
+		
+		Part anotherPart = (Part) context.getBean("partWithPName");
+		System.out.println( "Part by pNames: " + anotherPart);
+		
 		((ClassPathXmlApplicationContext) context).close();
 	}
 

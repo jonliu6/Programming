@@ -1,10 +1,13 @@
 package org.freecode.demo;
 
+import java.util.Map;
+
 public class Product {
 	private String productId;
 	private String productName;
 	private String manufacturer;
 	private Part part;
+	private Map<String, Integer> productComponents;
 	
 	public Product()
 	{
@@ -31,17 +34,23 @@ public class Product {
 		this.manufacturer = manufacturer;
 	}
 	
-	
-
 	public void setPart(Part part) {
 		this.part = part;
+	}
+	
+	public Map<String, Integer> getProductComponents() {
+		return productComponents;
+	}
+
+	public void setProductComponents(Map<String, Integer> productComponents) {
+		this.productComponents = productComponents;
 	}
 
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", productName="
 				+ productName + ", manufacturer=" + manufacturer + ", part="
-				+ part + "]";
+				+ part + ", productComponents=" + productComponents + "]";
 	}
     
 }
