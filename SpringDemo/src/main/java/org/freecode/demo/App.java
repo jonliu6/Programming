@@ -31,6 +31,9 @@ public class App {
 		Part anotherPart = (Part) context.getBean("partWithPName");
 		System.out.println( "Part by pNames: " + anotherPart);
 		
+		Part thirdPart = (Part) context.getBean("partFromProperties");
+		System.out.println( "Part created from properties: " + thirdPart);
+		
 		((ClassPathXmlApplicationContext) context).close();
 	}
 

@@ -2,10 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                    http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context
+	                    http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 <!-- this is an application context file -->
-	<bean id="product" class="org.freecode.demo.Product">
+	<bean id="product" class="org.freecode.demo.Product"> <!-- index indicates the order of the parameters of the constructor; or, you can use names defined as variable names in the class -->
 		<constructor-arg value="777" index="0" name="productId"
 			type="String">
 		</constructor-arg>
@@ -17,6 +21,7 @@
 			<value>Made in Canada</value>
 		</property>
 		
+		<!-- name maps to the attribute defined in the class, while ref maps to the bean id defined in this context file -->
 		<property name="part" ref="part"></property>
 		
 		<property name="productComponents">
@@ -49,4 +54,11 @@
 	</bean>
 	
 	<bean id="partWithPName" class="org.freecode.demo.Part" p:partNo="111" p:partName="Test" />
+	
+	<!-- use Spring Context namespaces defined on the XML head for properties -->
+	<context:property-placeholder location="classpath:app.properties" />
+	<bean id="partFromProperties" class="org.freecode.demo.Part">
+	    <property name="partNo" value="${default.partNo}"></property>
+	    <property name="partName" value="${default.partName}"></property>
+	</bean>
 </beans>
