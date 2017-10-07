@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.freecode.demo</groupId>
+  <artifactId>SpringDemo</artifactId>
+  <version>1.0</version>
+  <name>SpringDemo</name>
+  <description>simple applications using Spring 4.x framework</description>
+  
+  <dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>4.3.10.RELEASE</version>
+        <!-- previous version of 3.x uses 3.2.18.RELEASE -->
+    </dependency>
+  	<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>4.3.10.RELEASE</version>
+        <!-- previous version of 3.x uses 3.2.18.RELEASE -->
+    </dependency>
+  </dependencies>
+</project>

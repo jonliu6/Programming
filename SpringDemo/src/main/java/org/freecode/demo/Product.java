@@ -14,6 +14,16 @@ public class Product {
 		
 	}
 	
+	public void init() {
+		System.out.println("Initiating Part...");
+	}
+	
+	public void destroy() {
+		System.out.println("Part destroyed!");
+	}
+	
+	
+	
 	public Product(String productId, String productName) {
 		this.productId = productId;
 		this.productName = productName;

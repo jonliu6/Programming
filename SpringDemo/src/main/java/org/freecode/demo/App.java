@@ -34,6 +34,9 @@ public class App {
 		Part thirdPart = (Part) context.getBean("partFromProperties");
 		System.out.println( "Part created from properties: " + thirdPart);
 		
+		Product switchProduct = (Product) context.getBean("productSwitch");
+		System.out.println( "Switch product: " + switchProduct);
+		
 		((ClassPathXmlApplicationContext) context).close();
 	}
 
