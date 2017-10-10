@@ -18,6 +18,11 @@ public class Product {
 		this.productId = productId;
 		this.productName = productName;
 	}
+	
+	public Product(Part aPart) { // for autowire by constructor
+		System.out.println("Product(Part) constructor is called.");
+		this.part = aPart;
+	}
 
 
 	public String getDefaultLabel()
