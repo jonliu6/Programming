@@ -16,7 +16,7 @@ public class App {
 		// load beans configuration file from root folder in the file system
 //		ApplicationContext context = new FileSystemXmlApplicationContext("beans.xml");
 		// load beans configuration file from classpath
-		ApplicationContext context = new ClassPathXmlApplicationContext("org/freecode/demo/beans/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml"); // in the root of the classes folders
 		Product prod = (Product) context.getBean("product");
 //		System.out.println( prod.getDefaultLabel() );
 		

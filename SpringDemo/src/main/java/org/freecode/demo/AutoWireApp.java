@@ -5,7 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AutoWireApp {
 	public static void main(String[] args) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("org/freecode/demo/beans/autowire_beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("autowire_beans.xml"); // in the root of the classes folders
 		Product prod = (Product) context.getBean("productWiredByType");
 		System.out.println("Product wired by Type: " + prod);
 		

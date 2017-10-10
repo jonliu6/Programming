@@ -1,0 +1,1 @@
+This is a Spring Maven project. To run the samples, use "mvn clean package" to compile and package the app first. Then, you can run it from Eclipse.
