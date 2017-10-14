@@ -25,13 +25,13 @@ public class App {
 		System.out.println( prod );
 //		System.out.println( part );
 		
-		Part aPart = (Part) context.getBean("partWithVendorList");
+		ProductPart aPart = (ProductPart) context.getBean("partWithVendorList");
 		System.out.println( "Part vendors: " + aPart.getVendors() );
 		
-		Part anotherPart = (Part) context.getBean("partWithPName");
+		ProductPart anotherPart = (ProductPart) context.getBean("partWithPName");
 		System.out.println( "Part by pNames: " + anotherPart);
 		
-		Part thirdPart = (Part) context.getBean("partFromProperties");
+		ProductPart thirdPart = (ProductPart) context.getBean("partFromProperties");
 		System.out.println( "Part created from properties: " + thirdPart);
 		
 		Product switchProduct = (Product) context.getBean("productSwitch");

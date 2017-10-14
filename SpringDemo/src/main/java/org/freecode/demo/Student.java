@@ -4,18 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 public class Student {
+	
+	@Autowired(required=false) // this autowiring is optional; when no bean defined, go ahead with manually instantiation
+	private Division div;
 
-	private Integer studentId;
+	private String studentId;
 	
 	private String studentName;
 	
-    private Integer divId;
-	public Integer getStudentId() {
+    public String getStudentId() {
 		return studentId;
 	}
-	
-	@Autowired
-	public void setStudentId(@Value("00001111") Integer studentId) {
+    
+    @Autowired
+	/**
+	 * this autowired setter also demonstrates Spring Express Language #{T(package.class).methodName()} calling static method
+	 * and componentName/className.methodName() calling object method
+	 * @param studentId
+	 */
+	public void setStudentId(@Value("#{division.getSchoolPrefix() + T(java.lang.Math).round(T(java.lang.Math).random() * 100000000)}") String studentId) {
 		this.studentId = studentId;
 	}
 	
@@ -24,20 +31,17 @@ public class Student {
 	}
 	
 	@Autowired
-	public void setStudentName(@Value("John Smith") String studentName) {
+	/**
+	 * this autowired setter also demonstrates Spring Expression Language #{} with string concatenation
+	 * @param studentName
+	 */
+	public void setStudentName(@Value("#{'John' + ' Smith'}") String studentName) {
 		this.studentName = studentName;
 	}
-	public Integer getDivId() {
-		return divId;
-	}
 	
-	@Autowired
-	public void setDivId(@Value("1234") Integer divId) {
-		this.divId = divId;
-	}
 	@Override
 	public String toString() {
-		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", divId=" + divId + "]";
+		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", div=" + div + "]";
 	}
 	
 	

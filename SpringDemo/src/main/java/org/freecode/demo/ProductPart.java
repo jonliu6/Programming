@@ -2,13 +2,13 @@ package org.freecode.demo;
 
 import java.util.List;
 
-public class Part {
+public class ProductPart {
 
 	private int partNo;
 	private String partName;
 	private List<String> vendors;
 	
-	public Part() {
+	public ProductPart() {
 		
 	}
 	
@@ -28,7 +28,7 @@ public class Part {
 		this.partName = partName;
 	}
 
-	public Part(int partNo, String partName) {
+	public ProductPart(int partNo, String partName) {
 		this.partNo = partNo;
 		this.partName = partName;
 	}

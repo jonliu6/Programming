@@ -1,6 +1,6 @@
 package org.freecode.demo;
 
-public class Switch extends Part{
+public class Switch extends ProductPart{
 
 	private int partNo;
 	private String partName;

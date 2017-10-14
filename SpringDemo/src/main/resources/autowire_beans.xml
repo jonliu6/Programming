@@ -23,8 +23,8 @@
     <bean id="productWiredByDefault" class="org.freecode.demo.Product" />
     
     <!-- when ambigurous, use primary="true" to indicate the primary one or autowire-candidate="false" to the non-primary one for autowire by Type-->
-    <bean id="partEmpty" class="org.freecode.demo.Part" autowire-candidate="false"></bean>
-    <bean id="part" class="org.freecode.demo.Part" primary="true">
+    <bean id="partEmpty" class="org.freecode.demo.ProductPart" autowire-candidate="false"></bean>
+    <bean id="part" class="org.freecode.demo.ProductPart" primary="true">
 		<constructor-arg index="0" name="partNo" value="123456"
 			type="int">
 		</constructor-arg>
