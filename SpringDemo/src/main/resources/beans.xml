@@ -33,7 +33,7 @@
 		</property>
 	</bean>
 	
-	<bean id="part" class="org.freecode.demo.Part">
+	<bean id="part" class="org.freecode.demo.ProductPart">
 
 		<constructor-arg index="0" name="partNo" value="123456"
 			type="int">
@@ -43,7 +43,7 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="partWithVendorList" class="org.freecode.demo.Part">
+	<bean id="partWithVendorList" class="org.freecode.demo.ProductPart">
 	    <property name="vendors">
 	        <list>
 		        <value>IBM</value>
@@ -53,11 +53,11 @@
 	    </property>
 	</bean>
 	
-	<bean id="partWithPName" class="org.freecode.demo.Part" p:partNo="111" p:partName="Test" />
+	<bean id="partWithPName" class="org.freecode.demo.ProductPart" p:partNo="111" p:partName="Test" />
 	
 	<!-- use Spring Context namespaces defined on the XML head for properties -->
 	<context:property-placeholder location="classpath:app.properties" />
-	<bean id="partFromProperties" class="org.freecode.demo.Part">
+	<bean id="partFromProperties" class="org.freecode.demo.ProductPart">
 	    <property name="partNo" value="${default.partNo}"></property>
 	    <property name="partName" value="${default.partName}"></property>
 	</bean>

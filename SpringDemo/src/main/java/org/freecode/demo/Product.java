@@ -6,7 +6,7 @@ public class Product {
 	private String productId;
 	private String productName;
 	private String manufacturer;
-	private Part part;
+	private ProductPart part;
 	private Map<String, Integer> productComponents;
 	
 	public Product()
@@ -28,6 +28,11 @@ public class Product {
 		this.productId = productId;
 		this.productName = productName;
 	}
+	
+	public Product(ProductPart aPart) { // for autowire by constructor
+		System.out.println("Product(Part) constructor is called.");
+		this.part = aPart;
+	}
 
 
 	public String getDefaultLabel()
@@ -44,7 +49,7 @@ public class Product {
 		this.manufacturer = manufacturer;
 	}
 	
-	public void setPart(Part part) {
+	public void setPart(ProductPart part) {
 		this.part = part;
 	}
 	
