@@ -1,0 +1,1 @@
+This is an Maven project demonstrate Model/View/Controller concepts by Spring MVC framework
