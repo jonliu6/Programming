@@ -1,0 +1,21 @@
+CSS Speciality, high to low
+
+1. Inline styles: eg style="color: red;"
+
+2. IDs: eg #myDiv {...}
+
+3. Classes: eg .titleFont {font-size: 12pt;}
+
+4. Attributes: eg a[target='_blank'] {...}
+
+5. Pseudo-classes: 
+   eg
+     a:hover {background-color: green;}
+	 h1:first-child {...}
+
+6. Elements and pseudo-elements: 
+   eg
+     h1 {color: blue;}
+	 p::first-line {...}
+	 p::first-letter {...}
+	 p::before {...}

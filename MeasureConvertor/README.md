@@ -1,0 +1,1 @@
+This project was created by Eclipse with Android Development Toolkit plugin to demonstrate a calculator of unit of measures.

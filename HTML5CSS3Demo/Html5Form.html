@@ -11,7 +11,7 @@
             <div id="description">This demo is for HTML 5 elements...</div>
         </header>
         <section>
-		  <form id="fmHtml5">
+		  <form id="fmHtml5" action="Html5Form.html" method="post">
 		    <label for="txPhone">Phone #</label>
 		    <input type="tel" id="txPhone" placeholder="Please enter a 10-digit phone number." pattern="\d{10}" value="" maxlength="10" required /><br/>
 			<label for="txEmail">Email</label>
@@ -51,6 +51,8 @@
 				<option value="900">900</option>
 				<option value="1000" label="1000">1000</option>
 			</datalist>
+			<input type="submit" name="submit" value="Submit">
+
           </form>
 		</section>
         <footer>2017 Copyright</footer>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.freecode.demo.android.measureconverter.WeightActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Gram"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etxGram"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblGramUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="g"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Ounce"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etxOunce"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblOunceUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="oz"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Pound"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etxPound"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblPoundUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="lbs"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Kilogram"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etxKilogram"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblKilogramUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="kg"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Quarter"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etxQuarter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblQuarterUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="qtr"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnCalculate"
+                android:layout_width="0dp"
+                android:onClick="calculate"
+                android:text="Calculate"
+                android:textSize="12dp" />
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="0dp"
+                android:onClick="clearFields"
+                android:text="Clear"
+                android:textSize="12dp" />
+
+        </TableRow>
+    </TableLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

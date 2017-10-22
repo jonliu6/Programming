@@ -1,11 +1,16 @@
 package org.freecode.demo.model;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+@RequestScoped
+@Named(value="dataService")
 public class DataService {
     //@EJB // not work
     private DemoDAO dataDAO;
@@ -37,5 +42,9 @@ public class DataService {
     
     public List<OrderLocation> findAllOrderLocations() {
         return dataDAO.findAllOrderLocations();
+    }
+    
+    public String getSysStatRptData(Date aDate) {
+    	return dataDAO.retrieveSysStatRptArchByTime(aDate);
     }
 }

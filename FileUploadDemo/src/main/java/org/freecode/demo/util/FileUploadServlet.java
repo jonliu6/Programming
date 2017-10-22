@@ -18,9 +18,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-@WebServlet(name="FileUploadServlet", urlPatterns="/uploadFile")
-@MultipartConfig(maxFileSize=25000000, maxRequestSize=30000000)
+// use configuration in web.xml, so the parameters can be changed easily thru build and package cycle
+// @WebServlet(name="FileUploadServlet", urlPatterns="/uploadFile")
+// @MultipartConfig(maxFileSize=25000000, maxRequestSize=30000000)
+/**
+ * can use configuration in web.xml descriptor as well
+ * <multipart-config>
+ *     <location>c:/Temp</location>
+ *     <file-size-threshold>1048576</file-size-threshold>
+ *     <max-file-size>2097152</max-file-size>
+ *     <max-request-size>4194304</max-request-size>
+ * </multipart-config>
+ */
 public class FileUploadServlet extends HttpServlet{
+
+	private static final long serialVersionUID = -1114715443324524124L;
+	private static final int BUFFER_SIZE = 8192;
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html;charset=UTF-8");
@@ -44,7 +57,7 @@ public class FileUploadServlet extends HttpServlet{
 //	        while ((read = filecontent.read(bytes)) != -1) {
 //	            out.write(bytes, 0, read);
 //	        }
-	        copyFileStreamB(filecontent, out, 4096);
+	        copyFileStreamB(filecontent, out, BUFFER_SIZE);
 	        
 	        writer.println("New file " + fileName + " created at " + path);
 	        System.out.printf( "File %s being uploaded to %s ", fileName, path);

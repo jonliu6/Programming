@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Measure Converter</string>
+    <string name="miTemperature">Temperature</string>
+    <string name="miLength">Length</string>
+    <string name="miWeight">Weight</string>
+    <string name="miVolume">Volume</string>
+    <string name="miArea">Area</string>
+    <string name="sqftUOM">ft<small><sup>2</sup></small></string>
+    <string name="sqmUOM">m<small><sup>2</sup></small></string>
+</resources>

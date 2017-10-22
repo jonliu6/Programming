@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Bootstrap Demo</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        
+    </head>
+    <body>
+	    <div class="container">
+		    <ul class="nav nav-tabs" role="tablist">
+			  <li class="active"><a href="#potc" aria-controls="potc" role="tab" data-toggle="tab">POTC</a></li>
+			  <li><a href="#pocc" aria-controls="pocc" role="tab" data-toggle="tab">POCC</a></li>
+			  <li><a href="#porm" aria-controls="porm" role="tab" data-toggle="tab">PORM</a></li>
+			  <li><a href="#svlk" aria-controls="svlk" role="tab" data-toggle="tab">SVLK</a></li>
+			  <li><a href="#pat" aria-controls="pat" role="tab" data-toggle="tab">PAT</a></li>
+			  <li><a href="#es" aria-controls="es" role="tab" data-toggle="tab">ES</a></li>
+			</ul>
+
+			<div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="potc">
+                    <p>PowerOn Trouble Centre is a GIS system that displays outages in a list in one window and on a map in another window. It is the central repository for outage information. It allows dispatchers in the Trouble Centre to view and update the state of outages. </p>
+                </div>
+				<div role="tabpanel" class="tab-pane" id="pocc">
+                    <p>PowerOn Control Center is a GIS system that displays the state of each circuit in B.C. Hydro's network.</p>
+                </div>
+				<div role="tabpanel" class="tab-pane" id="porm">
+                    <p>A web application that displays outages in a list. Dispatchers in remote offices collect information from service technicians and enter the information in PowerOn Remote. PowerOn Remote transfers the information to PowerOn Trouble Centre (POTC).</p>
+                </div>
+				<div role="tabpanel" class="tab-pane" id="svlk">
+                    <p>Service Link includes is two applications. One is a browser based system located in remote offices that organizes outages based on the service technician assigned to the outage. The other is a browser based system used in service technician vehicles to display the outages they are assigned to work on. The vehicle based system (mobile client) communicates with the office based system which then communicates with PowerOn Trouble Centre (POTC).</p>
+                </div>
+				<div role="tabpanel" class="tab-pane" id="pat">
+                    <p>Plant Alteration Tracking is a web application to track PA and circuit changes from initiation in DAD to circuit rebuild in both PowerOn applications (POCC and POTC). </p>
+                </div>
+				<div role="tabpanel" class="tab-pane" id="es">
+                    <p>Emergency Services is a central source of information for the Emergency Services application.</p>
+                </div>
+			</div>
+		</div>
+        
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            
+        </script>   
+    </body>
+</html>

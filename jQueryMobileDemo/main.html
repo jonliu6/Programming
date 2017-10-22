@@ -4,24 +4,25 @@
     <title>Main Page</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
-    <link rel="stylesheet" href="es.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="css/es.css" />
     <style type="text/css">
         .ui-controlgroup-label { /* overwrite the max-width attribute of legend within fieldset */
             max-width: 200px;
         }
     </style>
-    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
     <div data-role="page">
         <div data-role="header" data-position="fixed" class="bgImage">
             <h1>Emergency Services</h1>
-            <a href="login.html" data-icon="power" class="ui-btn-right">Logout</a>
+            <a href="#" data-icon="power" class="ui-btn-right" onclick="javascript:logout();">Logout</a>
         </div>
         
         <div data-role="content">
+		    <div data-role="popup" id="popupMessage" class="ui-content"></div>
             <div data-role="tabs" id="tabs">
                 <div data-role="navbar">
                     <ul>
@@ -70,7 +71,7 @@
 		                    </div>
                         </div>
                         <div class="ui-block-d" data-mini="true" >
-                            <button class="ui-btn ui-icon-search ui-btn-icon-left ui-shadow-icon ui-btn-b ui-btn-action ui-corner-all ui-mini" style="margin-top: 21px;">Search</button>
+                            <button class="ui-btn ui-icon-search ui-btn-icon-left ui-shadow-icon ui-btn-b ui-btn-action ui-corner-all ui-mini" style="margin-top: 21px;" onclick="javascript:searchOrderImpacts();">Search</button>
                         </div>
                     </div>
                 	                
@@ -213,7 +214,10 @@
     
     </div>
 
+	<script type="text/javascript" src="js/ecomm.js"></script>
     <script type="text/javascript" >
+	    var toUrl = "http://localhost:8085/ex/emergencyservices/rs/po/troubleOrderImpactsHd";
+		var accessToken = loadAccessToken(TOKEN_KEY);
         var tickets = [{municipality:"Burnaby", incidentNo:"12345678", callNumber:"211-1234", orderLabel:"1234567-1", type:"MV", address:"666 West Panda Ave.", priority:1, eta:"2017-05-18 22:00", enteredAt:"", ordStatus:"new", lastUpdatedAt:"2017-05-17 22:31", comments:"Test only."},
                        {municipality:"Vancouver", incidentNo:"11111111", callNumber:"", orderLabel:"1212121-1", type:"FI", address:"123 43th St.", priority:2, eta:"2017-05-19 21:00", enteredAt:"", ordStatus:"dispatched", lastUpdatedAt:"2017-05-17 22:32", comments:"Test again."},
                        {municipality:"Coquitlam", incidentNo:"99999999", callNumber:"778-1111", orderLabel:"1231231-1", type:"WD, FI", address:"1110 Victoria Dr.", priority:3, eta:"2017-05-18 08:00", enteredAt:"", ordStatus:"en_route", lastUpdatedAt:"2017-05-17 22:34", comments:"Test 3rd time."}];
@@ -257,10 +261,52 @@
         	$("#municipalityOptions option:selected").removeAttr("selected"); 
         	$("#municipalityOptions").selectmenu( "refresh", true ); // very important to refresh the custom jQuery Mobile SelectMenu
         }
+		
+		function searchOrderImpacts() {
+		  if (accessToken) {
+		    $.ajax({
+				url: toUrl,
+				method: "GET", // use type if using 1.9 and earlier
+				crossDomain: true,
+				// data: {"token":token}, // more secure way is to use HTTP header
+				headers: {
+				    "Authorization": "Basic " + accessToken
+				},
+				success: function(resp) {
+					if (resp) {
+						try {
+							// var respData = $.parseJSON(resp); // no need to parse since the data is object collection already
+							showPopupMessage("popupMessage", "Data retrieved: " + resp.length);
+						}
+						catch(e) {
+							alert(e);
+						}
+					}
+					else {
+						showPopupMessage("popupMessage", "Data retrieval Failed!");
+					}
+				},
+				error:function(jq, st, error){
+					// console.log('ERROR:' + error);
+					alert('ERROR:' + error);
+				}
+			});
+		  }
+		  else {
+		      showPopupMessage('popupMessage', 'Unauthenticated access. Please login first!');
+		  }
+		}
+		
+		function logout() {
+		    deleteAccessToken(TOKEN_KEY);
+			$(location).prop('href', 'login.html');
+		}
         
         $(document).ready(function(){
+		    $.support.cors = true; // must have to allow local HTML invokes AJAX calls
         	displayTickets();
         });
+		
     </script>
 </body>
 </html>

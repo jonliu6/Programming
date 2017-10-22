@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+		<title>HTML 5 Post Message Demo</title>
+    </head>
+
+    <body>
+        <header>
+            <h2>Post Message</h2>
+            <div id="DailyNews">Test postMessage() ...</div>
+        </header>
+        
+        <button id="btnTestPostMessage" onclick="testPostMessage();">Test Post Message</button>
+        
+        <footer>2017 Copyright</footer>
+        
+        <script type="text/javascript">
+            function testPostMessage() {
+                if (typeof(window.postMessage) != 'undefined') {
+				  alert('Support postMessage');
+				} else {
+				  alert('NOT Support postMessage, you can use jQuery jquery.postmessage.js');
+				}
+            }
+        </script>
+    </body>
+</html>

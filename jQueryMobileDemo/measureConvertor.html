@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Measure Convertor</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+        <style type="text/css">
+            .width20px { max-width: 20px; }
+            .width120px { max-width: 120px; }
+            .marginTop12px { margin-top: 12px; }
+            .margin10px { margin: 10px 10px 10px 10px; }
+            .minWidth160px { min-width: 160px; }
+            
+            .appMsg {
+                width:200px;
+                height:20px;
+                height:auto;
+                position:absolute;
+                left:50%;
+                margin-left:-100px;
+                padding: 10px;
+                bottom:10px;
+                background-color: #383838;
+                color: #F0F0F0;
+                text-align:center;
+            }
+        </style>
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script> <!-- for calling Cordova plugins and APIs -->
+        <script type="text/javascript" src="js/measureConvertor.js"></script>
+    </head>
+    
+    <body>
+        <div data-role="panel" id="sideMenu" data-position="left" data-display="overlay" data-theme="a"> <!-- data-theme='a' shows the background color of the sideMenu -->
+            <!-- menu items -->
+            <ul data-role="listview" id="menuItems">
+                <li><a href="#temperature">Temperature</a></li>
+                <li><a href="#length">Length</a></li>
+                <li><a href="#weight">Weight</a></li>
+                <li><a href="#volume">Volume</a></li>
+                <li><a href="#area">Area</a></li>
+                <li data-role="list-divider">&#160;</li>
+                <li><a href="http://en.wikipedia.org/wiki/Conversion_of_units" rel="external" target="_blank">Conversion of Units</a></li>
+                <li><a href="#" onclick="navigator.app.exitApp();">Exit</a></li> <!-- use a Cordova API-->
+            </ul>
+        </div>
+        
+        <div data-role="page" id="temperature">
+            <div data-role="header" data-position="fixed">
+                <h1>Temperature</h1>
+                <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
+            </div>
+            
+            <div data-role="content">
+                <div id="temperatureInput" class="ui-grid-b">
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txCelsius">Celsius</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txCelsius" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">&deg;C</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txFahrenheit">Fahrenheit</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txFahrenheit" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">&deg;F</div>
+                </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a width120px margin10px">
+                        <button class="ui-btn ui-icon-edit ui-btn-icon-left ui-mini ui-btn-b" onclick="calcTemperature()">Calculate</button>
+                    </div>
+                    <div class="ui-block-b width120px margin10px">
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left ui-mini ui-btn-b" onclick="clearInputFields('temperatureInput')">Clear</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="footer" style="text-align: right;"></div>
+        </div>
+        
+        <div data-role="page" id="length">
+            <div data-role="header" data-position="fixed">
+                <h1>Length</h1>
+                <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
+            </div>
+            
+            <div data-role="content">
+                <div id="lengthInput" class="ui-grid-b">
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txInch">Inch</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txInch" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">in</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txFoot">Foot</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txFoot" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px" onclick="showMsg('appMsg',formatFootInchValue($('#txFoot').val()));" title="Click to see the formatted value."><b>ft</b></div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txCentiMt">Centimeter</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txCentimeter" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">cm</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txMeter">Meter</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txMeter" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">m</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txYard">Yard</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txYard" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">yd</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txMile">Mile</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txMile" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">mi</div>
+                </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a width120px margin10px">
+                        <button class="ui-btn ui-icon-edit ui-btn-icon-left ui-mini ui-btn-b" onclick="calcLength()">Calculate</button>
+                    </div>
+                    <div class="ui-block-b width120px margin10px">
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left ui-mini ui-btn-b" onclick="clearInputFields('lengthInput')">Clear</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="footer" style="text-align: right;"></div>
+        </div>
+        
+        <div data-role="page" id="weight">
+            <div data-role="header" data-position="fixed">
+                <h1>Weight</h1>
+                <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
+            </div>
+            
+            <div data-role="content">
+                <div id="weightInput" class="ui-grid-b">
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txGram">Gram</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txGram" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">g</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txOunce">Ounce</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txOunce" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">oz</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txPound">Pound</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txPound" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">lb</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txKilogram">Kilogram</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txKilogram" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">kg</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txQuarter">Quarter</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txQuarter" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">qtr</div>
+                </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a width120px margin10px">
+                        <button class="ui-btn ui-icon-edit ui-btn-icon-left ui-mini ui-btn-b" onclick="calcWeight()">Calculate</button>
+                    </div>
+                    <div class="ui-block-b width120px margin10px">
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left ui-mini ui-btn-b" onclick="clearInputFields('weightInput')">Clear</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="footer" style="text-align: right;"></div>
+        </div>
+        
+        <div data-role="page" id="volume">
+            <div data-role="header" data-position="fixed">
+                <h1>Volume (US)</h1>
+                <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
+            </div>
+            
+            <div data-role="content">
+                <div id="volumeInput" class="ui-grid-b">
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txTablespoon">Tablespoon</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txTablespoon" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">tbsp</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txFluidOunce">Fluid Ounce</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txFluidOunce" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">floz</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txCup">Cup</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txCup" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">cup</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txPint">Pint</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txPint" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">pt</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txQuart">Quart</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txQuart" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">qt</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txLitre">Litre</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txLitre" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">L</div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txGallon">Gallon</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txGallon" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">gal</div>
+                </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a width120px margin10px">
+                        <button class="ui-btn ui-icon-edit ui-btn-icon-left ui-mini ui-btn-b" onclick="calcVolume()">Calculate</button>
+                    </div>
+                    <div class="ui-block-b width120px margin10px">
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left ui-mini ui-btn-b" onclick="clearInputFields('volumeInput')">Clear</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="footer" style="text-align: right;"></div>
+        </div>
+        
+        <div data-role="page" id="area">
+            <div data-role="header" data-position="fixed">
+                <h1>Area</h1>
+                <a href="#sideMenu" class="ui-btn-right ui-btn ui-shadow ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-bars ui-btn-b">Menu</a>
+            </div>
+            
+            <div data-role="content">
+                <div id="areaInput" class="ui-grid-b">
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txSqFeet">Sq. Feet</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txSqFeet" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">ft<sup>2</sup></div>
+                    <div class="ui-block-a width120px marginTop12px">
+                        <label for="txSqMeter">Sq. Meter</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txSqMeter" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">m<sup>2</sup></div>
+                </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a width120px margin10px">
+                        <button class="ui-btn ui-icon-edit ui-btn-icon-left ui-mini ui-btn-b" onclick="calcArea()">Calculate</button>
+                    </div>
+                    <div class="ui-block-b width120px margin10px">
+                        <button class="ui-btn ui-icon-delete ui-btn-icon-left ui-mini ui-btn-b" onclick="clearInputFields('areaInput')">Clear</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="footer" style="text-align: right;"></div>
+        </div>
+        
+        <div id="appMsg" class="appMsg" style="display:none;">
+        </div>
+        
+        <script type="text/javascript">
+            $(document).ready(function(){ // Panels (and the widgets within) outside a page must be initialized manually and will not be handled by auto init
+                $("body > [data-role='panel']").panel();
+                $("body > [data-role='panel'] [data-role='listview']").listview(); // make sure the listview role is applied
+                // $("body > [data-role='header']" ).toolbar(); // no need
+                
+                $("[data-role='footer']").html("<span style='margin-right: 10px;'>Copyright © 2017. All rights reserved.</span>");
+            });
+            
+            function formatFootInchValue(val) {
+                var ftVal = Math.floor(val);
+                var inVal = val - ftVal;
+                if (inVal > 0) {
+                    return ftVal + "'" + Math.round(inVal * FOOT_TO_INCH) + "\"";
+                }
+                else {
+                    return val;
+                }
+            }
+            
+            function calcTemperature() {
+                var cVal = $('#txCelsius').val();
+                var fVal = $('#txFahrenheit').val();
+                if (cVal || fVal) {
+                    if (cVal) {
+                        $('#txFahrenheit').val(celsius2Fahrenheit(cVal));
+                    }
+                    else if (fVal) {
+                        $('#txCelsius').val(fahrenheit2Celsius(fVal));
+                    }
+                }
+                else {
+                    showMsg('appMsg', 'Please provide a Temperature value.');
+                }
+            }
+            
+            function calcLength() {
+                var cmObj = $('#txCentimeter');
+                var cmVal = cmObj.val();
+                var inObj = $('#txInch');
+                var inVal = inObj.val();
+                var ftObj = $('#txFoot');
+                var ftVal = ftObj.val();
+                var mtObj = $('#txMeter');
+                var mtVal = mtObj.val();
+                var ydObj = $('#txYard');
+                var ydVal = ydObj.val();
+                var mlObj = $('#txMile');
+                var mlVal = mlObj.val();
+                
+                if (cmVal || inVal || ftVal || mtVal || ydVal || mlVal) {
+                    if (cmVal) {
+                        inVal = centimeter2Inch(cmVal);
+                        inObj.val(inVal);
+                        ftVal = inch2Foot(inVal);
+                        ftObj.val(ftVal);
+                        mtVal = foot2Meter(ftVal);
+                        mtObj.val(mtVal);
+                        ydVal = meter2Yard(mtVal);
+                        ydObj.val(ydVal);
+                        mlVal = meter2Mile(mtVal);
+                        mlObj.val(mlVal);
+                        
+                    }
+                    else if (inVal) {
+                        cmVal = inch2Centimeter(inVal);
+                        cmObj.val(cmVal);
+                        ftVal = inch2Foot(inVal);
+                        ftObj.val(ftVal);
+                        mtVal = foot2Meter(ftVal);
+                        mtObj.val(mtVal);
+                        ydVal = meter2Yard(mtVal);
+                        ydObj.val(ydVal);
+                        mlVal = meter2Mile(mtVal);
+                        mlObj.val(mlVal);
+                    }
+                    else if (ftVal) {
+                        mtVal = foot2Meter(ftVal);
+                        mtObj.val(mtVal);
+                        ydVal = meter2Yard(mtVal);
+                        ydObj.val(ydVal);
+                        mlVal = meter2Mile(mtVal);
+                        mlObj.val(mlVal);
+                        inVal = foot2Inch(ftVal);
+                        inObj.val(inVal);
+                        cmVal = inch2Centimeter(inVal);
+                        cmObj.val(cmVal);
+                    }
+                    else if (mtVal) {
+                        ydVal = meter2Yard(mtVal);
+                        ydObj.val(ydVal);
+                        mlVal = meter2Mile(mtVal);
+                        mlObj.val(mlVal);
+                        ftVal = meter2Foot(mtVal);
+                        ftObj.val(ftVal);
+                        inVal = foot2Inch(ftVal);
+                        inObj.val(inVal);
+                        cmVal = inch2Centimeter(inVal);
+                        cmObj.val(cmVal);
+                    }
+                    else if (ydVal) {
+                        mtVal = yard2Meter(ydVal);
+                        mtObj.val(mtVal);
+                        mlVal = meter2Mile(mtVal);
+                        mlObj.val(mlVal);
+                        ftVal = meter2Foot(mtVal);
+                        ftObj.val(ftVal);
+                        inVal = foot2Inch(ftVal);
+                        inObj.val(inVal);
+                        cmVal = inch2Centimeter(inVal);
+                        cmObj.val(cmVal);
+                    }
+                    else if (mlVal) {
+                        mtVal = mile2Meter(mlVal);
+                        mtObj.val(mtVal);
+                        ydVal = meter2Yard(mtVal);
+                        ydObj.val(ydVal);
+                        ftVal = meter2Foot(mtVal);
+                        ftObj.val(ftVal);
+                        inVal = foot2Inch(ftVal);
+                        inObj.val(inVal);
+                        cmVal = inch2Centimeter(inVal);
+                        cmObj.val(cmVal);
+                    }
+                }
+                else {
+                    showMsg('appMsg', 'Please provide a Length value.');
+                }
+            }
+            
+            function calcWeight() {
+                var gObj = $('#txGram');
+                var gVal = gObj.val();
+                var oObj = $('#txOunce');
+                var oVal = oObj.val();
+                var pObj = $('#txPound');
+                var pVal = pObj.val();
+                var kgObj = $('#txKilogram');
+                var kgVal = kgObj.val();
+                var qObj = $('#txQuarter');
+                var qVal = qObj.val();
+                
+                if (gVal || oVal || pVal || kgVal || qVal) {
+                    if (gVal) {
+                        oVal = gram2Ounce(gVal);
+                        oObj.val(oVal);
+                        pVal = ounce2Pound(oVal);
+                        pObj.val(pVal);
+                        kgVal = pound2Kilogram(pVal);
+                        kgObj.val(kgVal);
+                        qVal = pound2Quarter(pVal);
+                        qObj.val(qVal);
+                    }
+                    else if (oVal) {
+                        pVal = ounce2Pound(oVal);
+                        pObj.val(pVal);
+                        kgVal = pound2Kilogram(pVal);
+                        kgObj.val(kgVal);
+                        qVal = pound2Quarter(pVal);
+                        qObj.val(qVal);
+                        gVal = ounce2Gram(oVal);
+                        gObj.val(gVal);
+                    }
+                    else if (pVal) {
+                        kgVal = pound2Kilogram(pVal);
+                        kgObj.val(kgVal);
+                        qVal = pound2Quarter(pVal);
+                        qObj.val(qVal);
+                        oVal = pound2Ounce(pVal);
+                        oObj.val(oVal);
+                        gVal = ounce2Gram(oVal);
+                        gObj.val(gVal);
+                        
+                    }
+                    else if (kgVal) {
+                        pVal = kilogram2Pound(kgVal);
+                        pObj.val(pVal);
+                        qVal = pound2Quarter(pVal);
+                        qObj.val(qVal);
+                        oVal = pound2Ounce(pVal);
+                        oObj.val(oVal);
+                        gVal = ounce2Gram(oVal);
+                        gObj.val(gVal);
+                    }
+                    else if (qVal) {
+                        pVal = quarter2Pound(qVal);
+                        pObj.val(pVal);
+                        kgVal = pound2Kilogram(pVal);
+                        kgObj.val(kgVal);
+                        oVal = pound2Ounce(pVal);
+                        oObj.val(oVal);
+                        gVal = ounce2Gram(oVal);
+                        gObj.val(gVal);
+                        
+                    }
+                }
+                else {
+                    showMsg('appMsg', 'Please provide a Weight value.');
+                }
+            }
+            
+            function calcVolume() {
+                var tbspObj = $('#txTablespoon');
+                var tbspVal = tbspObj.val();
+                var flozObj = $('#txFluidOunce');
+                var flozVal = flozObj.val();
+                var cupObj = $('#txCup');
+                var cupVal = cupObj.val();
+                var ptObj = $('#txPint');
+                var ptVal = ptObj.val();
+                var qtObj = $('#txQuart');
+                var qtVal = qtObj.val();
+                var lObj = $('#txLitre');
+                var lVal = lObj.val();
+                var galObj = $('#txGallon');
+                var galVal = galObj.val();
+                
+                if (tbspVal || flozVal || cupVal || ptVal || qtVal || lVal || galVal) {
+                    if (tbspVal) {
+                        flozVal = tbsp2Floz(tbspVal);
+                        flozObj.val(flozVal);
+                        cupVal = floz2Cup(flozVal);
+                        cupObj.val(cupVal);
+                        galVal = cup2Gallon(cupVal);
+                        galObj.val(galVal);
+                        ptVal = gallon2Pint(galVal);
+                        ptObj.val(ptVal);
+                        qtVal = gallon2Quart(galVal);
+                        qtObj.val(qtVal);
+                        lVal = gallon2Litre(galVal);
+                        lObj.val(lVal);
+                    }
+                    else if (flozVal) {
+                        tbspVal = floz2Tbsp(flozVal);
+                        tbspObj.val(tbspVal);
+                        cupVal = floz2Cup(flozVal);
+                        cupObj.val(cupVal);
+                        galVal = cup2Gallon(cupVal);
+                        galObj.val(galVal);
+                        ptVal = gallon2Pint(galVal);
+                        ptObj.val(ptVal);
+                        qtVal = gallon2Quart(galVal);
+                        qtObj.val(qtVal);
+                        lVal = gallon2Litre(galVal);
+                        lObj.val(lVal);
+                    }
+                    else if (cupVal) {
+                        flozVal = cup2Floz(cupVal);
+                        flozObj.val(flozVal);
+                        tbspVal = floz2Tbsp(flozVal);
+                        tbspObj.val(tbspVal);
+                        galVal = cup2Gallon(cupVal);
+                        galObj.val(galVal);
+                        ptVal = gallon2Pint(galVal);
+                        ptObj.val(ptVal);
+                        qtVal = gallon2Quart(galVal);
+                        qtObj.val(qtVal);
+                        lVal = gallon2Litre(galVal);
+                        lObj.val(lVal);
+                    }
+                    else if (ptVal) {
+                        galVal = pint2Gallon(ptVal);
+                        galObj.val(galVal);
+                        qtVal = gallon2Quart(galVal);
+                        qtObj.val(qtVal);
+                        lVal = gallon2Litre(galVal);
+                        lObj.val(lVal);
+                        cupVal = gallon2Cup(galVal);
+                        cupObj.val(cupVal);
+                        flozVal = cup2Floz(cupVal);
+                        flozObj.val(flozVal);
+                        tbspVal = floz2Tbsp(flozVal);
+                        tbspObj.val(tbspVal);
+                    }
+                    else if (qtVal) {
+                        galVal = quart2Gallon(qtVal);
+                        galObj.val(galVal);
+                        ptVal = gallon2Pint(galVal);
+                        ptObj.val(ptVal);
+                        lVal = gallon2Litre(galVal);
+                        lObj.val(lVal);
+                        cupVal = gallon2Cup(galVal);
+                        cupObj.val(cupVal);
+                        flozVal = cup2Floz(cupVal);
+                        flozObj.val(flozVal);
+                        tbspVal = floz2Tbsp(flozVal);
+                        tbspObj.val(tbspVal);
+                    }
+                    else if (lVal) {
+                        galVal = litre2Gallon(lVal);
+                        galObj.val(galVal);
+                        ptVal = gallon2Pint(galVal);
+                        ptObj.val(ptVal);
+                        qtVal = gallon2Quart(galVal);
+                        qtObj.val(qtVal);
+                        cupVal = gallon2Cup(galVal);
+                        cupObj.val(cupVal);
+                        flozVal = cup2Floz(cupVal);
+                        flozObj.val(flozVal);
+                        tbspVal = floz2Tbsp(flozVal);
+                        tbspObj.val(tbspVal);
+                    }
+                    else if (galVal) {
+                        ptVal = gallon2Pint(galVal);
+                        ptObj.val(ptVal);
+                        qtVal = gallon2Quart(galVal);
+                        qtObj.val(qtVal);
+                        lVal = gallon2Litre(galVal);
+                        lObj.val(lVal);
+                        cupVal = gallon2Cup(galVal);
+                        cupObj.val(cupVal);
+                        flozVal = cup2Floz(cupVal);
+                        flozObj.val(flozVal);
+                        tbspVal = floz2Tbsp(flozVal);
+                        tbspObj.val(tbspVal);
+                    }
+                }
+                else {
+                    showMsg('appMsg', 'Please provide a Volume value.');
+                }
+            }
+            
+            function calcArea() {
+                var sqftObj = $('#txSqFeet');
+                var sqftVal = sqftObj.val();
+                var sqmtObj = $('#txSqMeter');
+                var sqmtVal = sqmtObj.val();
+                
+                if (sqftVal || sqmtVal) {
+                    if (sqftVal) {
+                        sqmtVal = sqFeet2SqMeter(sqftVal);
+                        sqmtObj.val(sqmtVal);
+                    }
+                    else if (sqmtVal) {
+                        sqftVal = sqMeter2SqFeet(sqmtVal);
+                        sqftObj.val(sqftVal);
+                    }
+                }
+                else {
+                    showMsg('appMsg', 'Please provide an Area value.');
+                }
+            }
+            
+        </script>
+    </body>
+</html>

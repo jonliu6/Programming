@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Bootstrap Demo</title>
+        <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
+        
+    </head>
+    <body>
+	    <div class="container">
+		  <span>OMS Applications</span>
+		  <ul>
+		      <li>POTC</li>
+			  <li>POCC</li>
+			  <li>PORM</li>
+			  <li>SVLK</li>
+			  <li>PAT</li>
+			  <li>ES</li>
+		  </ul>
+		  
+		  <ul class="list-group">
+		      <li class="list-group-item active">POTC</li>
+			  <li class="list-group-item">POCC</li>
+			  <li class="list-group-item">PORM</li>
+			  <li class="list-group-item">SVLK</li>
+			  <li class="list-group-item">PAT</li>
+			  <li class="list-group-item">ES</li>
+		  </ul>
+		</div>
+        
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            "use strict";
+            var lis = $("ul > li");
+            lis.click(function() {
+                lis.removeClass("active");
+                $(this).addClass("active");
+            });
+            
+        </script>   
+    </body>
+</html>

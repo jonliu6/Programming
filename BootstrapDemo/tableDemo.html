@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Table Demo</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <style lang="en" type="text/css">
+            /* for desktop */
+            th { 
+                background: #333; 
+                color: white; 
+                font-weight: bold; 
+            }
+            td, th { 
+                padding: 6px; 
+                border: 1px solid #ccc; 
+                text-align: left; 
+            }
+            
+            /* This repsonsive data table design is by CHRIS COYIER ON APRIL 27, 2011, https://css-tricks.com/responsive-data-tables/ */
+            @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+                table, thead, tbody, th, td, tr { display: block; }
+
+                thead tr {
+                    position: absolute;
+                    top: -9999px;
+                    left: -9999px;
+                }
+
+                tr { border: 1px solid #ccc; }
+
+                td { 
+                    /* Behave  like a "row" */
+                    border: none;
+                    border-bottom: 1px solid #eee; 
+                    position: relative;
+                    padding-left: 160px; 
+                }
+
+                td:before { /* Now like a table header */
+                    position: absolute;
+                    top: 0px; /* top and left values mimic padding */
+                    left: 0px;
+                    width: 150px;
+                    padding: 6px;
+                    white-space: nowrap;
+                    content: attr(data-title); 
+                    background-color: #eee;
+                    font-weight: bold;
+                }
+            }
+        </style>
+        <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+	</head>
+	<body>
+        <div class="container">
+            <table class="table-striped table-bordered"> <!-- cannot use table class from Bootstrap since it messes up the responsive design in the media queries -->
+                <thead>
+                    <tr>
+                        <th style="min-width: 120px;">Region</th>
+                        <th style="min-width: 120px;">Area</th>
+                        <th style="min-width: 120px;">District</th>
+                        <th style="min-width: 120px;">City</th>
+                        <th style="min-width: 80px;">Circuit</th>
+                        <th style="min-width: 80px;">Status</th>
+                        <th style="min-width: 60px;">Customers Out</th>
+                        <th style="min-width: 120px;">Started at</th>
+                        <th style="min-width: 120px;">ETA</th>
+                        <th style="min-width: 120px;">ETR</th>
+                        <th style="min-width: 30px;">Cause</th>
+                        <th style="min-width: 80px;">TO #</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-title="Region">Lower Mainland South</td>
+                        <td data-title="Area">Fraser Valley</td>
+                        <td data-title="District">Hope</td>
+                        <td data-title="City">Hope</td>
+                        <td data-title="Circuit">1251 KEN</td>
+                        <td data-title="Status">arrived</td>
+                        <td data-title="Customers Out">2</td>
+                        <td data-title="Started at">2017-07-13 13:41</td>
+                        <td data-title="ETA">2017-07-13 14:20</td>
+                        <td data-title="ETR">2017-07-13 16:30</td>
+                        <td data-title="Cause">&nbsp;</td>
+                        <td data-title="TO #">1274091-1</td>
+                    </tr>
+                    <tr>
+                        <td data-title="Region">Lower Mainland South</td>
+                        <td data-title="Area">Fraser Valley</td>
+                        <td data-title="District">Hope</td>
+                        <td data-title="City">Hope</td>
+                        <td data-title="Circuit">1251 KEN</td>
+                        <td data-title="Status">arrived</td>
+                        <td data-title="Customers Out">2</td>
+                        <td data-title="Started at">2017-07-13 13:41</td>
+                        <td data-title="ETA">2017-07-13 14:20</td>
+                        <td data-title="ETR">2017-07-13 16:30</td>
+                        <td data-title="Cause">&nbsp;</td>
+                        <td data-title="TO #">1274091-1</td>
+                    </tr>
+                    <tr>
+                        <td data-title="Region">Lower Mainland South</td>
+                        <td data-title="Area">Fraser Valley</td>
+                        <td data-title="District">Hope</td>
+                        <td data-title="City">Hope</td>
+                        <td data-title="Circuit">1251 KEN</td>
+                        <td data-title="Status">arrived</td>
+                        <td data-title="Customers Out">2</td>
+                        <td data-title="Started at">2017-07-13 13:41</td>
+                        <td data-title="ETA">2017-07-13 14:20</td>
+                        <td data-title="ETR">2017-07-13 16:30</td>
+                        <td data-title="Cause">&nbsp;</td>
+                        <td data-title="TO #">1274091-1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $.support.cors = true; // must have to allow local HTML invokes AJAX calls
+                
+            });
+        </script>
+	</body>
+</html>

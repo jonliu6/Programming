@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script type="text/javascript">
+  var SEPARATOR = "|";
+  function encodeString(msg){
+     return window.btoa(msg);
+  }
+  
+  function createSalt(len) {
+      var rtVal = "";
+	  for (var i=0; i<len; i++) {
+	      var rnd = Math.floor(Math.random() * 26)
+	      if (rnd % 2 == 0) {
+		      rnd += 65;
+		  }
+		  else {
+		      rnd += 97;
+		  }
+		  rtVal += String.fromCharCode(rnd);
+	  }
+      return rtVal;
+  }
+  
+  function generateAccessToken(salt, uid) {
+      var dt = new Date();
+	  var ms = dt.getTime();
+	  var rtVal = "";
+      var saltLen = 0;
+      if (salt) {
+          saltLen = salt.length;
+      }
+	  var encVal = encodeString(uid + SEPARATOR + ms + SEPARATOR + salt);
+	  rtVal = createSalt(saltLen) + encVal;
+	  
+	  return rtVal;
+  }
+</script>
+</head>
+<body>
+String: <input type="text" id="txWholeString" value="" /><br/>
+Encoded String: <input type="text" id="txEncString" value="" /><br/>
+<input type="button" value="Check" onclick="document.getElementById('txEncString').value = generateAccessToken(document.getElementById('txWholeString').value, 'jon');" />
+</body>
+</html>

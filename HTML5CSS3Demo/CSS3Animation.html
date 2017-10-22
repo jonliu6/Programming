@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <style type="text/css">
+            #movingBox {
+                width: 180px;
+                height: 150px;
+                position: relative; /* important for transform */
+                background-color: yellow;
+                color: red;
+                font-family: Arial;
+                font-size: 16pt;
+                font-weight: bold;
+                word-wrap: break-word;
+                text-align: center;
+                line-height: 150px; /* vertically aligning text */
+                text-shadow: 5px 3px 5px inset;
+                box-shadow: 10px 10px 5px #green;
+                animation: moveIt 3s infinite; /* IE11 and Chrome */
+                -ms-animation: moveIt 3s infinite; /* Saferi, Firefox, Opera */
+                -webkit-animation: moveIt 3s infinite;
+            }
+            
+            @keyframes moveIt { /* IE11 and Chrome except from/to, can use 0%, 25% and etc for more key frames */
+                from { transform: rotate(0deg); left: 0px; top: 0px; background-color: yellow; }
+                to { transform: rotate(180deg); left: 400px; top: 400px; background-color: black; }
+            }
+            @-ms-keyframes moveIt { /* IE9 and higher except from/to, can use 0%, 25% and etc for more key frames */
+                from { -ms-transform: rotate(0deg); left: 0px; top: 0px; background-color: yellow; }
+                to { -ms-transform: rotate(180deg); left: 400px; top: 400px; background-color: black; }
+            }
+            @-webkit-keyframes moveIt { /* Saferi, Firefox, Opera except from/to, can use 0%, 25% and etc for more key frames */
+                from { -webkit-transform: rotate(0deg); left: 0px; top: 0px; background-color: yellow; }
+                to { -webkit-transform: rotate(180deg); left: 400px; top: 400px; background-color: black; }
+            }
+        </style>
+        <title>CSS3 Animation</title>
+    </head>
+    <body>
+        <div id="movingBox">A moving box</div>
+    </body>
+</html>

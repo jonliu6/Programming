@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+        <style type="text/css">
+            .ui-header .ui-title { /* override jQuery Mobile margin to fully display header title */
+                margin-right: 10%;
+                margin-left: 10%;
+            }
+            .ui-btn { /* override the button padding */
+                top: 0.25em;
+                text-align: center;
+            }
+            .ui-table-cell-label { /* override styles of table cell labels */
+                background-color: green;
+                color: white;
+            }
+            
+            @media only screen and (max-width: 760px) {
+                tbody tr { /* put border per record */
+                    border: 1px solid #222;
+                }
+            }
+            
+            .loading {
+                display:none;
+                width:80px;
+                height:50px;
+                border:1px solid black;
+                position:absolute;
+                top:50%;
+                left:40%;
+                padding:2px;
+                background-color:white;
+                text-align: center; 
+                font-family:"Lato",Arial,sans-serif;
+                font-size:11px; 
+                font-weight:bold;
+            }
+        </style>
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script> 
+        <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page">
+            <div data-role="header" style="text-align: middle;" title="Live Trouble Order v1.0.0 shows the analyzed active trouble orders in PowerOn.">
+                <h4>Live Trouble Orders</h4>
+            </div>
+            
+            <div data-role="content">
+                <form id="fmMain">
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a" style="width:65%">
+                            <input data-type="search" 
+                                   id="txSearch" 
+                                   name="txSearch"
+                                   value="" 
+                                   placeholder="Please entry region, area, district, city, circuit or status" /> 
+                            <!-- cannot use HTML 5 type for search//-->
+                        </div>
+                        <div class="ui-block-b" style="width:35%; max-width: 120px;">
+                            <a href="#" 
+                               onclick="retrieveData();" 
+                               class="ui-btn ui-icon-search ui-btn-icon-left ui-corner-all ui-mini">Search</a>
+                        </div>
+                    </div>
+                </form>
+                
+                <span id="numRecords"></span>
+                <table data-role="table" id="dataTable" data-mode="reflow" class="ui-responsive">
+                    <thead>
+                        <tr>
+                            <th data-priority="persist" style="min-width: 120px;">Region</th>
+                            <th style="min-width: 120px;">Area</th>
+                            <th style="min-width: 120px;">District</th>
+                            <th style="min-width: 120px;">City</th>
+                            <th style="min-width: 80px;">Circuit</th>
+                            <th style="min-width: 80px;">Status</th>
+                            <th style="min-width: 60px;">Customers Out</th>
+                            <th style="min-width: 120px;">Started at</th>
+                            <th style="min-width: 120px;">ETA</th>
+                            <th style="min-width: 120px;">ETR</th>
+                            <th style="min-width: 30px;">Cause</th>
+                            <th style="min-width: 80px;">TO #</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div data-role="footer" style="text-align: right;">
+                <span style="margin-right: 10px;">&copy; Copyright 2017 PowerOn/OMS</span>
+            </div>
+        </div>
+        
+        <div id="loadingBar" class="loading"><img src='img/truck_moving.gif' /><br/><span>Loading...</span></div>
+        <script type="text/javascript">
+            var wdURL = "https://" +svrInfo+ "/demoURL";
+            
+            function displayEmpty(str) {
+                var tgtStr = str;
+                if (!str || str == "null") {
+                    tgtStr = "&#160;";
+                }
+                return tgtStr;
+            }
+            
+            function convertMillisecondsToDateTime(msVal) {
+                var dtStr = "&#160;"
+                var delmtDate = "-";
+                var delmtTime = ":";
+                var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+                if (msVal && msVal !== 'null') {
+                    var dt = new Date(msVal);
+                    var year = dt.getFullYear();
+                    var month = months[dt.getMonth()];
+                    var day = ('0' + dt.getDate()).slice(-2);
+                    var hour = ('0' + dt.getHours()).slice(-2);
+                    var minute = ('0' + dt.getMinutes()).slice(-2);
+                    dtStr = year + delmtDate + month + delmtDate + day + ' ' + hour + delmtTime + minute;
+                }
+                
+                return dtStr;
+            }
+            
+            function compareStartAt(obj1, obj2){
+                return obj1.startTime - obj2.startTime;
+            }
+            
+            function displayData(data) {
+                if (data) {
+                    data.sort(compareStartAt).reverse(); // sort by startTime in a descending order
+                    // alert(data.length);
+                    var tabBd = $("#dataTable tbody");
+                    tabBd.empty();
+                    var rowHtml = "";
+                    for (var i=0, num=data.length; i<num; ++i) {
+                        var aRow = data[i];
+                        var rowColor = i % 2 == 0 ? "#fff" : "#eee";
+                        rowHtml += "<tr style='background-color: " + rowColor + ";'>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.region + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.area + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.district + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.municipality + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.circuitId + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.status + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.customerOut + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + convertMillisecondsToDateTime(aRow.startTime) + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + convertMillisecondsToDateTime(aRow.eta) + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + convertMillisecondsToDateTime(aRow.etr) + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + displayEmpty(aRow.cause) + "</td>";
+                        rowHtml += "<td style=\"font-size: small;\">" + aRow.orderLabel + "</td>";
+                        rowHtml += "<tr>";
+                    }
+                    tabBd.append(rowHtml);
+                    $("#dataTable").table("refresh"); // very important to make the table responsive after the dynamic content is added
+                    
+                    $('#numRecords').text(data.length + ' live trouble order(s) found.');
+                }
+                else {
+                    alert('No data displayed.');
+                }
+            }
+            
+            function filterByText(txt, data) {
+                var newData = $.grep(data, function(val, idx){
+                    return (val && val.region && (val.region.indexOf(txt) > -1 ||
+                                                  val.area.indexOf(txt) > -1 ||
+                                                  val.district.indexOf(txt) > -1 ||
+                                                  val.municipality.indexOf(txt) > -1 ||
+                                                  val.circuitId.indexOf(txt) > -1 ||
+                                                  val.status.indexOf(txt) > -1
+                                                 ));
+                });
+                
+                return newData;
+            }
+            
+            function retrieveData() {
+                $("#loadingBar").css("display", "block");
+                
+                var filterText = $('#txSearch').val();
+                $.ajax({
+                    url: wdURL,
+					method: "GET", // use type if using 1.9 and earlier
+					crossDomain: true,
+					success: function(resp) {
+					    if (resp) {
+						    try {
+							    // var respData = $.parseJSON(resp); // no need to parse since the data is object collection already
+                                if (filterText) {
+                                    var filteredData = filterByText(filterText, resp);
+                                    displayData(filteredData);
+                                }
+                                else {
+                                    displayData(resp);
+                                }
+							}
+						    catch(e) {
+							    alert('ERROR: when displaying data: ' + e);
+							}
+						}
+						else {
+							alert("WARN: no data retrieved!");
+						}
+                        $("#loadingBar").css("display", "none");
+					},
+					error:function(jq, st, error){
+						alert('ERROR: when retrieving data from network - ' + error);
+                        $("#loadingBar").css("display", "none");
+					}
+                });
+            }
+            
+            $(document).ready(function(){
+		        $.support.cors = true; // must have to allow local HTML invokes AJAX calls
+                
+                $('#txSearch').keydown(function(event){
+                    if (event.which == 13) {
+                        event.preventDefault();
+                        retrieveData();
+                    }
+                });
+            });
+            
+        </script>
+    </body>
+</html>

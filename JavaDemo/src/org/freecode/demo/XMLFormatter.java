@@ -1,3 +1,5 @@
+package org.freecode.demo;
+
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xml.serialize.OutputFormat;

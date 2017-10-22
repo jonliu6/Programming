@@ -1,13 +1,16 @@
 package org.freecode.demo.model;
 
+import java.sql.CallableStatement;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Struct;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +23,6 @@ import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 import oracle.spatial.geometry.JGeometry;
-import oracle.sql.STRUCT;
-import oracle.sql.StructDescriptor;
 
 @Stateless
 public class DemoDAO {
@@ -195,5 +196,52 @@ public class DemoDAO {
         }
         
         return orderLocations;
+    }
+    
+    public String retrieveSysStatRptArchByTime(Date aDate) {
+    	StringBuilder sbuf = new StringBuilder();
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(aDate);
+    	cal.set(Calendar.MINUTE, 0);
+    	cal.set(Calendar.SECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);
+    	
+    	Timestamp ts = new Timestamp(cal.getTimeInMillis());
+    	
+    	Connection conn = null;
+    	CallableStatement cs = null;
+    	Clob rptData = null;
+    	
+    	try {
+    		conn = ds.getConnection();
+    		cs = conn.prepareCall(" { call Archiver.Po_Bch_Rpt_Archiver.Prc_View_Sys_Status_Csv_Arch(?, ?) } ");
+    		cs.setTimestamp(1, ts);
+    		cs.registerOutParameter(2, Types.CLOB);
+    		cs.execute();
+    		rptData = cs.getClob(2);
+    		if (rptData != null) {
+    			sbuf.append(rptData.getSubString(1, (int) rptData.length())); 
+    		}
+    	}
+    	catch (SQLException sqle) {
+    		sqle.printStackTrace();
+    	}
+    	finally {
+    		try {
+	    		if (conn != null && conn.isClosed() == false) {
+	    			conn.close();
+	    		}
+    		}
+    		catch (SQLException sqle1) {
+    			sqle1.printStackTrace();
+    		}
+    		finally {
+    			conn = null;
+    		}
+    	}
+    	
+    	
+    	return sbuf.toString();
     }
 }

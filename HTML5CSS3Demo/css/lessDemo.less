@@ -1,0 +1,29 @@
+// use lessc to compile .css. e.g. lessc lessDemo.less > lessDemo.css
+
+.yellowBackground {
+    background-color: yellow;
+}
+
+.myDiv {
+    background-color: @bgColor;
+    width: @smallWidth;
+    height: @smallHeight;
+}
+
+.@{mediumDivSelector} {
+    &:extend(.yellowBackground);
+    width: @mediumWidth;
+    height: @mediumHeight;
+}
+
+// Variables are lazy-loaded.
+@bgColor: red;
+@smallWidth: 320px;
+@smallHeight: 200px;
+
+@mediumWidth: 720px;
+@mediumHeight: 480px;
+
+
+// selector name can be variable
+@mediumDivSelector: mediumDiv;

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Cookie</title>
+</head>
+
+<body>
+<label for="txCookieName">Cookie Name</label> <input type="text" id="txCookieName" value="ECOMM_access_token" /><br/>
+<label for="txCookieValue">Cookie Value</label><input type="text" id="txCookieValue" value="hbnbvam9ubGl1fDE0OTkzNjY1NjA1MzV8RUNPTU0" />
+
+<input type="button" id="btnCheckCookie" value="Check Cookie" onclick="alert(loadAccessToken(document.getElementById('txCookieName').value));"/>
+<input type="button" id="btnSaveCookie" value="Save Cookie" onclick="saveAccessToken(document.getElementById('txCookieName').value, document.getElementById('txCookieValue').value);"/>
+<input type="button" id="btnDeleteCookie" value="Delete Cookie" onclick="deleteAccessToken(document.getElementById('txCookieName').value);"/>
+
+<script type="text/javascript" src="js/ecomm.js"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

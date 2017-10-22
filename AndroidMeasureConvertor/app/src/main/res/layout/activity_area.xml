@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.freecode.demo.android.measureconverter.AreaActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Sq. Feet"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etxSqFt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblSqFtUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="@string/sqftUOM"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Sq. Meters"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etxSqm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblSqmUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="@string/sqmUOM"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnCalculate"
+                android:layout_width="0dp"
+                android:onClick="calculate"
+                android:text="Calculate"
+                android:textSize="12dp" />
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="0dp"
+                android:onClick="clearFields"
+                android:text="Clear"
+                android:textSize="12dp" />
+
+        </TableRow>
+    </TableLayout>
+</android.support.constraint.ConstraintLayout>

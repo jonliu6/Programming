@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <meta charset="utf-8" />
+    <title>JSF 2.x Demo 2</title>
+    <style type="text/css">
+        .title {font-family: serif; font-size: large; font-weight: bold;}
+    </style>
+</h:head>
+<h:body>
+    <h:outputText value="#{msg['application.name']}" styleClass="title"></h:outputText>
+	<p/>
+	<h:message for="systemTimeResult"></h:message>
+	<h:outputText id="systemTimeResult" value="System Time: #{testBean.systemTime}"></h:outputText>
+</h:body>
+</html>

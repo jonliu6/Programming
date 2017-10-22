@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	    <meta charset="utf-8" />
+		<title>Drag and Drop Demo</title>
+        <style type="text/css">
+            #dropArea {
+                width: 320px;
+                height: 200px;
+                border: 1px solid blue;
+                margin-bottom: 20px;
+            }
+        </style>
+	</head>
+	
+	<body>
+	    <header></header>
+	    
+		<main>
+		<article> <!-- recognize a section within the page -->
+		    <section><!-- Bi-directional Orientation -->
+				<h2><bdo dir="rtl">Main Section</bdo></h2>
+			</section>
+			<div id="dropArea" ondrop="drop(event);" ondragover="allowDrop(event);">
+            </div>
+            <div id="pickUpArea" draggable="true" ondragstart="pickUp(event);">
+                <span>Hello, world! Take me with you.</span>
+            </div>
+		</article>
+		
+		</main>
+		
+		<footer></footer>
+        
+        <script type="text/javascript">
+            function pickUp(e) {
+                e.dataTransfer.setData("text", e.target.id); // text is a data type
+            }
+            
+            function allowDrop(e) {
+                e.preventDefault();
+            }
+            
+            function drop(e) {
+                e.preventDefault();
+                var itemId = e.dataTransfer.getData("text");
+                e.target.appendChild(document.getElementById(itemId));
+            }
+            
+        </script>
+	</body>
+</html>

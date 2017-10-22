@@ -37,7 +37,7 @@
                     <div class="col-sm-3">
                         <form id="searchCriteria" class="form-horizontal">
                             <div class="form-group">
-                                <label for="tcStatus" class="control-label col-sm-4">TC Status:</label>
+                                <label for="tcStatus" class="control-label col-sm-4 hidden-xs">TC Status:</label>
                                 <div class="col-sm-4 radio">
                                     <label><input name="tcStatus" type="radio" value="active" checked >Active</label>
                                 </div>
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="municipality" class="control-label col-sm-4">Municipality:</label>
+                                <label for="municipality" class="control-label col-sm-4 hidden-xs">Municipality:</label>
                                 <div class="col-sm-8">
                                     <select id="municipality" multiple size="5" class="form-control">
                                         <option value="Burnaby">Burnaby</option>
@@ -58,25 +58,25 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="ticketNo" class="control-label col-sm-4">Ticket #:</label>
+                                <label for="ticketNo" class="control-label col-sm-4 hidden-xs">Ticket #:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="ticketNo" class="form-control"/>
+                                    <input type="text" id="ticketNo" class="form-control" placeholder="Ticket #"/>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="enteredAt" class="control-label col-sm-4">Entered:</label>
+                                <label for="enteredAt" class="control-label col-sm-4 hidden-xs">Entered:</label>
                                 <div class="col-sm-8">
                                     <div class="row">
                                         <label for="enteredStart" class="control-label col-sm-2">from</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="enteredStart" class="form-control"/>
+                                            <input type="text" id="enteredStart" class="form-control" placeholder="yyyy/MM/dd"/>
                                         </div>
                                         <div class="col-sm-2"><img src="img/calendar.gif" /></div>
                                     </div>
                                     <div class="row">
                                         <label for="enteredEnd" class="control-label col-sm-2">to</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="enteredEnd" class="form-control"/>
+                                            <input type="text" id="enteredEnd" class="form-control" placeholder="yyyy/MM/dd"/>
                                         </div>
                                         <div class="col-sm-2"><img src="img/calendar.gif" /></div>
                                     </div>
@@ -147,7 +147,7 @@
                 <div class="col-sm-8">
                     <form id="submitForm" class="form-horizontal">
                         <div class="form-group">
-                            <label for="tcPriority" class="control-label col-sm-3">Priority:</label>
+                            <label for="tcPriority" class="control-label col-sm-3 hidden-xs">Priority:</label>
                             <div class="col-sm-3 radio">
                                 <label><input name="tcPriority" type="radio" value="High" checked >High</label>
                             </div>
@@ -159,13 +159,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tcNo" class="control-label col-sm-3">Emergency Agency Incident #:</label>
+                            <label for="tcNo" class="control-label col-sm-3 hidden-xs">Emergency Agency Incident #:</label>
                             <div class="col-sm-9">
-                                <input id="tcNo" type="text" class="form-control">
+                                <input id="tcNo" type="text" class="form-control" placeholder="Emergency Agency Incident #">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tcNo" class="control-label col-sm-3">Incident Address:</label>
+                            <label for="tcNo" class="control-label col-sm-3 hidden-xs">Incident Address:</label>
                             <div id="addrNo" class="col-sm-2" >
                                 <input id="tcNo" type="text" class="form-control" placeholder="Number">
                             </div>
@@ -188,7 +188,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="municipality" class="control-label col-sm-3">Municipality:</label>
+                            <label for="municipality" class="control-label col-sm-3 hidden-xs">Municipality:</label>
                             <div class="col-sm-3">
                                 <select id="municipality" multiple size="5" class="form-control">
                                     <option value="Burnaby">Burnaby</option>
@@ -204,7 +204,7 @@
                             <div class="col-sm-6"></div>
                         </div>
                         <div class="form-group">
-                            <label for="tcType" class="control-label col-sm-3">Trouble Type:</label>
+                            <label for="tcType" class="control-label col-sm-3 hidden-xs">Trouble Type:</label>
                             <div class="col-sm-9">
                                 <div class="col-sm-3 checkbox" >
                                     <label><input name="tbType" type="checkbox" value="F">Fire/Explosion</label>
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="emergencyResponse" class="control-label col-sm-3">Emergency Response:</label>
+                            <label for="emergencyResponse" class="control-label col-sm-3 hidden-xs">Emergency Response:</label>
                             <div class="col-sm-9">
                                 <div class="col-sm-3 radio" >
                                     <label><input name="emergencyResponse" type="radio" value="N">Not Attending</label>
@@ -238,9 +238,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="coments" class="control-label col-sm-3">Comments:</label>
+                            <label for="coments" class="control-label col-sm-3 hidden-xs">Comments:</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control"></textarea>
+                                <textarea class="form-control" placeholder="Please enter your comments..."></textarea>
                             </div>
                         </div>
                         <div class="form-group">

@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Test JS</title>
+<script language="JavaScript">
+  var testArray = new Array();
+  var arrayIdx = -1;
+  function addsomething( val ) 
+  {
+    // alert('Adding...' + val);
+    testArray[++arrayIdx] = val;
+	document.getElementById('txtArea').value = testArray;
+  }
+  
+  function removesomething( val )
+  {
+    var idx = -1;
+	for ( var i = 0; i < testArray.length; i++ )
+	{
+	  if ( testArray[i] == val )
+	  {
+	    idx = i;
+		break;
+	  }
+	}
+	
+    if ( testArray.length > 0 && idx > -1)
+	{
+	  testArray.splice(idx, 1);
+	  arrayIdx--;
+	}
+	document.getElementById('txtArea').value = testArray;
+  }
+  
+</script>
+</head>
+  <form name="fmTest" >
+  <input id="txtValue" type="text" name="txtValue" value="" />
+  <input type="button" name="btnAdd" value="Add" onclick="addsomething(document.getElementById('txtValue').value)"/>
+  <input type="button" name="btnRemove" value="Remove" onclick="removesomething(document.getElementById('txtValue').value)" />
+  <textarea id="txtArea" name="txtArea">
+  </textarea>
+  </form>
+<body>
+
+</body>
+</html>
