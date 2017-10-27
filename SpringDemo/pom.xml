@@ -17,6 +17,7 @@
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
         <version>4.3.10.RELEASE</version>
+        <scope>compile</scope>
         <!-- previous version of 3.x uses 3.2.18.RELEASE -->
     </dependency>
   </dependencies>

@@ -1,11 +1,11 @@
 package org.freecode.demo;
 
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Random;
 
-import javax.swing.text.DateFormatter;
+import javax.crypto.KeyGenerator;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -38,8 +38,21 @@ public class TokenGenerator {
 			System.out.println("Origin: " + srcStr);
 			System.out.println("Destination: " + decStr);
 		}
-		System.out.println();
+		System.out.println("AES BASE 64 Encoded Sample: " + generateAESKey(appID + "Remote"));
 		// System.out.println("Salt: " + createSalt(6));
+	}
+	
+	public static String generateAESKey(String inputString) {
+		KeyGenerator keyGen = null;
+		try {
+			keyGen = KeyGenerator.getInstance("AES");
+		}
+		catch (NoSuchAlgorithmException nsae) {
+			nsae.printStackTrace();
+		}
+		keyGen.init(128); // due to US export law, JDK limits to 128 bits
+		String key = Base64.encodeBase64String(keyGen.generateKey().getEncoded());
+		return key; 
 	}
 
 	public static String createSalt(int len) {

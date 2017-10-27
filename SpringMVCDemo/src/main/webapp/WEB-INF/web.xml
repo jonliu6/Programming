@@ -17,6 +17,16 @@
 	<servlet>
 	  <servlet-name>SpringMVCDemo</servlet-name>
 	  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	  <!-- // below block is the Java-based configuration for Spring MVC applications 
+	  <init-param>
+	      <param-name>contextClass</param-name>
+	      <param-value>org.springframework.context.annotation.AnnotationConfigApplicationContext</param-value>
+	  </init-param>
+	  <init-param>
+	      <param-name>contextConfigLocation</param-name>
+	      <param-value>org.freecode.demo.utils.AppConfig</param-value>
+	  </init-param>
+	  -->
 	  <init-param>
 	      <param-name>contextConfigLocation</param-name>
 	      <param-value>/WEB-INF/spring/springmvcdemo-servlet.xml</param-value>
