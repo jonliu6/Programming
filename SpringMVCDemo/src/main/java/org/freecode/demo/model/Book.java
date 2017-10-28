@@ -2,6 +2,10 @@ package org.freecode.demo.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Book {
     private String title;
     private String isbn;
@@ -13,12 +17,16 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	@Size(min=10, max=13) // validation by javax
 	public String getIsbn() {
 		return isbn;
 	}
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
+	
+	@NotNull @Min(1)
 	public Integer getPageCount() {
 		return pageCount;
 	}
