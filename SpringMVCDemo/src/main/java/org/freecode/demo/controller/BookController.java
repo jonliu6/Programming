@@ -49,7 +49,7 @@ public class BookController {
 		}
 		
 		System.out.println("Saved " + aBook);
-		return "redirect:view"; // navigate to view, which viewBook.jsp 
+		return "redirect:view"; // redirect to view, which viewBook.jsp 
 	}
 	
 	@RequestMapping(value="/view", method=RequestMethod.GET)
