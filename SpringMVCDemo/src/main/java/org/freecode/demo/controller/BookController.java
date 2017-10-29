@@ -58,7 +58,9 @@ public class BookController {
 		bookModel.addAttribute("bookTitle", aBook.getTitle());
 		bookModel.addAttribute("bookIsbn", aBook.getIsbn());
 		bookModel.addAttribute("bookPageCount", aBook.getPageCount());
+		bookModel.addAttribute("bookPublishDate", aBook.getPublishedOn());
 		
 		return "viewBook"; // navigate to viewBook.jsp
 	}
+	
 }

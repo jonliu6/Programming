@@ -25,6 +25,10 @@
         <form:input type="text" id="txPageCount" name="txPageCount" path="pageCount"/>
         <form:errors path="pageCount" cssClass="error" />
         <br/>
+        <label for="txPublishedOn">Publish Date: </label>
+        <form:input type="text" id="txPublishedOn" name="txPublishedOn" path="publishedOn"/>
+        <form:errors path="publishedOn" cssClass="error" />
+        <br/>
         <input type="submit" value="Add" />
     </form:form>
 </body>

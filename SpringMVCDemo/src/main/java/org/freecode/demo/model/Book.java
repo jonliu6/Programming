@@ -8,6 +8,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 public class Book {
@@ -30,13 +31,15 @@ public class Book {
 		this.isbn = isbn;
 	}
 	
-	@NotNull @Min(1) @Positive
+	@NotNull @Min(1) // @Positive specific to JDK version 8+, so use the same between compile and runtime
 	public Integer getPageCount() {
 		return pageCount;
 	}
 	public void setPageCount(Integer pageCount) {
 		this.pageCount = pageCount;
 	}
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	public Date getPublishedOn() {
 		return publishedOn;
 	}

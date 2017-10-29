@@ -11,5 +11,6 @@
 <span>Title: ${bookTitle}</span><br/>
 <span>ISBN: ${bookIsbn}</span><br/>
 <span>Page Count: ${bookPageCount}</span><br/>
+<span>Published: ${bookPublishDate}</span><br/>
 </body>
 </html>
