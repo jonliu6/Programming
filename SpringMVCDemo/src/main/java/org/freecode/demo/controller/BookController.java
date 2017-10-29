@@ -30,16 +30,29 @@ public class BookController {
 	 * @return
 	 */
 	@RequestMapping(value="/add", method=RequestMethod.GET)
-	public String addBook(@Valid @ModelAttribute ("newBook") Book aBook, BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println(result.getErrorCount() + " error(s) when addBook");
-			return "addBook";
-		}
-		System.out.println(aBook);
+	public String addBook(@ModelAttribute ("newBook") Book aBook) {
+		// System.out.println(aBook);
 		return "addBook"; // navigate to addBook.jsp
 	}
 	
-	@RequestMapping(value="/view", method=RequestMethod.POST)
+	/**
+	 * use POST to hide the session attributes passed in
+	 * @param aBook
+	 * @param result, validation results
+	 * @return
+	 */
+	@RequestMapping(value="/save", method=RequestMethod.POST)
+	public String saveBook(@Valid @ModelAttribute("newBook") Book aBook, BindingResult result) {
+		if (result.hasErrors()) {
+			System.out.println(result.getErrorCount() + " error(s) when saveBook");
+			return "addBook";
+		}
+		
+		System.out.println("Saved " + aBook);
+		return "redirect:view"; // navigate to view, which viewBook.jsp 
+	}
+	
+	@RequestMapping(value="/view", method=RequestMethod.GET)
 	public String viewBook(@ModelAttribute ("newBook") Book aBook, Model bookModel) {
 		
 		bookModel.addAttribute("bookTitle", aBook.getTitle());

@@ -13,7 +13,7 @@
 <body>
     <!-- commandName can be replaced by modelAttribute -->
     <!-- the validation not working when action="view", to check validation, set action="add" --> 
-    <form:form method="post" commandName="newBook" action="view">
+    <form:form method="post" commandName="newBook" action="save">
         <label for="txTitle">Title: </label>
         <form:input type="text" id="txTitle" name="txTitle" path="title"/>
         <br/>
