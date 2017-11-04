@@ -35,7 +35,8 @@ public class UploadBean {
 	
 	@ManagedProperty("#{msg}")
 	private ResourceBundle resourceBundle; 
-    private String recordId;
+    private String recordId; // unique id for uploaded files, used for sub-folder name
+    
 	
 	@PostConstruct
 	public void init() {
