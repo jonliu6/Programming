@@ -21,6 +21,7 @@ This project uses Android SDK+Cordova to demonstrate a Hybrid Mobile version of 
 7. modify config.xml in the project folder based on the application
 8. cordova build android
    - NOTE: Gradle must be configured, and ANDROID_HOME must point to the Android SDK folder.
+   - NOTE: you need to accept all the sdk licenses before build. use sdkmanager --licenses to review and accept licenses
    - For all screen sizes, you may need to modify AndroidManifest.xml to set for large/medium/small/any.
      eg <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true" android:xlargeScreens="true" />
    Also, you may try to set minifyEnabled, shrinkResources to true and specify proguardFiles to reduce the .apk size.
