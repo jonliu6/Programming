@@ -10,12 +10,15 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 public class Book {
     private String title;
     private String isbn;
     private Integer pageCount;
     private Date publishedOn;
+    private MultipartFile attachment;
+    
 	public String getTitle() {
 		return title;
 	}
@@ -45,6 +48,13 @@ public class Book {
 	}
 	public void setPublishedOn(Date publishedOn) {
 		this.publishedOn = publishedOn;
+	}
+	
+	public MultipartFile getAttachment() {
+		return attachment;
+	}
+	public void setAttachment(MultipartFile attachment) {
+		this.attachment = attachment;
 	}
 	@Override
 	public String toString() {

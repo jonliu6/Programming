@@ -13,6 +13,9 @@
   
   <context:component-scan base-package="org.freecode.demo.controller"></context:component-scan>
   
+  <!-- specify the application properties, and bind the values from the properties -->
+  <context:property-placeholder location="classpath:demo.properties" />
+   
   <!-- this is for the static files under webroot/resources, ** can search subfolders -->
   <mvc:resources location="/resources/" mapping="/staticResources/**" />
 
@@ -20,5 +23,10 @@
   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
       <property name="prefix" value="/WEB-INF/view/"></property>
       <property name="suffix" value=".jsp"></property>
+  </bean>
+  
+  <!-- resolver for file upload -->
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <property name="maxUploadSize" value="1048576"></property>
   </bean>
 </beans>

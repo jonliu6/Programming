@@ -13,7 +13,7 @@
 <body>
     <!-- commandName can be replaced by modelAttribute -->
     <!-- the validation not working when action="view", to check validation, set action="add" --> 
-    <form:form method="post" commandName="newBook" action="save">
+    <form:form method="post" commandName="newBook" action="save" enctype="multipart/form-data">
         <label for="txTitle">Title: </label>
         <form:input type="text" id="txTitle" name="txTitle" path="title"/>
         <br/>
@@ -29,6 +29,7 @@
         <form:input type="text" id="txPublishedOn" name="txPublishedOn" path="publishedOn"/>
         <form:errors path="publishedOn" cssClass="error" />
         <br/>
+        <form:input type="file" id="fileAttachment" name="fileAttachment" path="attachment" />
         <input type="submit" value="Add" />
     </form:form>
 </body>
