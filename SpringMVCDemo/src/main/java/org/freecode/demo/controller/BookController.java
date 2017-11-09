@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +37,10 @@ public class BookController {
 	private final static int BUFFER_SIZE = 8192;
 	
 	@ModelAttribute
+	/**
+	 * add session attribute to model
+	 * @param book
+	 */
 	public void addBookToModel(Model book) {
 		if (!book.containsAttribute("newBook")) {
 			Book bk = new Book();
@@ -47,8 +54,21 @@ public class BookController {
 	 * @return
 	 */
 	@RequestMapping(value="/add", method=RequestMethod.GET)
+	/**
+	 * handler of /add navigates to addBook.jsp
+	 * @param aBook
+	 * @return
+	 */
 	public String addBook(@ModelAttribute ("newBook") Book aBook) {
 		// System.out.println(aBook);
+		// in case of add a new book, clear the object first
+		if (aBook != null) {
+			aBook.setTitle(null);
+			aBook.setIsbn(null);
+			aBook.setPageCount(null);
+			aBook.setPublishedOn(null);
+			aBook.setAttachment(null);
+		}
 		return "addBook"; // navigate to addBook.jsp
 	}
 	
@@ -59,12 +79,20 @@ public class BookController {
 	 * @return
 	 */
 	@RequestMapping(value="/save", method=RequestMethod.POST)
+	/**
+	 * save the model, including file upload, and then redirect to the handler of /view
+	 * @param aBook
+	 * @param result
+	 * @return
+	 */
 	public String saveBook(@Valid @ModelAttribute("newBook") Book aBook, BindingResult result) {
 		if (result.hasErrors()) {
 			System.out.println(result.getErrorCount() + " error(s) when saveBook");
 			return "addBook";
 		}
 		
+		// NOT Implemented yet, save aBook to storage
+				
 		// upload file
 		if (aBook != null) {
 			MultipartFile file = aBook.getAttachment(); // get uploaded file
@@ -99,6 +127,12 @@ public class BookController {
 	}
 	
 	@RequestMapping(value="/view", method=RequestMethod.GET)
+	/**
+	 * set model attributes to viewBook.jsp and navigate to it
+	 * @param aBook
+	 * @param bookModel
+	 * @return
+	 */
 	public String viewBook(@ModelAttribute ("newBook") Book aBook, Model bookModel) {
 		
 		bookModel.addAttribute("bookTitle", aBook.getTitle());
@@ -127,13 +161,19 @@ public class BookController {
         OutputStream out = null;
         try {
         	inputStream = new FileInputStream(downloadFile);
-        	String mimeType = req.getServletContext().getMimeType(fullPath);
-        	if (mimeType == null) {
+//        	String mimeType = req.getServletContext().getMimeType(fullPath); //option 1, requires defining mime types in deployment descriptors
+        	Path path = Paths.get(fullPath);
+        	String mimeType = Files.probeContentType(path);
+        	String openFlag = "inline";
+        	if (mimeType == null || mimeType.length() < 1) {
         		mimeType = "application/octet-stream";
+        	}
+        	if (mimeType.toLowerCase().startsWith("application/")) {
+        		openFlag = "attachment";
         	}
         	resp.setContentType(mimeType);
         	resp.setContentLengthLong(downloadFile.length());
-        	resp.setHeader("Content-Disposition", "attachment; filename=" + fn);
+        	resp.setHeader("Content-Disposition", openFlag + "; filename=" + fn); // can specify Inline or Attachment in header, so the browser will directly open it or prompt to open or save. Inline may trigger MS authentication when opening 
         	
         	out = resp.getOutputStream();
         	byte[] buffer = new byte[BUFFER_SIZE];

@@ -12,6 +12,8 @@
 <span>ISBN: ${bookIsbn}</span><br/>
 <span>Page Count: ${bookPageCount}</span><br/>
 <span>Published: ${bookPublishDate}</span><br/>
-<span>Attachment: <a href="download?filename=${bookAttachment}">${bookAttachment}</a></span><br/>
+<span>Attachment: <a href="download?filename=${bookAttachment}" target="_blank">${bookAttachment}</a></span><br/>
+<hr/>
+<a href="add">Add Book</a>
 </body>
 </html>
