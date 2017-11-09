@@ -44,8 +44,8 @@ List emulators:
 	android.exe list avd
 Start emulator:
 	emulator -avd <emulator name>
-Install application package to emulator:
-	adb install <emulator name> <package name.apk>
+Install application package to emulator (need to start the emulator first): NOTE: -r for replacing the existing application from the emulator
+	adb install -r <package name.apk>
 Stop emulator: (not work??)
 	adb kill-server
 	adb -s <emulator name> emu kill
