@@ -8,11 +8,24 @@
 	                    http://www.springframework.org/schema/context/spring-context-4.3.xsd" >
     <context:annotation-config />
 
+    <!-- single connection, not the connection pool -->
+    <!-- 
     <bean id="appDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.jdbc.mysql.Driver"></property>
-        <property name="url" value="jdbc:mysql://localhost:3306/xproject_db"></property>
-        <property name="username" value="xuser"></property>
-        <property name="password" value="xuser123"></property>
+        <property name="driverClassName" value="${dbDriver}"></property>
+        <property name="url" value="${dbURL}"></property>
+        <property name="username" value="${dbUser}"></property>
+        <property name="password" value="${dbPassword}"></property>
     </bean>
+    -->
     
+    <context:property-placeholder location="classpath:db.properties" />
+    <context:component-scan base-package="org.freecode.demo" />
+    
+    <!-- use 3rd party library for connection pool functionality -->
+    <bean id="basicDS" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${dbDriver}"></property>
+        <property name="url" value="${dbURL}"></property>
+        <property name="username" value="${dbUser}"></property>
+        <property name="password" value="${dbPassword}"></property>
+    </bean>
 </beans>
