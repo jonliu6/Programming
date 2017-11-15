@@ -5,6 +5,16 @@ public class City {
 	private String cityName;
 	private String countryName;
 	
+	public City() {
+		
+	}
+	
+	public City(String cId, String cName, String country) {
+		cityId = cId;
+		cityName = cName;
+		countryName = country;
+	}
+	
 	public String getCityId() {
 		return cityId;
 	}
