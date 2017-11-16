@@ -2,6 +2,7 @@ package org.freecode.demo.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -12,9 +13,14 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-@Component("cityDAO")
+// @Component("cityDAO")
+@Repository("cityDAO")
 public class CityDAO {
 
 	private JdbcTemplate jdbcTemp;
@@ -100,6 +106,24 @@ public class CityDAO {
 		System.out.println(num + " city removed.");
 		
 		return result;
+	}
+	
+	@Transactional("txManager")
+	public int[] batchAddCities(List<City> cities) {
+		// long way doing
+//		List<MapSqlParameterSource> params = new ArrayList<MapSqlParameterSource>();
+//		for (City c: cities) {
+//			MapSqlParameterSource param = new MapSqlParameterSource();
+//			param.addValue("cityId", c.getCityId());
+//			param.addValue("cityName", c.getCityName());
+//			param.addValue("countryName", c.getCountryName());
+//			params.add(param);
+//		}
+//		MapSqlParameterSource[] paramArray = new MapSqlParameterSource[params.size()];
+//		params.toArray(paramArray);
+		SqlParameterSource[] paramArray = SqlParameterSourceUtils.createBatch(cities.toArray());
+		int[] affectedRowNum = namedParamJdbcTemp.batchUpdate("INSERT INTO xcity (cityId, cityName, countryName) VALUES (:cityId, :cityName, :countryName)", paramArray); 
+		return affectedRowNum;
 	}
 
 	public JdbcTemplate getJdbcTemp() {
