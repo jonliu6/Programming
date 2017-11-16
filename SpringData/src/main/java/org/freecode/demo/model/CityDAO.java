@@ -2,8 +2,8 @@ package org.freecode.demo.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -15,7 +15,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,8 @@ public class CityDAO {
 
 	private JdbcTemplate jdbcTemp;
 	private NamedParameterJdbcTemplate namedParamJdbcTemp;
+	private SimpleJdbcInsert jdbcInsert;
+	private SimpleJdbcCall jdbcCall;
 	
 	public List<City> findCities() {
 		return jdbcTemp.query("SELECT * FROM xcity", new RowMapper<City>(){
@@ -125,6 +128,30 @@ public class CityDAO {
 		int[] affectedRowNum = namedParamJdbcTemp.batchUpdate("INSERT INTO xcity (cityId, cityName, countryName) VALUES (:cityId, :cityName, :countryName)", paramArray); 
 		return affectedRowNum;
 	}
+	
+	public int addCitySimple(City c) {
+		SqlParameterSource params = new BeanPropertySqlParameterSource(c);
+		int addedNum = jdbcInsert.execute(params);
+		return addedNum;
+	}
+	
+	/**
+	 * use SimpleJdbcCall to call the stored procedure and get the city by the given Id
+	 * @param cId
+	 * @return
+	 */
+	public City findCityById(String cId) {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("cid", cId);
+		Map<String, Object> outValues = jdbcCall.execute(params);
+		
+		City c = null;
+		if (outValues != null) {
+		    c =	new City(cId, (String) outValues.get("cname"), (String) outValues.get("country")); // map keys are CASE-INSENSITIVE parameter names defined in the stored procedure
+		}
+		
+		return c;
+	}
 
 	public JdbcTemplate getJdbcTemp() {
 		return jdbcTemp;
@@ -143,6 +170,23 @@ public class CityDAO {
 	public void setNamedParamJdbcTemp(DataSource ds) {
 		this.namedParamJdbcTemp = new NamedParameterJdbcTemplate(ds);
 	}
-	
+
+	public SimpleJdbcInsert getJdbcInsert() {
+		return jdbcInsert;
+	}
+
+	@Autowired
+	public void setJdbcInsert(DataSource ds) {
+		this.jdbcInsert = new SimpleJdbcInsert(ds).withTableName("xcity");
+	}
+
+	public SimpleJdbcCall getJdbcCall() {
+		return jdbcCall;
+	}
+
+	@Autowired
+	public void setJdbcCall(DataSource ds) {
+		this.jdbcCall = new SimpleJdbcCall(ds).withProcedureName("prcFindCityById");
+	}
 	
 }

@@ -36,5 +36,12 @@
         <property name="dataSource" ref="basicDS"></property> <!-- property name dataSource is keyword -->
     </bean>
     
+    <!-- below XML configuration of cityDAO is replaced by Annotations - @Repository, @Autowire
+    <bean id="cityDAO" class="org.freecode.demo.model.CityDAO">
+        <property name="namedParamJdbcTemp" ref="basicDS"></property>
+        <property name="jdbcTemp" ref="basicDS"></property>
+    </bean>
+    -->
+    
     <tx:annotation-driven />
 </beans>

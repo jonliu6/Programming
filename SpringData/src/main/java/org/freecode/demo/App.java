@@ -67,7 +67,7 @@ public class App
     	cities.add(c1);
     	City c2 = new City("C" + cid + 1, "SmallCity", "China");
     	cities.add(c2);
-    	City c3 = new City("C" + cid, "BigCity 2", "China");
+    	City c3 = new City("C" + cid + 2, "BigCity 2", "China");
     	cities.add(c3);
     	int[] numAdded = cd.batchAddCities(cities);
     	System.out.println(numAdded.length + " cities added.");
