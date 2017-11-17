@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.freecode.demo</groupId>
+  <artifactId>SpringAOP</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0</version>
+  <name>SpringAOP</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+    <jdk.version>1.7</jdk.version>
+    <junit.version>4.11</junit.version>
+    <springframework.version>4.3.10.RELEASE</springframework.version>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>${springframework.version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>${springframework.version}</version>
+        <scope>compile</scope>
+    </dependency>
+  	<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${springframework.version}</version>
+        <scope>compile</scope>
+        <!-- previous version of 3.x uses 3.2.18.RELEASE -->
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aspects</artifactId>
+        <version>${springframework.version}</version>
+        <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>
