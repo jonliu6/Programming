@@ -14,14 +14,18 @@
     <bean id="knowledgePoint" class="org.freecode.demo.model.KnowledgePoint" />
     <bean id="knowledgeBase" class="org.freecode.demo.model.KnowledgeBaseDAO" />
     
-    <bean id="timeLogger" class="org.freecode.demo.aop.TimestampLog"></bean>
+    <!-- below definitions replaced by annotations -->
+    <!-- return type can be void or * for any types. ".." means any parameters in the method -->
+<!--     <bean id="timeLogger" class="org.freecode.demo.aop.TimestampLog"></bean> -->
+<!--     <aop:config> -->
+<!--         <aop:pointcut expression="execution(* org.freecode.demo.model.KnowledgeBaseDAO.findKnowledgeByKeyword(..))" id="logFindByKeywordTime"/> -->
+<!--         <aop:aspect id="timeLoggerAspect" ref="timeLogger"> -->
+<!--             <aop:before method="printOutSystemTime" pointcut="execution(* org.freecode.demo.model.KnowledgeBaseDAO.findKnowledgeByKeyword(..))"/> -->
+<!--             <aop:after method="printOutSystemTime" pointcut-ref="logFindByKeywordTime"/> -->
+<!--         </aop:aspect> -->
+<!--     </aop:config> -->
     
-    <aop:config>
-        <aop:aspect id="timeLoggerAspect" ref="timeLogger">
-            <!-- return type can be void or * for any types. ".." means any parameters in the method -->
-            <aop:before method="printOutSystemTime" pointcut="execution(* org.freecode.demo.model.KnowledgeBaseDAO.findKnowledgeByKeyword(..))"/>
-            
-        </aop:aspect>
-    </aop:config>
-    
+    <!-- replac AppConfig.java -->
+    <aop:aspectj-autoproxy />
+    <context:component-scan base-package="org.freecode.demo.aop"></context:component-scan>
 </beans>

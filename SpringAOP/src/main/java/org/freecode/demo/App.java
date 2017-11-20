@@ -2,9 +2,11 @@ package org.freecode.demo;
 
 import java.util.List;
 
+import org.freecode.demo.aop.AppConfig;
 import org.freecode.demo.model.KnowledgeBaseDAO;
 import org.freecode.demo.model.KnowledgePoint;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -16,6 +18,7 @@ public class App
     public static void main( String[] args )
     {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    	// ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
         
         // KnowledgeBaseDAO kb = new KnowledgeBaseDAO();
         // For AOP, you need to instantiate the objects from application context to trigger aop-config
@@ -31,10 +34,18 @@ public class App
         kp = new KnowledgePoint("JavaScript printout", "console.log(\"Hello, world!\")", "JavaScript");
         kb.addKnowledgePoint(kp);
         
-        List<KnowledgePoint> foundKPs = kb.findKnowledgeByKeyword("Java");
-        
-        for (KnowledgePoint aKP : foundKPs) {
-        	System.out.println(aKP);
+        try {
+            List<KnowledgePoint> foundKPs = kb.findKnowledgeByKeyword("Java");
+            for (KnowledgePoint aKP : foundKPs) {
+            	System.out.println(aKP);
+            }
         }
+        catch(Exception ex) {
+        	System.out.println("Exception caught when trying to find knowledge by keyword.");
+        	System.out.println(ex.getMessage());
+        }
+        
+        ((ClassPathXmlApplicationContext)ctx).close();
+        // ((AnnotationConfigApplicationContext)ctx).close();
     }
 }
