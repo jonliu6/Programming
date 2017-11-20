@@ -18,7 +18,9 @@
     
     <aop:config>
         <aop:aspect id="timeLoggerAspect" ref="timeLogger">
-            <aop:before method="printOutSystemTime" pointcut="execution(void org.freecode.demo.model.KnowledgeBaseDAO.initializeKnowledgeBase())"/>
+            <!-- return type can be void or * for any types. ".." means any parameters in the method -->
+            <aop:before method="printOutSystemTime" pointcut="execution(* org.freecode.demo.model.KnowledgeBaseDAO.findKnowledgeByKeyword(..))"/>
+            
         </aop:aspect>
     </aop:config>
     
