@@ -16,6 +16,7 @@ public class KnowledgeBaseDAO {
 			initializeKnowledgeBase();
 		}
 		knowledgeBase.add(kp);
+		System.out.println("Added " + kp);
 	}
 	
 	public List<KnowledgePoint> findKnowledgeByKeyword(String keyword) {
