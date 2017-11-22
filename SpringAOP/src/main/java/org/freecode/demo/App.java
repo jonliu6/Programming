@@ -45,6 +45,15 @@ public class App
         	System.out.println(ex.getMessage());
         }
         
+        try {
+        	List<KnowledgePoint> foundKPs = kb.findAll();
+        	System.out.println(foundKPs.size() + " in total.");
+        }
+        catch(Exception ex) {
+        	System.out.println("Exception caught when trying to find all.");
+        	System.out.println(ex.getMessage());
+        }
+        
         ((ClassPathXmlApplicationContext)ctx).close();
         // ((AnnotationConfigApplicationContext)ctx).close();
     }

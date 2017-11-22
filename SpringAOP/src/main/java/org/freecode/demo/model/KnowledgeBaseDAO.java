@@ -3,6 +3,8 @@ package org.freecode.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.freecode.demo.aop.RandomAnnotation;
+
 public class KnowledgeBaseDAO {
 
 	private List<KnowledgePoint> knowledgeBase;
@@ -31,6 +33,20 @@ public class KnowledgeBaseDAO {
 			}
 		}
 				
+		return foundKPs;
+	}
+	
+	@RandomAnnotation
+	public List<KnowledgePoint> findAll() {
+		List<KnowledgePoint> foundKPs = new ArrayList<KnowledgePoint>();
+		if (knowledgeBase != null && knowledgeBase.size() > 0) {
+			for (int i=0, len=knowledgeBase.size(); i<len; ++i) {
+				KnowledgePoint kp = knowledgeBase.get(i);
+				if (kp != null) {
+					foundKPs.add(kp);
+				}
+			}
+		}
 		return foundKPs;
 	}
 }

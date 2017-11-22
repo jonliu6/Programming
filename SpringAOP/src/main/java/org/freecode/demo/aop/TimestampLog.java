@@ -15,13 +15,34 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class TimestampLog {
+	/**
+	 * Designators:
+	 * execution(): match methods execution join points
+	 * within(): match join points within certain types defined
+	 * this(): match join points where bean reference is an instance of a given type
+	 * target(): match join points where target object is an instance of a given type
+	 * args(): match join points where methods have number and type of arguments defined
+	 * @target(): match join points where class of executing object is annotated with specific annotation
+	 * @args(): match join points where runtime type of actual arguments have types specified
+	 * @within(): match join points within types have a specific annotation
+	 * @annotation(): match join points where methods being executed with a specific annotation
+	 * bean(): Spring AOP specific matching the bean ids/names
+	 */
 	
+	// @Pointcut("execution(void org.freecode.demo.model.KnowledgeBaseDAO.*(*))") // match all methods returning void and with any parameters
+	// @Pointcut("execution(* org.freecode.demo.model.KnowledgeBaseDAO.find*(..))") // match all return types and method name starting with find
 	@Pointcut("execution(* org.freecode.demo.model.KnowledgeBaseDAO.findKnowledgeByKeyword(..))")
 	public void genericPointcut() {
 		
 	}
 
 	// @Before("execution(* org.freecode.demo.model.KnowledgeBaseDAO.findKnowledgeByKeyword(..))")
+	// @Before("! genericPointcut()") // not apply to the genericPointcut pointcut but other methods
+	// @Before("bean(knowledge*)") 
+	// @Before("within(org.freecode.demo.model.*)") // all classes in the given hierachy
+	// @Before("execution(* (@org.freecode.demo.aop.RandomAnnotation *).* (..) )") // match any classes with Random annotation and any parameters and any return types
+	// @Before("@annotation(RandomAnnotation)") // match @RandomAnnotation
+	// Also, you can use && or || to combine pointcuts, or use bean id
 	@Before("genericPointcut()")
 	public void printOutSystemTime(JoinPoint jp) throws Exception {
 		Boolean canDo = true;
@@ -71,5 +92,10 @@ public class TimestampLog {
 			System.out.println("Exception caught: " + ex.getMessage());
 		}
 		System.out.println("After execution" + new Date());
+	}
+	
+	@Before("@annotation(RandomAnnotation)")
+	public void printBeforeAnnotation() {
+		System.out.println("Before execution with annotation");
 	}
 }
