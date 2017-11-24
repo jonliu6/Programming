@@ -1,11 +1,37 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                            http://www.springframework.org/schema/context
-	                       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-    <!-- one descriptor per application, defining beans -->
+	                       http://www.springframework.org/schema/context/spring-context-4.3.xsd
+	                       http://www.springframework.org/schema/tx
+	                       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+    
+    <context:property-placeholder location="classpath:db.properties" />
+    <context:component-scan base-package="org.freecode.demo" />
+    
+    <!-- use 3rd party library for connection pool functionality -->
+    <bean id="basicDS" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${dbDriver}"></property>
+        <property name="url" value="${dbURL}"></property>
+        <property name="username" value="${dbUser}"></property>
+        <property name="password" value="${dbPassword}"></property>
+    </bean>
+    
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="basicDS"></property> <!-- property name dataSource is keyword -->
+    </bean>
+    
+    <!-- JdbcDao -->
+    <!--
+    <bean id="myUserDetailService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <property name="dataSource" ref="basicDS"></property>
+    </bean>
+    -->
+    
+    <tx:annotation-driven />
     
 </beans>

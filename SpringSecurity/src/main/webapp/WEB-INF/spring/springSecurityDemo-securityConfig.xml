@@ -12,10 +12,23 @@
        </security:http>
        
        <security:authentication-manager>
+           <!-- In Memory Provider -->
+           <!--
            <security:authentication-provider>
                <security:user-service>
                    <security:user name="jon" password="jon123" authorities="ROLE_USER" />
                </security:user-service>
+           </security:authentication-provider>
+           -->
+           
+           <!-- JDBC Authentication Provider -->
+           <!--  
+           <security:authentication-provider user-service-ref="myUserDetailService">
+           </security:authentication-provider>
+           -->
+           <security:authentication-provider>
+               <security:password-encoder hash="md5" /> <!-- md5, sha, bcrypt -->
+               <security:jdbc-user-service data-source-ref="basicDS" />
            </security:authentication-provider>
        </security:authentication-manager>
 </beans>
