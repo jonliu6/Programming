@@ -18,6 +18,14 @@ public class App
     	String userName = "jon";
     	System.out.println("MD5: " + encoder.encodePassword(userName, null));
     	System.out.println("BCrypt: " + encoder1.encode(userName));
-        System.out.println("SHA: " + Sha512DigestUtils.shaHex(userName));    	
+        System.out.println("SHA: " + Sha512DigestUtils.shaHex(userName)); 
+        userName = "po";
+    	System.out.println("MD5: " + encoder.encodePassword(userName, null));
+    	System.out.println("BCrypt: " + encoder1.encode(userName));
+        System.out.println("SHA: " + Sha512DigestUtils.shaHex(userName));
+        userName = "user";
+    	System.out.println("MD5: " + encoder.encodePassword(userName, null));
+    	System.out.println("BCrypt: " + encoder1.encode(userName));
+        System.out.println("SHA: " + Sha512DigestUtils.shaHex(userName)); 
     }
 }

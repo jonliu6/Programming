@@ -6,14 +6,35 @@
 	                       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
        <!-- for above schemaLocation, security on top of beans -->
-       <security:http auto-config="true">
+       <security:http auto-config="true" use-expressions="true" >
+           <!-- can disable cross site request forgery here, but not recommended -->
+           <!-- <security:csrf disabled="true"/> -->
+       
+           <!-- pattern can be /view/login.jsp to a direct page or /login going thru a Controller -->
+           <security:intercept-url pattern="/login" access="permitAll" />  <!-- same as IS_AUTHENTICATED_ANONYMOUSLY -->
+           <security:intercept-url pattern="/loginFail" access="permitAll" />
+           <security:intercept-url pattern="/logout" access="permitAll" />
            <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+           
+           <security:form-login login-page="/login"
+                                default-target-url="/home"
+                                authentication-failure-url="/loginFail" />
+           <!-- deprecated since Spring 4.0.2
+           username-parameter="j_username"
+           password-parameter="j_password" 
+           login-processing-url="j_spring_security_check"
+           -->
+           
+           <security:logout logout-success-url="/logout" />
+           
+           <!-- only for basic authentication 
            <security:http-basic />
+           -->
        </security:http>
        
        <security:authentication-manager>
            <!-- In Memory Provider -->
-           <!--
+           <!--  
            <security:authentication-provider>
                <security:user-service>
                    <security:user name="jon" password="jon123" authorities="ROLE_USER" />
@@ -26,9 +47,14 @@
            <security:authentication-provider user-service-ref="myUserDetailService">
            </security:authentication-provider>
            -->
+           <!-- md5, sha, bcrypt -->
            <security:authentication-provider>
-               <security:password-encoder hash="md5" /> <!-- md5, sha, bcrypt -->
-               <security:jdbc-user-service data-source-ref="basicDS" />
+               <security:password-encoder hash="md5" />
+               <!-- by default, JDBC authentication and authorization requires 2 tables - users for login information and authorities for roles/permissions. You can define your own table names here. -->
+               <security:jdbc-user-service
+                   data-source-ref="basicDS"
+                   users-by-username-query="SELECT username, password, enabled FROM xlogin WHERE username = ?"
+                   authorities-by-username-query="SELECT username, authority FROM xauthority WHERE username = ?" />
            </security:authentication-provider>
        </security:authentication-manager>
 </beans>
