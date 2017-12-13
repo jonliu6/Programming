@@ -45,6 +45,7 @@
       var directionsDisplay = new google.maps.DirectionsRenderer;
       var from;
       var to;
+	  var trafficLayer;
 	  
 	  var markerArray = [];
       
@@ -272,6 +273,18 @@
 	      var mcOptions = {gridSize: 50, maxZoom: 12, styles: mcStyles};
 	      var mc = new MarkerClusterer(map, markerArray, mcOptions);
 	  }
+	  
+	  function showTrafficLayer(flag) {
+	      if (! trafficLayer) {
+		      trafficLayer = new google.maps.TrafficLayer();
+		  }
+	      if (flag) {
+		      trafficLayer.setMap(map);
+		  }
+		  else {
+		      trafficLayer.setMap(null);
+		  }          
+	  }
       
       // initialize map to BC center
       function initialize() {
@@ -345,6 +358,11 @@
 			<tr>
 			  <td colspan="2">
 			    <input type="button" name="btnStaticMap" value="Generate Static Page" onclick="generateStaticMap();" class="hideWhenPrinting"/>
+			  </td>
+			</tr>
+			<tr>
+			  <td colspan="2">
+			    <input id="btnTrafficLayer" type="checkbox" name="chkbxTraffic" onclick="showTrafficLayer(this.checked);" class="hideWhenPrinting" />Add Traffic Layer&nbsp;
 			  </td>
 			</tr>
           </table>
