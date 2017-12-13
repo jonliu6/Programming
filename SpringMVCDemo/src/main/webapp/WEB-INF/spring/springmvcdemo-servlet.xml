@@ -21,7 +21,7 @@
 
   <!-- prefix + view name + suffix are part of URL -->
   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-      <property name="prefix" value="/WEB-INF/view/"></property>
+      <property name="prefix" value="/view/"></property> <!-- /view is in the web root -->
       <property name="suffix" value=".jsp"></property>
   </bean>
   

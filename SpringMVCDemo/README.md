@@ -1,1 +1,1 @@
-This is an Maven project demonstrate Model/View/Controller concepts by Spring MVC framework
+This is an Maven project demonstrate Model/View/Controller concepts by Spring MVC framework. Also, Bean validation is used in the model entities.

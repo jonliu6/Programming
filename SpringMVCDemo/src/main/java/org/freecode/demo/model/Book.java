@@ -26,7 +26,7 @@ public class Book {
 		this.title = title;
 	}
 	
-	@Size(min=10, max=13) // validation by javax
+	@Size(min=10, max=13, message="Please enter a string between 10 and 13 characters") // validation by javax
 	public String getIsbn() {
 		return isbn;
 	}
@@ -34,7 +34,7 @@ public class Book {
 		this.isbn = isbn;
 	}
 	
-	@NotNull @Min(1) // @Positive specific to JDK version 8+, so use the same between compile and runtime
+	@NotNull(message="page number cannot be null") @Min(1) // @Positive specific to JDK version 8+, so use the same between compile and runtime
 	public Integer getPageCount() {
 		return pageCount;
 	}
