@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            
+            // Load Charts and the corechart and barchart packages.
+            google.charts.load('current', {'packages':['corechart']});
+
+            // Draw the pie chart and bar chart when Charts is loaded.
+            google.charts.setOnLoadCallback(drawChart);
+            
+            function drawChart() {
+                var rptData = new google.visualization.DataTable();
+                rptData.addColumn('string', 'Municipality');
+                rptData.addColumn('number', 'Customers Out');
+                rptData.addColumn('number', 'Feeder Lockouts');
+                rptData.addColumn('number', 'Feeder Status Needs Update');
+                rptData.addColumn('number', 'Unanalyzed Orders');
+                rptData.addColumn('number', 'Analyzed not Dispatched');
+                rptData.addColumn('number', 'Dispatched Orders');
+                rptData.addColumn('number', 'Active Orders');
+                rptData.addRows([
+                    ['100 Mile House', 26, 0, 0, 2, 0, 1, 3],
+                    ['Abbotsford', 17, 0, 0, 6, 0, 1, 7],
+                    ['Burnaby', 18, 0, 0, 4, 0, 1, 5],
+                    ['Vancouver', 98, 0, 0, 11, 0, 8, 19]
+                ]);
+                
+                var barOptions = {
+                    title: 'System Status Report',
+                    width: 640,
+                    height: 480,
+                    legend: {position: 'top', maxLines: 4},
+                    bar: {groupWidth: '75%'},
+                    isStacked: true
+                };
+                
+                var systemChart = new google.visualization.BarChart(document.getElementById('systemStatusChart'));
+                systemChart.draw(rptData, barOptions);
+            }
+        </script>
+    </head>
+    
+    <body>
+        <div id="systemStatusChart" style="border: 1px solid #ccc"></div>
+    </body>
+</html>
