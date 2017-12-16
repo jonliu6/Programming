@@ -1,11 +1,52 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style>
+            [class*="col-"] {
+                float: left;
+                display: table;
+                width: 100%;
+            }
+            
+            @media only screen and (min-width: 768px) {
+                .col-left {width: 30%}
+                .col-right {width: 70%}
+            }
+            
+            @media only screen and (max-width: 768px) {
+              table caption {
+                font-size: 1.3em;
+              }
+              table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+              }
+              table tr {
+                border-bottom: 3px solid #ddd;
+                display: block;
+                margin-bottom: .625em;
+              }
+              table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                text-align: right;
+              }
+            }
+        </style>
+        
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
         <script type="text/javascript">
             
             // Load Charts and the corechart and barchart packages.
-            google.charts.load('current', {'packages':['corechart']});
+            google.charts.load('current', {'packages':['corechart','table']});
 
             // Draw the pie chart and bar chart when Charts is loaded.
             google.charts.setOnLoadCallback(drawChart);
@@ -29,7 +70,7 @@
                 
                 var barOptions = {
                     title: 'System Status Report',
-                    width: 640,
+                    width: '100%',
                     height: 480,
                     legend: {position: 'top', maxLines: 4},
                     bar: {groupWidth: '75%'},
@@ -37,12 +78,41 @@
                 };
                 
                 var systemChart = new google.visualization.BarChart(document.getElementById('systemStatusChart'));
+                google.visualization.events.addListener(systemChart, 'select', function() {
+                    var colIdx = systemChart.getSelection()[0].column;
+                    var rowIdx = systemChart.getSelection()[0].row;
+                    console.log(rptData.getValue(rowIdx, 0) + ": " + rptData.getColumnLabel(colIdx) + " = " + rptData.getValue(rowIdx, colIdx));
+                });
                 systemChart.draw(rptData, barOptions);
+                
+                var tabOptions = {
+                    width: '100%',
+                    height: '100%',
+                    sort: 'enable'
+                }
+                var systemTable = new google.visualization.Table(document.getElementById('systemStatusTable'));
+                systemTable.draw(rptData, tabOptions);
             }
+            
+            $(document).ready(function(){
+                $("#filterTx").on("keyup", function() {
+                    var val = $(this).val().toLowerCase();
+                    $("#systemStatusTable").find("tbody tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1);
+                    });
+                });
+            });
         </script>
     </head>
     
     <body>
-        <div id="systemStatusChart" style="border: 1px solid #ccc"></div>
+        <div id="systemStatusChart" class="col-left"></div>
+        <div class="col-right">
+            <label for="filterTx">Filter by text: </label>
+            <input id="filterTx" type="text" placeholder="Filter by keywords" value="" />
+            <div id="systemStatusTable">
+            </div>
+        </div>
+        
     </body>
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    </head>
+    
+    <body>
+        <div id="chart_div"></div>
+        
+        <script type="text/javascript">
+            var rptDataTxt = "[[\"AHM\",\"2551 AHM\",0,20,0,532],[\"ALZ\",\"2573 ALZ\",0,3,0,531],[\"BND\",\"12313BND\",1,196,100.00,852],[\"WRK\",\"2562 WRK\",1,377,90.50,4460],[\"WHY\",\"25123WHY\",2,231,12,2628]]";
+            var rptData = JSON.parse(rptDataTxt);
+            
+            function drawChart() {
+                if (rptData) {
+                    console.log(rptData);
+                    var rptDataTable = new google.visualization.DataTable();
+                    //rptDataTable.addColumn('string', 'Substation');
+                    rptDataTable.addColumn('string', 'Circuit');
+                    rptDataTable.addColumn('number', 'Customers Out');
+                    //rptDataTable.addColumn('number', 'Customers Normal');
+                    
+                    var rptDataArray = [];
+                    for (var i=0, len=rptData.length; i<len; i++) {
+                        var substationCode = rptData[i][0];
+                        var circuitId = rptData[i][1];
+                        var customersOut = rptData[i][3];
+                        var customersNormal = customersOut;
+                        if (rptData[i][5] && rptData[i][5] > customersOut) {
+                            customersNormal = rptData[i][5] - rptData[i][3];
+                        }
+                        rptDataArray.push([circuitId, customersOut]);
+                    }
+                    rptDataTable.addRows(rptDataArray);
+                    // Set chart options
+                    var options = {
+                        title: 'Customers Out by Circuits',
+                        titleTextStyle: {color: 'blue', fontSize: '16'},
+                        pieSliceText: 'value',
+                        width: 400,
+                        height: 300,
+                        is3D: true
+                    };
+                    
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    chart.draw(rptDataTable, options);
+                }
+            }
+            
+            $(document).ready(function(){
+                // Load Charts and the corechart and barchart packages.
+                google.charts.load("current", {"packages":["corechart","table"]});
+                
+                // Draw the pie chart and bar chart when Charts is loaded.
+                google.charts.setOnLoadCallback(drawChart);
+                
+            });
+        </script>
+    </body>
+</html>
