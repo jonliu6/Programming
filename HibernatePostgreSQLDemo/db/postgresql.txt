@@ -1,5 +1,5 @@
 # Start PostgreSQL
-postgres -D d:/devapps/pgsql/data 
+postgres -D c:/devapps/pgsql/data 
 # or, pg_ctl start
 
 # Stop PostgreSql
@@ -45,3 +45,16 @@ COMMIT;
 
 # QUIT
 \q
+
+
+# Other PostgresSQL DDL and DML
+
+ALTER DATABASE xproject_db SET search_path to <another schema name>; # change default schema
+
+# Data Types: smallint, integer, bigint, int2, int4, int8, Numeric, Real, varchar, char, text, date (current_date), time
+
+# commands
+help
+\?
+
+VACUUM - remove unused spaces
