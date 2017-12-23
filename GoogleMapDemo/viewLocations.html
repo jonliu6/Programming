@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>View Locations from JSON</title>
+        <script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&visual_refresh=true"></script>
+        <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+        <style>
+            html { height:100%; }
+	        body { height:100%; margin: 0; padding: 0; }
+            #map-canvas {
+                width: 100%; height: 90%; margin: 0; padding: 0; border:#555555 0px solid;
+            }
+        </style>
+    </head>
+    
+    <body>
+        
+        <div id="map-canvas"></div>
+        <script type="text/javascript" src="../../substations.js"></script>
+        <script type="text/javascript">
+            var BC_CENTER_LATITUDE = 53.239622280409575;
+            var BC_CENTER_LONGITUDE = -130.122070312500005;
+            var map;
+            var markerArray = [];
+            
+            function showClusteredMarkers() {
+                // imagePath is replaced by styles
+                var mcStyles = [{width: 32, height: 32, textColor: 'white', textSize: 16, url: './clusterIcon.png'}];
+                var mcOptions = {gridSize: 50, maxZoom: 12, styles: mcStyles};
+                var mc = new MarkerClusterer(map, markerArray, mcOptions);
+            }
+            
+            function createMarker(location, txTitle, txLabel, iconURL) {
+                var marker = new google.maps.Marker({ position: location,
+                                                      title: txTitle,
+                                                      label: txLabel,
+                                                      fontSize: 10,
+                                                      icon: iconURL });
+                if (! markerArray) {
+                    markerArray = [];
+                }
+                markerArray.push(marker); // push into the cluster marker array
+                
+                return marker;
+            }
+            
+            function drawMarker(marker) {
+                if (typeof(map) != "undefined" && map != null) {
+                  marker.setMap(map);
+                }
+            }
+            
+            function drawStations(dataArray) {
+                var iconURL = "station.gif";
+                markerArray = [];
+                if (dataArray) {
+                    var len = dataArray.length;
+                    for (var i=0; i<len; i++) {
+                        var station = dataArray[i];
+                        if (station) {
+                            // console.log(station[2] + "," + station[3]);
+                            var stationCode = station[0];
+                            var stationName = station[1];
+                            var location = new google.maps.LatLng(station[3], station[2]);
+                            
+                            drawMarker(createMarker(location, stationName, stationCode, iconURL));
+                        }
+                    }
+                }
+            }
+            
+            // initialize map to BC center
+            function initialize() {
+                var mapOptions = {
+                  center: { lat: BC_CENTER_LATITUDE, lng: BC_CENTER_LONGITUDE},
+                  zoom: 5
+                };
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                
+                drawStations(stationData.values);
+                showClusteredMarkers();
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    </body>
+</html>
