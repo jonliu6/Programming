@@ -1,0 +1,2 @@
+https://maps.googleapis.com/maps/api/elevation/json?locations=49.2880851,-122.8350172&v=3.exp
+https://maps.googleapis.com/maps/api/elevation/json?locations=49.2880851,-122.8350172&key=

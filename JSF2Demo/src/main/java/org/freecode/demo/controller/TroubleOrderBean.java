@@ -17,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
@@ -183,5 +184,31 @@ public class TroubleOrderBean implements Serializable {
 			}
 		}
 		
+	}
+	
+	private String[] selectedReferTos;
+	public String[] getSelectedReferTos() {
+		return selectedReferTos;
+	}
+
+	public void setSelectedReferTos(String[] selectedReferTos) {
+		this.selectedReferTos = selectedReferTos;
+	}
+
+	public List<SelectItem> getAllReferTos() {
+		List<SelectItem> items = new ArrayList<SelectItem>();
+		items.add(new SelectItem("D", "3rd Party Damage to BCH Plant"));
+		items.add(new SelectItem("E", "Design/Engineering"));
+	    items.add(new SelectItem("N", "Environmental"));
+	    items.add(new SelectItem("X", "Express Connect"));
+	    items.add(new SelectItem("F", "Field Manager"));
+	    items.add(new SelectItem("M", "Metering"));
+	    items.add(new SelectItem("S", "Safety"));
+	    items.add(new SelectItem("V", "Vegetation"));
+	    items.add(new SelectItem("T", "Stores"));
+	    items.add(new SelectItem("A", "Distribution Maintenance Analyst"));
+	    items.add(new SelectItem("R", "Revenue Assurance"));
+		
+		return items;
 	}
 }

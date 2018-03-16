@@ -51,7 +51,8 @@
                         style="width:200px;"
                         var="crew" 
                         id="crewLocationTable"
-                        onrowclick="displayCrewLocation('#{crew.crewId}',#{crew.latitude},#{crew.longitude},'images/truck.gif')">
+                        onrowclick="displayCrewLocation('#{crew.crewId}',#{crew.latitude},#{crew.longitude},'images/truck.gif')"
+                        frozenColumns="1">
   
   <rich:column>
     <f:facet name="header">

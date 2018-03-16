@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Draw Locations on Map</title>
+        <script type="text/javascript" src="jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&visual_refresh=true"></script>
+        <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+        <style>
+            html { height:100%; }
+	        body { height:100%; margin: 0; padding: 0; }
+            #map-canvas {
+                width: 100%; height: 92%; margin: 0; padding: 0; border:#555555 0px solid;
+            }
+			#function-canvas {
+                position: absolute; top: 0.2em; left: 8em; padding-left: 0.5em; padding-top: 0.5em; font-family: cursive; font-size: 12pt;
+            }
+			#text-canvas {
+			    padding-left: 0.5em; padding-top: 0.5em; font-family: Arial; font-size: 12pt;
+			}
+        </style>
+    </head>
+    
+    <body>
+        <div id="map-canvas"></div>
+		<div id="function-canvas">
+		    <label for="txSearchById">ID</label><input type="text" id="txSearchById" name="txSearchById" value=""/>&nbsp;&nbsp;
+            <input type="button" id="btnSearchById" value="Go to" onclick="findMarkerByTitle($('#txSearchById').val());" />
+		</div>
+		<div id="text-canvas">
+		    <label for="chkPoint">Point</label><input type="checkbox" id="chkPoint" name="chkPoint" checked disabled="disabled" />&nbsp;&nbsp;
+            <label for="chkLine">Line</label><input type="checkbox" id="chkLine" name="chkLine" checked />&nbsp;&nbsp;
+			<label for="chkArea">Area</label><input type="checkbox" id="chkArea" name="chkArea" checked />&nbsp;&nbsp;
+		</div>
+        <script type="text/javascript" src="locationData.js"></script>
+        <script type="text/javascript">
+            var BC_CENTER_LATITUDE = 53.239622280409575;
+            var BC_CENTER_LONGITUDE = -130.122070312500005;
+            var map;
+			var mapBounds;
+            var locationArray = [];
+			var clusteredLocationArray = [];
+			var defaultIcon = "dot.gif";
+            
+            function showClusteredMarkers() {
+                // imagePath is replaced by styles
+                var mcStyles = [{width: 32, height: 32, textColor: 'white', textSize: 16, url: './clusterIcon.png'}];
+                var mcOptions = {gridSize: 50, maxZoom: 12, styles: mcStyles};
+                var mc = new MarkerClusterer(map, clusteredLocationArray, mcOptions);
+            }
+            
+            function createMarker(location, txTitle, txLabel, iconURL) {
+			    var infowindow = new google.maps.InfoWindow({
+					content: txTitle
+				});
+                var marker = new google.maps.Marker({ position: location,
+				                                      id: txLabel,
+                                                      title: txTitle,
+                                                      label: txLabel,
+                                                      fontSize: 10,
+                                                      icon: iconURL });
+				marker.addListener('click', function() {
+				    infowindow.open(map, marker);
+				});
+				
+                if (! clusteredLocationArray) {
+                    clusteredLocationArray = [];
+                }
+                clusteredLocationArray.push(marker); // push into the cluster marker array
+				
+				if (mapBounds) {
+				    mapBounds.extend(marker.position);
+				}
+                
+                return marker;
+            }
+            
+            function drawMarker(marker) {
+                if (typeof(map) != "undefined" && map != null) {
+                  marker.setMap(map);
+                }
+            }
+            
+            function drawPoints(dataArray) {
+                var iconURL = "./" + defaultIcon;
+                if (dataArray) {
+                    var len = dataArray.length;
+                    for (var i=0; i<len; i++) {
+                        var aPoint = dataArray[i];
+                        if (aPoint) {
+                            var index = aPoint[0];
+                            var title = aPoint[1];
+                            var location = new google.maps.LatLng(aPoint[3], aPoint[2]);
+                            drawMarker(createMarker(location, title, index, iconURL));
+							locationArray.push(location); // push the locations into an array for drawing polyline or polygon
+                        }
+                    }
+                }
+            }
+			
+			function drawLines(dataArray) {
+			    if (locationArray) {
+				    var line = new google.maps.Polyline({path: locationArray,
+														geodesic: true,
+														strokeColor: '#FF0000',
+														strokeOpacity: 0.8,
+														strokeWeight: 2 });
+					if ( typeof(map) != "undefined" && map != null ) {
+						line.setMap(map);
+					}
+				}
+			}
+			
+			function drawArea(dataArray) {
+			    if (locationArray) {
+					var area = new google.maps.Polygon({paths: locationArray,
+														strokeColor: '#0000FF',
+														strokeOpacity: 0.8,
+														strokeWeight: 1,
+														fillColor: '#00FF00',
+														fillOpacity: 0.35 });
+					if ( typeof(map) != "undefined" && map != null ) {
+						area.setMap(map);
+					}
+				}
+            }
+			
+			function gotoMarker(marker) {
+                var markerLabel = new google.maps.InfoWindow({
+                  content: marker.title
+                });
+                
+                var mapOptions = {
+                  center: marker.position
+                };
+                if (map) {
+                    map.setOptions(mapOptions);
+                    markerLabel.open(map, marker);
+                }
+            }
+			
+			function findMarkerByTitle(title) {
+			    if (! title) {
+				    alert('Search title cannot be empty.');
+					return false;
+				}
+                console.log('looking for title contains ' + title + "...");
+                var foundMarker = null;
+                if (clusteredLocationArray) {
+                    for (var i=0, len=clusteredLocationArray.length; i < len; ++i) {
+                        var obj = clusteredLocationArray[i];
+                        // if (obj && obj.id === id) {
+						if (obj && obj.title && obj.title.toLowerCase().indexOf(title.toLowerCase()) > -1) {
+                            console.log(obj.title + " found");
+                            foundMarker = clusteredLocationArray[i];
+                            break;
+                        }
+                    }
+                }
+                
+                if (foundMarker) {
+                    gotoMarker(foundMarker);
+                }
+                else {
+                    alert("Object with title contains " + title + " could not be found.");
+                }
+                // return markerArray[i];
+                
+            }
+			
+			// initialize map to BC center
+            function initialize() {
+                var mapOptions = {
+                  center: { lat: BC_CENTER_LATITUDE, lng: BC_CENTER_LONGITUDE},
+                  zoom: 5
+                };
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                mapBounds =  new google.maps.LatLngBounds();
+				
+				locationArray = [];
+				clusteredLocationArray = [];
+				// check options
+				var includePoint = $("#chkPoint").prop("checked"); // JS way: document.getElementById("chkPoint").checked
+				var includeLine = $("#chkLine").prop("checked");
+				var includeArea = $("#chkArea").prop("checked");
+				// locationData is from the included .js file
+				if (includePoint) { // must draw since the locationArray depending on it
+                    drawPoints(locationData.values);
+				}
+				if (includeLine) {
+				    drawLines(locationData.values)
+				}
+				if (includeArea) {
+				    drawArea(locationData.values)
+				}
+				
+				// cluster the markers
+                showClusteredMarkers();
+				
+				// extend map bounds for found markers
+				map.fitBounds(mapBounds);
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+    </body>
+</html>

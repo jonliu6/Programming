@@ -11,6 +11,7 @@
             <property name="hibernate.show_sql" value="true" />
         </properties>
 	</persistence-unit>
+	<!-- 
 	<persistence-unit name="DAD">
 	    <provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>DADDEV</jta-data-source>
@@ -27,5 +28,5 @@
             <property name="hibernate.show_sql" value="true" />
 		</properties>
 	</persistence-unit>
-	
+	-->
 </persistence>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:e="http://example.com/test">
+ 
+<h:head>
+    <script type="text/javascript">
+      // <![CDATA[
+        function validateReferTos(elem) {
+        	// alert(elem);
+        	var checkboxes = document.getElementsByTagName("input");
+        	var cnt = 0;
+        	for (var i = 0, len = checkboxes.length; i < len; i++) {
+        		if (checkboxes[i].type == "checkbox" && checkboxes[i].checked) {
+        			cnt += 1;
+        		}
+        	}
+        	if (cnt > 10) {
+        		elem.checked = false;
+        		cnt -= 1;
+        		alert("Maximum selection is 10, so '" + elem.value + "' is un-checked.");
+        	}
+        	document.getElementById("selectedCount").innerText = cnt;
+        	
+        }
+      // ]]>  
+    </script>
+</h:head>
+<h:body>
+	<h:form id="demoFm">
+	Refer Tos:
+	<h:selectManyCheckbox id="referToList" value="#{troubleOrderBean.selectedReferTos}" 
+	                      
+	                      onchange="validateReferTos(this)"
+	                      layout="pageDirection">
+	    <f:selectItems value="#{troubleOrderBean.allReferTos}" />
+	    <f:ajax execute="@this"></f:ajax>
+	</h:selectManyCheckbox>
+	<hr/>
+	
+	</h:form>
+	Selected: <span id="selectedCount"></span>
+</h:body>
+</html>
