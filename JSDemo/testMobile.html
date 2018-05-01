@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+    function isMobile() {
+	    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+			return true;
+		}
+		return false;
+	}
+</script>
+  <title>Test browser from mobile or desktop</title>
+</head>
+
+<body>
+  <input type="button" onclick="javascript: document.getElementById('result').innerText = isMobile();" value="Test"/>
+  Accessing from mobile? <span id="result"></span>
+</body>
+</html>
