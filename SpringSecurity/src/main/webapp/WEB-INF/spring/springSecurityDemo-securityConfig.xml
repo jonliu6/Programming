@@ -14,7 +14,8 @@
            <security:intercept-url pattern="/login" access="permitAll" />  <!-- same as IS_AUTHENTICATED_ANONYMOUSLY -->
            <security:intercept-url pattern="/loginFail" access="permitAll" />
            <security:intercept-url pattern="/logout" access="permitAll" />
-           <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+           <security:intercept-url pattern="/staticResources/**" access="permitAll" /> <!-- map to definition in mvc:resources -->
+           <security:intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" /> <!-- //  NOTE: this will prevent accesses of another role other than ROLE_ADMIN or ROLE_USER. -->
            
            <security:form-login login-page="/login"
                                 default-target-url="/home"
@@ -25,7 +26,7 @@
            login-processing-url="j_spring_security_check"
            -->
            
-           <security:logout logout-success-url="/logout" />
+           <security:logout logout-success-url="/logout" delete-cookies="JSESSIONID"/>
            
            <!-- only for basic authentication 
            <security:http-basic />
@@ -51,6 +52,7 @@
            <security:authentication-provider>
                <security:password-encoder hash="md5" />
                <!-- by default, JDBC authentication and authorization requires 2 tables - users for login information and authorities for roles/permissions. You can define your own table names here. -->
+               <!-- NOTE: you may need to derive the values. be ware of 0 or 1 in Oracle, cannot use true/false -->
                <security:jdbc-user-service
                    data-source-ref="basicDS"
                    users-by-username-query="SELECT username, password, enabled FROM xlogin WHERE username = ?"

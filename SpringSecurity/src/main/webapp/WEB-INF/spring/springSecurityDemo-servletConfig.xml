@@ -12,6 +12,9 @@
 	<mvc:annotation-driven></mvc:annotation-driven>
   
     <context:component-scan base-package="org.freecode.demo"></context:component-scan>
+    
+    <!-- this is for the static files under webroot/resources, ** can search subfolders -->
+    <mvc:resources location="/resources/" mapping="/staticResources/**" />
 	
     <!-- prefix + view name + suffix are part of URL -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

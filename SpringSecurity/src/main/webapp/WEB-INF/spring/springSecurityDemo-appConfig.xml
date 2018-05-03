@@ -21,6 +21,15 @@
         <property name="password" value="${dbPassword}"></property>
     </bean>
     
+    <!-- to replace dbcp2 above, use JNDI for connection pool in JBoss -->
+    <!-- //JNDI same as defined in standalone.xml of JBoss
+    <bean id="basicDS" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName">
+            <value>java:/jdbc/MySQLDS</value>
+        </property>
+    </bean>
+    -->
+    
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="basicDS"></property> <!-- property name dataSource is keyword -->
     </bean>

@@ -11,7 +11,7 @@
 	
 	<context-param>
 	    <param-name>contextConfigLocation</param-name>
-	    <param-value>
+	    <param-value> <!-- NOTE the order of context files to ensure the class defined before being used -->
 	        /WEB-INF/spring/springSecurityDemo-appConfig.xml
 	        /WEB-INF/spring/springSecurityDemo-securityConfig.xml
 	    </param-value>
@@ -29,7 +29,12 @@
 	
 	<servlet-mapping>
 	  <servlet-name>SpringSecurityDemo</servlet-name>
-	  <url-pattern>/</url-pattern>
+	  <url-pattern>/</url-pattern> <!-- better give a folder for DispatcherServlet mapping Spring Controllers, like /controller/* -->
+	  <!-- 
+	    The /* on a servlet overrides all other servlets, including all servlets provided by the servletcontainer such as the default servlet and the JSP servlet.
+		The / doesn't override any other servlet. It only replaces the servletcontainer's builtin default servlet for all requests which doesn't match any other registered servlet.
+		Then there's also the empty string URL pattern . This will be invoked when the context root is requested.
+	  -->
 	</servlet-mapping>
 	
 	<filter> <!-- intercept before DispatchServlet -->
@@ -39,6 +44,6 @@
 	
 	<filter-mapping>
 	    <filter-name>springSecurityFilterChain</filter-name>
-	    <url-pattern>/*</url-pattern> <!-- intercept every URL -->
+	    <url-pattern>/*</url-pattern> <!-- intercept every URL including pages, servlets and resources like js, css or images. need to configure properly in security configuration xml as well -->
 	</filter-mapping>
 </web-app>

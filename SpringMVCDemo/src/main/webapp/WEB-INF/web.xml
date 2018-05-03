@@ -36,7 +36,12 @@
 	
 	<servlet-mapping>
 	  <servlet-name>SpringMVCDemo</servlet-name>
-	  <url-pattern>/controller/*</url-pattern> <!-- NOTE: do not use /* because it may be too wild -->
+	  <url-pattern>/controller/*</url-pattern> <!-- NOTE: do not use /* because then DispatcherServlet will look for all URLs as servlet rather than Spring Controllers -->
+	  <!-- 
+	    The /* on a servlet overrides all other servlets, including all servlets provided by the servletcontainer such as the default servlet and the JSP servlet.
+		The / doesn't override any other servlet. It only replaces the servletcontainer's builtin default servlet for all requests which doesn't match any other registered servlet.
+		Then there's also the empty string URL pattern . This will be invoked when the context root is requested.
+	  -->
 	</servlet-mapping>
 
 	<session-config>
