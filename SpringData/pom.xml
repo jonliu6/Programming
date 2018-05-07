@@ -16,6 +16,7 @@
     <jstl.version>1.2</jstl.version>
     <application.home>${env.JBOSS_HOME}/standalone</application.home>
 	<webapp.dir>${application.home}/deployments</webapp.dir>
+	<hibernate.version>4.3.5.Final</hibernate.version>
   </properties>
   
   <dependencies>
@@ -62,6 +63,40 @@
         <scope>compile</scope>
         <!-- previous version of 3.x uses 3.2.18.RELEASE -->
     </dependency>
+    <!-- Spring Object Relationship Mapping -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${springframework.version}</version>
+    </dependency>
+    
+    <!-- Javax Persistence API specs from JavaEE -->
+    <dependency>
+	    <groupId>javax</groupId>
+	    <artifactId>javaee-api</artifactId>
+	    <version>7.0</version>
+	    <scope>compile</scope>
+	</dependency>
+	
+	<!-- javax.annotation.Resource -->
+	<dependency>
+	    <groupId>javax.annotation</groupId>
+	    <artifactId>javax.annotation-api</artifactId>
+	    <version>1.3.2</version>
+	</dependency>
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-jpa</artifactId>
+        <version>2.0.6.RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-entitymanager</artifactId>
+		<version>${hibernate.version}</version>
+		<scope>compile</scope>
+	</dependency>
     
   </dependencies>
 </project>

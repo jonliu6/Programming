@@ -43,5 +43,24 @@
     </bean>
     -->
     
+    <!-- use JPA -->
+    <bean id="emFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="basicDS"></property> <!-- dataSource is the property name -->
+        <property name="persistenceUnitName" value="xprojdb"></property>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="packagesToScan" value="org.freecode.demo"></property>
+    </bean>
+
+    <bean id="jpaTxMgr" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emFactory"></property> <!-- entityManagerFactory is the property name -->
+    </bean>
+    
+    <!-- 
+    <bean id="locationService" class="org.freecode.demo.service.LocationService" autowire="byType" >
+    </bean>
+    -->
+    
     <tx:annotation-driven />
 </beans>
