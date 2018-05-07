@@ -19,7 +19,7 @@
            
            <security:form-login login-page="/login"
                                 default-target-url="/home"
-                                authentication-failure-url="/loginFail" />
+                                authentication-failure-url="/loginFail" /> <!-- failure url same as /login?error -->
            <!-- deprecated since Spring 4.0.2
            username-parameter="j_username"
            password-parameter="j_password" 

@@ -37,9 +37,11 @@ public class LoginController {
         return model; 
 	}
 	
+	// similar to /login?error
 	@RequestMapping(value="/loginFail", method=RequestMethod.GET)
 	public String loginFail(Model model) {
 		System.out.println("loginFail handler invoked");
+		model.addAttribute("error", "Invalid login or password!");
 		
 		return "login";
 	}
