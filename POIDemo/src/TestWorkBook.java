@@ -159,6 +159,10 @@ public class TestWorkBook {
 		colFnt.setColor(HSSFColor.WHITE.index);
 		cellFgRedStyle.setFont(colFnt);
 		
+		HSSFCellStyle cellFntAquaStyle = wbk.createCellStyle();
+		HSSFFont aquaFnt = wbk.createFont();
+		aquaFnt.setColor(HSSFColor.AQUA.index);
+		cellFntAquaStyle.setFont(aquaFnt);		
 		
 		for( Iterator<EmployeeRecord> it = aList.iterator(); it.hasNext(); )
 		{
@@ -174,6 +178,7 @@ public class TestWorkBook {
 			cell3 = row.createCell( 2 );
 			cell3.setCellValue( er.getTheRating() );
 			cell3.setCellStyle( unlockedStyle );
+			cell3.setCellStyle(cellFntAquaStyle);
 			cell4 = row.createCell( 3 );
 			String hrFlag = er.getTheHRFlag();
 			cell4.setCellValue( hrFlag );
