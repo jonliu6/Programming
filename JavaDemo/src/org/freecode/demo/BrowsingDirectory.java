@@ -1,10 +1,15 @@
 package org.freecode.demo;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.comparator.DirectoryFileComparator;
+import org.apache.commons.io.comparator.NameFileComparator;
 
 public class BrowsingDirectory
 {
@@ -43,6 +48,9 @@ public class BrowsingDirectory
         {
             File folder = new File(dname);
             File[] files = folder.listFiles();
+            DirectoryFileComparator dfc = new DirectoryFileComparator();
+            Arrays.sort(files, DirectoryFileComparator.DIRECTORY_COMPARATOR);
+            // dfc.sort(files);
             String indent;
     
             indent = getIndentation(ind, ' ');
