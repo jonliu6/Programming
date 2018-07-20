@@ -43,6 +43,8 @@ namespace MQWMQSenderApp.util
         public static MQMessage CreateMessage(string messageFormat, string messageText)
         {
             MQMessage qMessage = new MQMessage();
+            // default was MQC.CODESET_USC
+            qMessage.CharacterSet = MQC.CODESET_UTF;
             if (messageFormat == "text")
             {
                 qMessage.Format = MQC.MQFMT_STRING;

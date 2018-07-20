@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace RemoteDispatchTestClient.util
+namespace MQWMQSenderApp.util
 {
     class PropertyFileHelper
     {
@@ -12,10 +12,10 @@ namespace RemoteDispatchTestClient.util
          
         public PropertyFileHelper(String fileName)
         {
-            loadProperties(fileName);
+            LoadProperties(fileName);
         }
 
-        public String getProperty(String key)
+        public String GetProperty(String key)
         {
             if (!String.IsNullOrEmpty(key) && _properties != null && _properties.ContainsKey(key))
             {
@@ -24,7 +24,7 @@ namespace RemoteDispatchTestClient.util
             return null;
         }
 
-        public void loadProperties(String fileName)
+        public void LoadProperties(String fileName)
         {
             String[] lines = null;
             try
@@ -64,7 +64,7 @@ namespace RemoteDispatchTestClient.util
             }
         }
 
-        public String displayAllProperties()
+        public String DisplayAllProperties()
         {
             if (_properties != null && _properties.Count > 0)
             {

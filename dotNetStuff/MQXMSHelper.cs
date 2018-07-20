@@ -153,7 +153,7 @@ namespace MQXMSReceiverApp.util
             }
         }
 
-        private IMessage CreateMQMessage(ISession sess, String msgType, String msgStr)
+        public IMessage CreateMQMessage(ISession sess, String msgType, String msgStr)
         {
             IMessage msg = null;
             switch (msgType)
@@ -202,12 +202,11 @@ namespace MQXMSReceiverApp.util
             // Console.WriteLine("Message sent.");
         }
 
-        public void SendMessage(ISession session,  IMessageProducer producer, String msgType, String msgStr)
+        public void SendMessage(ISession session,  IMessageProducer producer, IMessage msgObj)
         {
             if (producer != null && session != null)
             {
-                IMessage msg = CreateMQMessage(session, msgType, msgStr);
-                producer.Send(msg);
+                producer.Send(msgObj);
             }
         }
 
@@ -281,40 +280,31 @@ namespace MQXMSReceiverApp.util
         /// </summary>
         /// <param name="consumer"></param>
         /// <returns></returns>
-        public String ReceiveMessageNoWait(IMessageConsumer consumer)
+        public String ConvertMessageObjectToString(IMessage msg)
         {
             String msgStr = null;
-            if (consumer != null)
+            if (msg != null)
             {
-                IMessage msg = consumer.ReceiveNoWait(); // non-blocking
-                if (msg != null)
+                if (msg is ITextMessage)
                 {
-                    if (msg is ITextMessage)
-                    {
-                        msgStr = ((ITextMessage)msg).Text;
-                        /// NOTE: there are some null-terminated characters from ES and CCS, so need to convert to whitespaces; otherwise, the message is truncated
-                        //msgStr = ((ITextMessage)msg).Text.Replace("\0", " ");
-                        //byte[] bytes = Encoding.UTF8.GetBytes(((ITextMessage)msg).Text);
-                        //msgStr = "text <" + Encoding.UTF8.GetString(bytes) + ">";
-                        //msgStr = msg.GetIntProperty(XMSC.JMS_IBM_CHARACTER_SET) + " " + msg.GetIntProperty(XMSC.JMS_IBM_ENCODING) + " " + ((ITextMessage)msg).Text;
-                    }
-                    else if (msg is IBytesMessage)
-                    {
-                        int num = (int) ((IBytesMessage)msg).BodyLength;
-                        byte[] bytes = new byte[num];
-                        ((IBytesMessage)msg).ReadBytes(bytes);
-                        msgStr = Encoding.UTF8.GetString(bytes);
-                        
-                    }
-                    msg.Acknowledge();
-                    // msg.ClearBody();
+                    msgStr = ((ITextMessage)msg).Text;
+                    /// NOTE: there are some null-terminated characters from ES and CCS, so need to convert to whitespaces; otherwise, the message is truncated
+                    //msgStr = ((ITextMessage)msg).Text.Replace("\0", " ");
+                    //byte[] bytes = Encoding.UTF8.GetBytes(((ITextMessage)msg).Text);
+                    //msgStr = "text <" + Encoding.UTF8.GetString(bytes) + ">";
+                    //msgStr = msg.GetIntProperty(XMSC.JMS_IBM_CHARACTER_SET) + " " + msg.GetIntProperty(XMSC.JMS_IBM_ENCODING) + " " + ((ITextMessage)msg).Text;
                 }
+                else if (msg is IBytesMessage)
+                {
+                    int num = (int) ((IBytesMessage)msg).BodyLength;
+                    byte[] bytes = new byte[num];
+                    ((IBytesMessage)msg).ReadBytes(bytes);
+                    msgStr = Encoding.UTF8.GetString(bytes);
+                    
+                }
+                msg.Acknowledge();
+                // msg.ClearBody();
             }
-            else
-            {
-                msgStr = "Message Consumer error, please stop and check the MQ Configuration.";
-            }
-
             return msgStr;
         }
     }
