@@ -28,4 +28,11 @@
     </context-param>
     -->
 
+	<render-kit>
+	     <renderer>
+	         <component-family>javax.faces.Message</component-family>
+	         <renderer-type>javax.faces.Message</renderer-type>
+	         <renderer-class>org.freecode.demo.faces.EscapableMessageRender</renderer-class>
+	     </renderer>
+	</render-kit>
 </faces-config>

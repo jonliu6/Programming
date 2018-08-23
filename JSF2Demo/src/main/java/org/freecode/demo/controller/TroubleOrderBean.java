@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -145,7 +146,9 @@ public class TroubleOrderBean implements Serializable {
 	public void downloadReport() {
 		if (reportYear != null && reportMonth != null && reportDate != null && reportHour != null) {
 			
-			
+			FacesMessage msg = new FacesMessage("Message Summary: <a href\"#\">Test Link</a>", "Message Details");
+			FacesContext.getCurrentInstance().addMessage("reportHour", msg);
+						
 			Calendar cal = new GregorianCalendar();
 			cal.set(reportYear, reportMonth, reportDate, reportHour, 0, 0);
 			Date reportHour = cal.getTime();

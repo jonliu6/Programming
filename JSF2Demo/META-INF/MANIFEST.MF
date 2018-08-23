@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JSF2Demo
+Bundle-SymbolicName: JSF2Demo
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.freecode.prototype,
+ org.freecode.demo,
+ org.freecode.demo.controller,
+ org.freecode.demo.faces,
+ org.freecode.demo.model
