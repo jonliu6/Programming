@@ -104,7 +104,9 @@
                                                   type: type,
                                                   position: location,
                                                   title: title,
-                                                  icon: iconURL });
+                                                  icon: iconURL,
+												  selected: false
+ 												  });
             if (typeof(map) != "undefined" && map != null) {
               marker.setMap(map);
             }
@@ -125,6 +127,8 @@
                     }
                     
                 }
+				console.log("Is marker selected: " + marker.selected);
+				marker["selected"] = !marker.selected;
             });
             
             displayContextMenu2( marker, "mapContextMenu" );

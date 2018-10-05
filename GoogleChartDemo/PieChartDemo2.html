@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    </head>
+    
+    <body>
+	    <div id="data_div" style="width: 400px; background-color: #eeeeee; font-family: arial; font-size: 11pt;">
+		    <table border="0" style="padding-left: 10px;">
+			    <tr>
+				    <td colspan="2" style="padding-left: 100px; font-family: Arial; font-size: 16px; font-weight: bold; color: #0000ff;">Summary</td>
+				</tr>
+			    <tr>
+				    <td width="120">Active Orders</td>
+					<td style="color: red;">402</td>
+			    </tr>
+				<tr>
+				    <td width="120">New Orders</td>
+					<td style="color: red;">42</td>
+			    </tr>
+				<tr>
+				    <td>Customers Out</td>
+					<td style="color: red;">12405</td>
+			    </tr>
+			</table>
+		</div>
+        <div id="chart_div"></div>
+        
+        <script type="text/javascript">
+            var rptDataTxt = "[[\"P1 High\",11],[\"P1\",41],[\"P2\",269],[\"P3\",63],[\"P4\",10],[\"P5\",4]]";
+            var rptData = JSON.parse(rptDataTxt);
+            
+            function drawChart() {
+                if (rptData) {
+                    console.log(rptData);
+                    var rptDataTable = new google.visualization.DataTable();
+                    rptDataTable.addColumn('string', 'Priority');
+                    rptDataTable.addColumn('number', 'Order Count');
+                    
+                    var rptDataArray = [];
+                    for (var i=0, len=rptData.length; i<len; i++) {
+                        var priority = rptData[i][0];
+                        var orderCount = rptData[i][1];
+                        
+                        rptDataArray.push([priority, orderCount]);
+                    }
+                    rptDataTable.addRows(rptDataArray);
+                    // Set chart options
+                    var options = {
+                        title: 'Orders by Priority',
+                        titleTextStyle: {color: 'blue', fontSize: '16'},
+                        pieSliceText: 'value',
+                        width: 400,
+                        height: 300,
+                        is3D: true
+                    };
+                    
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    chart.draw(rptDataTable, options);
+                }
+            }
+            
+            $(document).ready(function(){
+                // Load Charts and the corechart and barchart packages.
+                google.charts.load("current", {"packages":["corechart","table"]});
+                
+                // Draw the pie chart and bar chart when Charts is loaded.
+                google.charts.setOnLoadCallback(drawChart);
+                
+            });
+        </script>
+    </body>
+</html>

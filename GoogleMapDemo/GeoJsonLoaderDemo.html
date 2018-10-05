@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Loading GeoJSON to GoogleMap</title>
+        <style>
+            html, body {
+                height: 100%
+            }
+			#action-canvas { 
+                height: 20px; position: absolute; top: 22px; left: 120px; z-index: 9; background-color:#fff; font-family: Arial; font-size: 9pt; color: #121212;
+            }
+            #map-canvas { 
+                width: 800px; height: 600px; border:#555555 0px solid; overflow: hidden; float: left;
+            }
+            #text-canvas {
+                background-color:#fff; width:240px; float:left; overflow:auto;
+            }
+        </style>
+        <script type="text/javascript" src="./jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChogm93b92GIQgrI6CS_xQRC7Slbt8mjE"></script>
+    </head>
+    
+    <body>
+        <div id="action-canvas">
+		    <input id="chkShopping" type="checkbox" checked="checked" onclick="showHideShoppingCenters(this.checked);" />Shopping Centers
+			<input id="chkLibrary" type="checkbox" checked="checked" onclick="showHideLibraries(this.checked);" />Libraries
+		</div>
+        <div id="map-canvas"></div>
+        <div id="text-canvas"></div>
+        
+        <script type="text/javascript">
+            var BC_CENTER_LATITUDE = 53.239622280409575;
+            var BC_CENTER_LONGITUDE = -130.122070312500005;
+            var map;
+			var bounds;
+            var ne; // top-right
+            var sw; // bottom-left
+			var DEFAULT_BOTTOM_LEFT = {lat: -123.56059216650135, lng: 48.915293152169795};
+			var DEFAULT_TOP_RIGHT = {lat: -122.46195935400135, lng: 49.45385574909944};
+            // var src = "shoppingMalls.json";
+			var shoppingCenterLayer;
+			var shoppingCenterData = {
+  "type": "FeatureCollection",
+  "features": [
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.1178758,49.2833356]
+	  },
+	  "properties": {
+		"name": "CF Pacific Centre",
+		"address": "701 W Georgia St, Vancouver, BC V7Y 1G5",
+		"phone": "(604) 688-7235"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.0836142,49.0382481]
+	  },
+	  "properties": {
+		"name": "Tsawwassen Mills",
+		"address": "5000 Canoe Pass Way, Tsawwassen, BC V4M 0B3",
+		"phone": "(604) 948-9889"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.0021739,49.2274657]
+	  },
+	  "properties": {
+		"name": "Metropolis at Metrotown",
+		"address": "4700 Kingsway, Burnaby, BC V5H 4N2",
+		"phone": "(604) 438-4715"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.1435827,49.1979841]
+	  },
+	  "properties": {
+		"name": "McArthurGlen Designer Outlet",
+		"address": "1000-7899 Templeton Station Rd, Richmond, BC V7B 0B7",
+		"phone": "(604) 231-5525"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.1356479,49.1840869]
+	  },
+	  "properties": {
+		"name": "Aberdeen Centre",
+		"address": "4151 Hazelbridge Way, Richmond, BC V6X 4J7",
+		"phone": "(604) 270-1234"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8006768,49.2796046]
+	  },
+	  "properties": {
+		"name": "Coquitlam Centre",
+		"address": "2929 Barnet Hwy, Coquitlam, BC V3B 5R5",
+		"phone": "(604) 464-1414"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8070795,49.1922921]
+	  },
+	  "properties": {
+		"name": "Guildford Town Centre",
+		"address": "10355 152 St, Surrey, BC V3R 7C1",
+		"phone": "(604) 585-1565"
+	  }
+	}
+  ]
+}
+;
+
+			var libraryLayer;
+			var libraryData = {
+  "type": "FeatureCollection",
+  "features": [
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.0085623,49.2282618]
+	  },
+	  "properties": {
+		"name": "Burnaby Public Library Central",
+		"address": "6100 Willingdon Ave, Burnaby, BC V5H 4N5",
+		"phone": "(604) 436-5400"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.1331795,49.279794]
+	  },
+	  "properties": {
+		"name": "Vancouver Public Library Central",
+		"address": "350 W Georgia St, Vancouver, BC V6B 6B1",
+		"phone": "(604) 331-3603"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8367349,49.2672938]
+	  },
+	  "properties": {
+		"name": "Coquitlam City Centre Library",
+		"address": "1169 Pinetree Way, Coquitlam, BC V3B 0Y1",
+		"phone": "(604) 554-7323"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.1706035,49.1547209]
+	  },
+	  "properties": {
+		"name": "Richmond Public Library",
+		"address": "7700 Minoru Gate #100, Richmond, BC V6Y 1R8",
+		"phone": "(604) 231-6413"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8319978,49.282651]
+	  },
+	  "properties": {
+		"name": "Port Moody Public Library",
+		"address": "100 Newport Dr, Port Moody, BC V3H 5C3",
+		"phone": "(604) 469-4575"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8998485,49.2827453]
+	  },
+	  "properties": {
+		"name": "Surrey Library",
+		"address": "10350 University Dr, Surrey, BC V3T 4C3",
+		"phone": "(604) 598-7420"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.6917247,49.122078]
+	  },
+	  "properties": {
+		"name": "City of Langley Library",
+		"address": "20399 Douglas Crescent, Langley, BC V3A 4B3",
+		"phone": "(604) 514-2850"
+	  }
+	}
+  ]
+};
+
+            function showHideShoppingCenters(showFlag) {
+			  if (showFlag) {
+			    if (shoppingCenterLayer && map) {
+				  shoppingCenterLayer.setMap(map);
+				}
+			  }
+			  else {
+			    if (shoppingCenterLayer && map) {
+				  shoppingCenterLayer.setMap(null);
+				}
+		      }
+			}
+			
+			function showHideLibraries(showFlag) {
+			  if (showFlag) {
+			    if (libraryLayer && map) {
+				  libraryLayer.setMap(map);
+				}
+			  }
+			  else {
+			    if (libraryLayer && map) {
+				  libraryLayer.setMap(null);
+				}
+		      }
+			}
+			
+            function initializeMap() {
+                var mapOptions = {center: { lat: BC_CENTER_LATITUDE, lng: BC_CENTER_LONGITUDE}, zoom: 5};
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                
+				shoppingCenterLayer = new google.maps.Data();
+                // map.data.loadGeoJson(src);
+				// map.data.setStyle({ icon: "shoppingMall.png" });
+				// map.data.addGeoJson(shoppingCenterData);
+				shoppingCenterLayer.setStyle({ icon: "shoppingMall.png" });
+				shoppingCenterLayer.addGeoJson(shoppingCenterData);
+				shoppingCenterLayer.setMap(map);
+				
+				libraryLayer = new google.maps.Data();
+				libraryLayer.setStyle({ icon: "library.png" });
+				libraryLayer.addGeoJson(libraryData);
+				libraryLayer.setMap(map);
+				
+				bounds = new google.maps.LatLngBounds(); 
+				shoppingCenterLayer.forEach(function(feature){ // map.data
+				  feature.getGeometry().forEachLatLng(function(latlng){
+					 bounds.extend(latlng);
+				  });
+				});
+				
+				libraryLayer.forEach(function(feature){ // map.data
+				  feature.getGeometry().forEachLatLng(function(latlng){
+					 bounds.extend(latlng);
+				  });
+				});
+				
+				map.fitBounds(bounds);
+            }
+            
+            $(document).ready(function(){
+                $.support.cors = true; // very important when testing locally (open .html) using $.ajax to solve cross domain issues
+                initializeMap();
+				
+				google.maps.event.addListener(map, 'bounds_changed', function() {
+                  bounds =  map.getBounds();
+                  ne = bounds.getNorthEast();
+                  sw = bounds.getSouthWest();
+                  //do whatever you want with those bounds
+				  console.log(ne, + "   " + sw);
+                });
+				
+				shoppingCenterLayer.addListener('mouseover', function(event) { // shoppingCenterLayer replaced map.data
+				  var name = event.feature.getProperty('name');
+				  var address = event.feature.getProperty('address');
+				  var phone = event.feature.getProperty('phone');
+				  // alert(name +"\n" + address + "\n" + phone);
+				  shoppingCenterLayer.overrideStyle(event.feature, {title: name +"\n" + address + "\n" + phone});
+				});
+				
+				libraryLayer.addListener('mouseover', function(event) { // libraryLayer replaced map.data
+				  var name = event.feature.getProperty('name');
+				  var address = event.feature.getProperty('address');
+				  var phone = event.feature.getProperty('phone');
+				  // alert(name +"\n" + address + "\n" + phone);
+				  libraryLayer.overrideStyle(event.feature, {title: name + "\n" + phone + "\n" + address});
+				});
+            });
+        </script>
+    </body>
+</html>

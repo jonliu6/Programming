@@ -1,0 +1,89 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.0085623,49.2282618]
+	  },
+	  "properties": {
+		"name": "Burnaby Public Library Central",
+		"address": "6100 Willingdon Ave, Burnaby, BC V5H 4N5",
+		"phone": "(604) 436-5400"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.1331795,49.279794]
+	  },
+	  "properties": {
+		"name": "Vancouver Public Library Central",
+		"address": "350 W Georgia St, Vancouver, BC V6B 6B1",
+		"phone": "(604) 331-3603"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8367349,49.2672938]
+	  },
+	  "properties": {
+		"name": "Coquitlam City Centre Library",
+		"address": "1169 Pinetree Way, Coquitlam, BC V3B 0Y1",
+		"phone": "(604) 554-7323"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-123.1706035,49.1547209]
+	  },
+	  "properties": {
+		"name": "Richmond Public Library",
+		"address": "7700 Minoru Gate #100, Richmond, BC V6Y 1R8",
+		"phone": "(604) 231-6413"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8319978,49.282651]
+	  },
+	  "properties": {
+		"name": "Port Moody Public Library",
+		"address": "100 Newport Dr, Port Moody, BC V3H 5C3",
+		"phone": "(604) 469-4575"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.8998485,49.2827453]
+	  },
+	  "properties": {
+		"name": "Surrey Library",
+		"address": "10350 University Dr, Surrey, BC V3T 4C3",
+		"phone": "(604) 598-7420"
+	  }
+	},
+	{
+	  "type": "Feature",
+	  "geometry": {
+		"type": "Point",
+		"coordinates": [-122.6917247,49.122078]
+	  },
+	  "properties": {
+		"name": "City of Langley Library",
+		"address": "20399 Douglas Crescent, Langley, BC V3A 4B3",
+		"phone": "(604) 514-2850"
+	  }
+	}
+  ]
+}

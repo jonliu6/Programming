@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Loading KML to GoogleMap</title>
+        <style>
+            html, body {
+                height: 100%
+            }
+            #map-canvas { 
+                width: 800px; height: 600px; border:#555555 0px solid; overflow: hidden; float: left;
+            }
+            #text-canvas {
+                background-color:#fff; width:240px; float:left; overflow:auto;
+            }
+        </style>
+        <script type="text/javascript" src="./jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChogm93b92GIQgrI6CS_xQRC7Slbt8mjE"></script>
+    </head>
+    
+    <body>
+        
+        <div id="map-canvas"></div>
+        <div id="text-canvas"></div>
+        
+        <script type="text/javascript">
+            var BC_CENTER_LATITUDE = 53.239622280409575;
+            var BC_CENTER_LONGITUDE = -130.122070312500005;
+            var map;
+            // var kmlsrc = "http://localhost:8080/poweronremote/dev/substations.kml";
+			// var kmlsrc = "http://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml";
+			// var kmlsrc = "http://www.geocodezip.com/geoxml3_test/kml/mex2.kmz";
+			var kmlsrc = "http://www.geocodezip.com/geoxml3_test/kmz/gz_2010_us_050_00_20m_A.kmz";
+            
+            function initializeMap() {
+                var mapOptions = {center: { lat: BC_CENTER_LATITUDE, lng: BC_CENTER_LONGITUDE}, zoom: 5};
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                
+                var kmlLayer = new google.maps.KmlLayer(kmlsrc, {
+                    suppressInfoWindows: true,
+                    preserveViewport: false // pane based on the data
+                });
+				
+				kmlLayer.setMap(map);
+            }
+            
+            $(document).ready(function(){
+                $.support.cors = true; // very important when testing locally (open .html) using $.ajax to solve cross domain issues
+                initializeMap();
+            });
+        </script>
+    </body>
+</html>
