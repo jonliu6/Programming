@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title></title>
+  <style>
+	table {
+	  border-collapse: separate;
+	  border-spacing: 0;
+	  border-top: 1px solid grey;
+	}
+
+	td, th {
+	  margin: 0;
+	  border: 1px solid grey;
+	  white-space: nowrap;
+	  border-top-width: 0px;
+	}
+
+	div {
+	  overflow-x: scroll;
+	  margin-left: 5em;
+	  overflow-y: visible;
+	  padding: 0;
+	}
+
+	.headcol {
+	  position: absolute;
+	  width: 5em;
+	  left: 0;
+	  top: auto;
+	  border-top-width: 1px;
+	  /*only relevant for first row*/
+	  margin-top: -1px;
+	  /*compensate for top border*/
+	}
+
+	.headcol:before {
+	  content: 'Row ';
+	}
+
+	.long {
+	  background: yellow;
+	  letter-spacing: 1em;
+	}
+  </style>
+</head>
+
+<body>
+    <div>
+	    <table style="position: fixed; left: 0; top: 10px; background-color: white; z-index: 1000;">
+		    <tr><th>Row #</th><th>First Field</th><th>Second Field</th></tr>
+		</table>
+		<table>
+			<tr><th class="headcol">1</th><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td></tr>
+			<tr><th class="headcol">2</th><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td></tr>
+			<tr><th class="headcol">3</th><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td></tr>
+			<tr><th class="headcol">4</th><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td></tr>
+			<tr><th class="headcol">5</th><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td></tr>
+			<tr><th class="headcol">6</th><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td><td class="long">QWERTYUIOPASDFGHJKLZXCVBNM</td></tr>
+		</table>
+	</div>
+	
+	<table>
+<tr>
+<td style="position: fixed;">Data</td>
+<td>Data</td>
+<td>Data</td>
+<td>Data</td>
+</tr>
+<tr>
+<td style="position: fixed;">Data</td>
+<td>Data</td>
+<td>Data</td>
+<td>Data</td>
+</tr>
+</table>
+</body>
+</html>
