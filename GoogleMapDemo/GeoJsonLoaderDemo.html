@@ -26,7 +26,7 @@
     <body>
         <div id="action-canvas">
 		    <input id="chkShopping" type="checkbox" checked="checked" onclick="showHideShoppingCenters(this.checked);" />Shopping Centers
-			<input id="chkLibrary" type="checkbox" checked="checked" onclick="showHideLibraries(this.checked);" />Libraries
+			<input id="chkLibrary" type="checkbox" checked="checked" onclick="showHideLibraries(this.checked);" disabled="disabled" />Libraries
 		</div>
         <div id="map-canvas"></div>
         <div id="text-canvas"></div>
@@ -36,6 +36,8 @@
             var BC_CENTER_LONGITUDE = -130.122070312500005;
             var map;
 			var bounds;
+			var currentZoneLevel;
+			var minZoomLevelforCutouts = 10;
             var ne; // top-right
             var sw; // bottom-left
 			var DEFAULT_BOTTOM_LEFT = {lat: -123.56059216650135, lng: 48.915293152169795};
@@ -291,8 +293,19 @@
                   bounds =  map.getBounds();
                   ne = bounds.getNorthEast();
                   sw = bounds.getSouthWest();
+				  currentZoneLevel = map.getZoom();
                   //do whatever you want with those bounds
-				  console.log(ne, + "   " + sw);
+				  console.log(ne, + "   " + sw + "\nZoom Level: " + currentZoneLevel);
+				  if (currentZoneLevel > minZoomLevelforCutouts) {
+				    $('#chkLibrary').removeAttr('disabled');
+				  } else {
+				    $('#chkLibrary').prop('checked', false);
+					showHideLibraries(false);
+				    $('#chkLibrary').prop('disabled', true);
+				  }
+				  // for debugging and testing purpose
+				  //var ltMarker = new google.maps.Marker({position: ne, map: map, title: 'Right-Top'});
+				  //var rbMarker = new google.maps.Marker({position: sw, map: map, title: 'Left-Bottom'});
                 });
 				
 				shoppingCenterLayer.addListener('mouseover', function(event) { // shoppingCenterLayer replaced map.data
