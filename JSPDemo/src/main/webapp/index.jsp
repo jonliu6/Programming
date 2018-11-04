@@ -8,6 +8,7 @@
     <body>
         <% out.println("Hello, world!"); %>
         <p/>
+        App Server Time: <%= testBean.testTime() %> <p/>
         DB System Time: <%= testBean.testDB() %>
     </body>
 </html>

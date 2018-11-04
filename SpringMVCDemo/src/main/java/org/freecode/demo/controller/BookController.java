@@ -129,6 +129,7 @@ public class BookController {
 	@RequestMapping(value="/view", method=RequestMethod.GET)
 	/**
 	 * set model attributes to viewBook.jsp and navigate to it
+	 * URL: http://<server name>:<port #>/<Context path>/controller/library/view
 	 * @param aBook
 	 * @param bookModel
 	 * @return

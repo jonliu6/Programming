@@ -22,7 +22,7 @@ public class DBService {
 		ResultSet rs = null;
 		String result = null;
 		Context ctx = new InitialContext();
-		DataSource ds = (DataSource) ctx.lookup("jdbc/po");
+		DataSource ds = (DataSource) ctx.lookup("jdbc/po"); // DataSource, java:/jdbc/po, configured in application container
         connection = ds.getConnection();
 		
 		if (connection != null) {

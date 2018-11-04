@@ -2,6 +2,8 @@ package org.freecode.demo.controller;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
@@ -39,5 +41,12 @@ public class TestBean implements Serializable {
 		}
 		
 		return val;
+	}
+	
+	public String testTime() {
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String nowStr = sdf.format(now);
+		return nowStr;
 	}
 }

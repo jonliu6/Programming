@@ -20,6 +20,7 @@ public class DemoController {
 		return "hello";
 	}
 	
+	// http://<server name>:<port#>/<Context Path>/controller/demo/sayHi?name=John
 	@RequestMapping(value="/sayHi", method=RequestMethod.GET)
 	/**
 	 * Main difference of using ModelAndView instead of Model (interface) or ModelMap(implementation) is 
