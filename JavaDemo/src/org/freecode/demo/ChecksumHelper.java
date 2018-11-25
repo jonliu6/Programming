@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.DatatypeConverter;
 
 public class ChecksumHelper {
-	private final static String DEFAULT_ALGORITHM_TYPE = "MD5"; // default algorithm type; or SHA, SHA-1, SHA-256
+	private final static String DEFAULT_ALGORITHM_TYPE = "MD5"; // default algorithm type; or SHA, SHA-1, SHA-256, SHA-512
 	
 	public static void main(String[] args) {
 		if (args == null || args.length < 1) {
