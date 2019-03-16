@@ -20,7 +20,7 @@
             }
         </style>
         <script type="text/javascript" src="./jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChogm93b92GIQgrI6CS_xQRC7Slbt8mjE"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&visual_refresh=true"></script>
     </head>
     
     <body>
@@ -260,29 +260,39 @@
                 // map.data.loadGeoJson(src);
 				// map.data.setStyle({ icon: "shoppingMall.png" });
 				// map.data.addGeoJson(shoppingCenterData);
-				shoppingCenterLayer.setStyle({ icon: "shoppingMall.png" });
+				// shoppingCenterLayer.setStyle({ icon: "shoppingMall.png" });
 				shoppingCenterLayer.addGeoJson(shoppingCenterData);
-				shoppingCenterLayer.setMap(map);
 				
 				libraryLayer = new google.maps.Data();
-				libraryLayer.setStyle({ icon: "library.png" });
+				// libraryLayer.setStyle({ icon: "library.png" });
 				libraryLayer.addGeoJson(libraryData);
-				libraryLayer.setMap(map);
 				
 				bounds = new google.maps.LatLngBounds(); 
 				shoppingCenterLayer.forEach(function(feature){ // map.data
+				  var name = feature.getProperty('name');
+				  var address = feature.getProperty('address');
+				  var phone = feature.getProperty('phone');
+				  shoppingCenterLayer.overrideStyle(feature, {icon: "shoppingMall.png", title: name +"\n" + address + "\n" + phone});
 				  feature.getGeometry().forEachLatLng(function(latlng){
 					 bounds.extend(latlng);
 				  });
 				});
 				
 				libraryLayer.forEach(function(feature){ // map.data
+				  var name = feature.getProperty('name');
+				  var address = feature.getProperty('address');
+				  var phone = feature.getProperty('phone');
+				  libraryLayer.overrideStyle(feature, {icon: "library.png", title: name + "\n" + phone + "\n" + address});
 				  feature.getGeometry().forEachLatLng(function(latlng){
 					 bounds.extend(latlng);
 				  });
 				});
 				
 				map.fitBounds(bounds);
+				
+				shoppingCenterLayer.setMap(map);
+				libraryLayer.setMap(map);
+				
             }
             
             $(document).ready(function(){
@@ -308,21 +318,21 @@
 				  //var rbMarker = new google.maps.Marker({position: sw, map: map, title: 'Left-Bottom'});
                 });
 				
-				shoppingCenterLayer.addListener('mouseover', function(event) { // shoppingCenterLayer replaced map.data
-				  var name = event.feature.getProperty('name');
-				  var address = event.feature.getProperty('address');
-				  var phone = event.feature.getProperty('phone');
+				//shoppingCenterLayer.addListener('mouseover', function(event) { // shoppingCenterLayer replaced map.data
+				//  var name = event.feature.getProperty('name');
+				//  var address = event.feature.getProperty('address');
+				//  var phone = event.feature.getProperty('phone');
 				  // alert(name +"\n" + address + "\n" + phone);
-				  shoppingCenterLayer.overrideStyle(event.feature, {title: name +"\n" + address + "\n" + phone});
-				});
+				//  shoppingCenterLayer.overrideStyle(event.feature, {title: name +"\n" + address + "\n" + phone});
+				//});
 				
-				libraryLayer.addListener('mouseover', function(event) { // libraryLayer replaced map.data
-				  var name = event.feature.getProperty('name');
-				  var address = event.feature.getProperty('address');
-				  var phone = event.feature.getProperty('phone');
+				//libraryLayer.addListener('mouseover', function(event) { // libraryLayer replaced map.data
+				//  var name = event.feature.getProperty('name');
+				//  var address = event.feature.getProperty('address');
+				//  var phone = event.feature.getProperty('phone');
 				  // alert(name +"\n" + address + "\n" + phone);
-				  libraryLayer.overrideStyle(event.feature, {title: name + "\n" + phone + "\n" + address});
-				});
+				//  libraryLayer.overrideStyle(event.feature, {title: name + "\n" + phone + "\n" + address});
+				//});
             });
         </script>
     </body>
