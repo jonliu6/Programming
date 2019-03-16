@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AndroidLatteFactor</string>
+    <string name="init_val">Initial $</string>
+    <string name="growth_rate">Growth Rate %</string>
+    <string name="regular_contribution">Contribution $</string>
+    <string name="occurence">For how many times</string>
+    <string name="calculate">Calculate</string>
+    <string name="clear">Clear</string>
+    <string name="total">Total $:</string>
+    <string name="warning">Warning</string>
+    <string name="missing_inputs">Please enter all the values.</string>
+</resources>

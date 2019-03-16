@@ -2,7 +2,9 @@ package org.freecode.demo;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -16,11 +18,15 @@ public class PDFCreatorDemo {
 	private final static PDRectangle PAGE_SIZE = PDPage.PAGE_SIZE_LETTER;
 	private final static PDFont TITLE_FONT = PDType1Font.TIMES_BOLD;
 	private final static PDFont TEXT_FONT = PDType1Font.TIMES_ROMAN;
+	// private final static float MAX_CHARACTER_WIDTH = 6.3f; // because the character widths are different (showed above), use 6.2f as average width per character.
 	private final static float PAGE_MARGIN = 10.0f;
 	private final static float LINE_MARGIN = 20.0f;
 	private final static float FONT_SIZE = 11.0f;
-	private final static float MAX_PAGE_WIDTH = PAGE_SIZE.getWidth() - PAGE_MARGIN;
-	private final static float MAX_PAGE_HEIGHT = PAGE_SIZE.getHeight() - PAGE_MARGIN;
+	private final static float MAX_PAGE_WIDTH = PAGE_SIZE.getWidth() - 2 * PAGE_MARGIN;
+	private final static float MAX_PAGE_HEIGHT = PAGE_SIZE.getHeight() - 2 * PAGE_MARGIN;
+	
+	private final static int START_ASCII_IDX = 32; // space
+	private final static int END_ASCII_IDX = 126; // ~
 	
 	private PDDocument pdfDoc = null;
 	private PDPage pdfPage = null;
@@ -31,8 +37,35 @@ public class PDFCreatorDemo {
 	public static void main(String[] args) {
 		
 		PDFCreatorDemo demo = new PDFCreatorDemo();
+		demo.printOutCharacters();
 		demo.generatePdf("c:\\temp\\pdfSample.pdf");
 
+	}
+	
+	public void printOutCharacters() {
+		float totalSize = 0.0f;
+		float minSize = Float.MAX_VALUE;
+		float maxSize = Float.MIN_VALUE;
+		try {
+			for (int start = START_ASCII_IDX, end = END_ASCII_IDX; start <= end; ++start) {
+				char c = (char) start;
+				float size = FONT_SIZE * TEXT_FONT.getStringWidth(String.valueOf(c)) / 1000;
+				if (size < minSize) {
+					minSize = size;
+				}
+				if (size > maxSize) {
+					maxSize = size;
+				}
+				totalSize += size;
+				System.out.println(start + " - " + c + "(" + size + "f)");
+			}
+			System.out.println("Average Character Width: " + totalSize / (END_ASCII_IDX - START_ASCII_IDX + 1));
+			System.out.println("Minimum Character Width: " + minSize);
+			System.out.println("Maximum Character Width: " + maxSize);
+		}
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+		}		
 	}
 	
 	public void createText(PDPageContentStream contentStream, PDFont fnt, float fntSize, String text, float offsetX, float offsetY) throws IOException {
@@ -69,6 +102,90 @@ public class PDFCreatorDemo {
 		currentY -= LINE_MARGIN;
 	}
 	
+	/**
+	 * solution of handling long text from https://stackoverflow.com/questions/19635275/how-to-generate-multiple-lines-in-pdf-using-apache-pdfbox
+	 * it wraps the text by white spaces, end-of-line character and maximum characters per line.
+	 * @param font
+	 * @param text
+	 * @throws IOException
+	 */
+	public void createMultiLineText(PDFont font, String originalText) throws IOException {
+		List<String> lines = new ArrayList<String>();
+		if (originalText != null) {
+			originalText = originalText.replaceAll("(\r\n|\n\r|\r|\n)", "\n");
+		}
+        String[] lineArray = originalText.split("\n"); // Unix uses only 0x0A - "\n", while Windows uses 0x0D 0x0A - "\r\n"
+		for (int i = 0, len = lineArray.length; i < len; ++i) {
+			String text = lineArray[i];
+			if (text != null) {
+				
+				// int maxCharactersPerLine =  (int) (MAX_PAGE_WIDTH / MAX_CHARACTER_WIDTH); 
+				float size = FONT_SIZE * font.getStringWidth(text) / 1000;
+				
+				if (size > MAX_PAGE_WIDTH) {
+					int lastSpace = -1;
+			        while (text.length() > 0)
+			        {
+			        	int spaceIndex = text.indexOf(' ', lastSpace + 1);
+			        	if (spaceIndex < 0) {
+			        		spaceIndex = text.length();
+			        	}
+			        	String subString = text.substring(0, spaceIndex);
+			        	size = FONT_SIZE * font.getStringWidth(subString) / 1000;
+			        	if (size > MAX_PAGE_WIDTH)
+			            {
+			        		if (lastSpace < 0) {
+			        			// find the index to the closest place to MAX_PAGE_WIDTH in case of a long text without any white spaces
+			        			StringBuilder sbuf = new StringBuilder();
+			        			for (int j = 0, tmpLen = subString.length(); j < tmpLen; ++j) {
+			        				sbuf.append(subString.charAt(j));
+			        				if (FONT_SIZE * font.getStringWidth(sbuf.toString()) / 1000 > MAX_PAGE_WIDTH) {
+			        					lastSpace = j;
+			        					break;
+			        				}
+			        			}
+			        			// lastSpace = spaceIndex;
+			        		}
+//			        		if (lastSpace > maxCharactersPerLine) { // not allow the end of the substring greater than maximum characters per line.
+//			        			lastSpace = maxCharactersPerLine;
+//			        		}
+			        		subString = text.substring(0, lastSpace);
+			        		lines.add(subString);
+			        		text = text.substring(lastSpace).trim();
+			        		lastSpace = -1;
+			            }
+			        	else if (spaceIndex == text.length()) {
+			        		lines.add(text);
+			        		text = "";
+			        	}
+			        	else {
+			        		lastSpace = spaceIndex;
+			        	}
+			        }
+			        
+				}
+				else {
+					lines.add(text);
+				}				
+			}			
+		}
+		
+		for (String aLine: lines) {
+			if (aLine != null && aLine.length() > 0) {
+				createText(font, aLine);
+			}
+		}
+//		int charWidth1 = (int) (FONT_SIZE * font.getStringWidth("1") / 1000);
+//		int charWidth2 = (int) (FONT_SIZE * font.getStringWidth("9") / 1000);
+//		int charWidth3 = (int) (FONT_SIZE * font.getStringWidth("Z") / 1000);
+//		int charWidth4 = (int) (FONT_SIZE * font.getStringWidth("a") / 1000);
+//		int charWidth5 = (int) (FONT_SIZE * font.getStringWidth(" ") / 1000);
+//		int charWidth6 = (int) (FONT_SIZE * font.getStringWidth("-") / 1000);
+//		int charWidth7 = (int) (FONT_SIZE * font.getStringWidth("_") / 1000);
+//		System.out.println("1: " + charWidth1 + "\n9: " + charWidth2 + "\nZ: " + charWidth3 + "\na: " + charWidth4 + "\n[Space]: " + charWidth5 + "\n-: " + charWidth6 + "\n_: " + charWidth7);
+		
+	}
+	
 	public void generatePdf(String fileName) {
 		try {
 			pdfDoc = new PDDocument();
@@ -94,9 +211,19 @@ public class PDFCreatorDemo {
 			createText(TEXT_FONT, "UDD A006A4 also needs to be changed.");
 			createText(TITLE_FONT, "Contact Information - Verified by Field Personnel:");
 			createText(TEXT_FONT, "Bob Dylen");
-			createText(TITLE_FONT, "Attachments:");
-			createText(TEXT_FONT, "None");
-						
+			createMultiLineText(TITLE_FONT, "Attachments:");
+			createMultiLineText(TEXT_FONT, "Super long text: 1234567890\n1234567890\n1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890 1234567890");
+			createMultiLineText(TEXT_FONT, "Super long text without spaces: 1234567890\n1234567890\n123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+			createMultiLineText(TEXT_FONT, "Super long alphabetics: abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+			
+			StringBuilder sbd = new StringBuilder();
+			sbd.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ\n");
+			sbd.append("abcdefghijklmnopqrstuvwxyz\r");
+			sbd.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz\r\n");
+			sbd.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz\n\r");
+			sbd.append("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\n");
+			createMultiLineText(TEXT_FONT, sbd.toString());
+			
 			if (pdfContent != null) {
 				pdfContent.endText();
 				pdfContent.close();
