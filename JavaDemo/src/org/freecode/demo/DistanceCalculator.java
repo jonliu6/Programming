@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 
 public class DistanceCalculator {
 	private static double RADIUS_EARTH_IN_KILOMETERS = 6371.0d; // the "Earth radius" varies from 6356.752 km at the poles to 6378.137 km at the equator
-	private static String DISTANCE_FORMAT = "#.###";
+	private static String DISTANCE_FORMAT_WITH_3_DECIMALS = "#.###";
+	private static String DISTANCE_FORMAT_WITH_ONE_DECIMAL = "#.#";
 	
     public static void main(String[] args) {
         DistanceCalculator distCalc = new DistanceCalculator();
@@ -15,14 +16,24 @@ public class DistanceCalculator {
         double lng1 = -123.0176254;
         double lat2 = 49.247453;
         double lng2 = -122.8987135;
-        System.out.println("Distance: " + distCalc.formatDistance(distCalc.calculateDistanceForTwoLatLngVals(lat1, lng1, lat2, lng2)) + " km");
-        System.out.println("Distance (alternative): " + distCalc.formatDistance(distCalc.calculateDistanceForTwoLatLngVals2(lat1, lng1, lat2, lng2)) + " km");
+        double lat3 = 49.2300059;
+        double lng3 = -123.0176254;
         
+        System.out.println("Distance: " + distCalc.formatDistance(distCalc.calculateDistanceForTwoLatLngVals(lat1, lng1, lat2, lng2)));
+        System.out.println("Distance (alternative): " + distCalc.formatDistance(distCalc.calculateDistanceForTwoLatLngVals2(lat1, lng1, lat2, lng2)));
+        System.out.println("Distance 2: " + distCalc.formatDistance(distCalc.calculateDistanceForTwoLatLngVals(lat1, lng1, lat3, lng3)));
+        System.out.println("Distance 2 (alternative): " + distCalc.formatDistance(distCalc.calculateDistanceForTwoLatLngVals2(lat1, lng1, lat3, lng3)));
     }
     
     public String formatDistance(double distVal) {
-    	DecimalFormat df = new DecimalFormat(DISTANCE_FORMAT);
-    	return df.format(distVal);
+    	DecimalFormat df = new DecimalFormat(DISTANCE_FORMAT_WITH_3_DECIMALS);
+    	if (distVal < 1) {
+    		df = new DecimalFormat(DISTANCE_FORMAT_WITH_ONE_DECIMAL);
+    		return df.format(distVal * 1000) + " m";
+    	}
+    	else {
+    	    return df.format(distVal) + " km";
+    	}
     }
     
     public double calculateDistanceForTwoLatLngVals(double lat1, double lng1, double lat2, double lng2) {
