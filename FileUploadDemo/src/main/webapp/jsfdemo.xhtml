@@ -3,13 +3,16 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:rich="http://richfaces.org/rich">
     <h:head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style type="text/css">
             .error {color: red; font-weight: bold;}
             .warn {color: orange; font-weight: bold;}
+            .info {color: green; font-weight: bold;}
             .titleFont {font-size: 2em; font-family: serif; font-weight: bold;}
             .subtitleFont {font-size: 1em; font-family: serif;}
         </style>
@@ -53,7 +56,22 @@
 	            </ui:repeat>
         	</h:form>
         </h:panelGroup>
-            
+        
+        <hr/>
+        
+        <h:form id="fmImportExcel" enctype="multipart/form-data">
+          <h:message for="selectedExcelFileName" errorClass="error" warnClass="warn" infoClass="info"></h:message><br/>
+          <label for="selectedExcelFileName">Import Excel File:</label>
+          <h:inputFile id="selectedExcelFileName" value="#{uploadBean.importedExcelFile}">
+            <f:validator validatorId="fileExtensionValidator"></f:validator>
+          </h:inputFile>
+          
+          <h:commandButton id="btnImportExcelFile" action="#{uploadBean.importExcel()}" value="Import Excel File">
+            <f:ajax execute="selectedExcelFileName" render="@all"></f:ajax>
+          </h:commandButton>
+          
+        </h:form>
+        
         <script type="text/javascript">
             // <![CDATA[
             function hasRecordId() {

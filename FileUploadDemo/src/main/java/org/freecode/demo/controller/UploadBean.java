@@ -2,7 +2,6 @@ package org.freecode.demo.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -18,10 +17,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.mail.internet.ContentType;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.freecode.demo.util.ExcelHelper;
 import org.freecode.demo.util.FileUploadHelper;
 
 @ManagedBean(name="uploadBean")
@@ -37,10 +36,10 @@ public class UploadBean {
 	private ResourceBundle resourceBundle; 
     private String recordId; // unique id for uploaded files, used for sub-folder name
     
-	
-	@PostConstruct
+    @PostConstruct
 	public void init() {
 		uploader = new FileUploadHelper();
+		excelHelper = new ExcelHelper();
 	}
 	
 	public String getRootFolderName() {
@@ -204,4 +203,51 @@ public class UploadBean {
 //		}
 //		return res;
 //	}
+	
+	private Part importedExcelFile;
+	private ExcelHelper excelHelper;
+
+	public Part getImportedExcelFile() {
+		return importedExcelFile;
+	}
+
+	public void setImportedExcelFile(Part importedExcelFile) {
+		this.importedExcelFile = importedExcelFile;
+	}
+	
+	public void importExcel() {
+		if (importedExcelFile != null) {
+			InputStream is = null;
+			try {
+				is = importedExcelFile.getInputStream();
+//				String contentType = importedExcelFile.getContentType();
+//				if (ExcelHelper.CONTENT_TYPE_OLD_EXCEL.equalsIgnoreCase(contentType)) {
+//					excelHelper.generateOldWorkbookByInputStream(is);
+//				}
+//				else if (ExcelHelper.CONTENT_TYPE_NEW_EXCEL.equalsIgnoreCase(contentType)) {
+//					excelHelper.generateNewWorkbookByInputStream(is);
+//				}
+//				else {
+//					FacesContext.getCurrentInstance().addMessage("Unhandled File Type", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unhandled File Type", "The upload file has to be an Excel file."));
+//				}
+				excelHelper.generateWorkbookByInputStream(is);
+			}
+			catch (IOException ioe) {
+				ioe.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage("IOException caught", new FacesMessage(FacesMessage.SEVERITY_ERROR, "IOException caught", "File IO problem."));
+			}
+			finally {
+				try {
+					if (is != null) {
+						is.close();
+					}
+				}
+				catch (IOException ioe2) {
+					ioe2.printStackTrace();
+				}
+				is = null;
+				FacesContext.getCurrentInstance().addMessage("Success", new FacesMessage(FacesMessage.SEVERITY_INFO, "Success Information", "Excel file was successfully imported."));
+			}
+		}
+	}
 }
