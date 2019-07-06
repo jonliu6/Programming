@@ -17,6 +17,8 @@
 	<jsf.version>2.2.6</jsf.version>
     <javax.el.version>2.2.4</javax.el.version>
 	<servlet.api.version>3.1.0</servlet.api.version>
+	<richfaces.version>4.3.7.Final</richfaces.version>
+	<poi.version>3.10-FINAL</poi.version>
   </properties>
   
   <dependencies>
@@ -63,6 +65,25 @@
 		<version>7.0</version>
 		<scope>provided</scope>
 	</dependency>
+	
+	<!-- JXL for reading/writing MS Excel -->
+	<dependency>
+		<groupId>jxl</groupId>
+		<artifactId>jxl</artifactId>
+		<version>1.0</version>
+	</dependency>
+	
+    <!-- Apache POI for MS Excel - Note: 4.x requires JDK 8 -->
+    <dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi</artifactId>
+	    <version>${poi.version}</version>
+	</dependency>
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>${poi.version}</version>
+    </dependency>
 	
   </dependencies>
   
