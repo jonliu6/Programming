@@ -1,0 +1,107 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.freecode.demo</groupId>
+  <artifactId>SpringWebService</artifactId>
+  <packaging>war</packaging>
+  <version>1.0</version>
+  <name>SpringWebService</name>
+  <url>http://maven.apache.org</url>
+  <description>sample web services implemented by using Spring Web</description>
+  
+  <properties>
+    <jdk.version>1.7</jdk.version>
+    <junit.version>4.11</junit.version>
+    <springframework.version>4.3.19.RELEASE</springframework.version>
+    <servlet.api.version>3.1.0</servlet.api.version>
+    <jstl.version>1.2</jstl.version>
+    <application.home>${env.JBOSS_HOME}/standalone</application.home>
+	<webapp.dir>${application.home}/deployments</webapp.dir>
+	<jackson.library>2.9.9</jackson.library>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Spring Web and MVC -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${springframework.version}</version>
+    </dependency>
+    
+    <!-- Servlet -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet.api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- JSTL -->
+    <dependency>
+	  <groupId>javax.servlet.jsp.jstl</groupId>
+	  <artifactId>jstl-api</artifactId>
+	  <version>${jstl.version}</version>
+	  <scope>provided</scope>
+    </dependency>
+    
+    <dependency> <!-- support spring mvc servlet -->
+	  <groupId>com.fasterxml.jackson.core</groupId>
+	  <artifactId>jackson-core</artifactId>
+	  <version>${jackson.library}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.library}</version>
+    </dependency>
+    
+  </dependencies>
+  
+  <build>
+    <finalName>SpringWebService</finalName>
+    <resources>
+		<resource>
+			<directory>src/main/resources</directory>
+			<filtering>true</filtering>
+		</resource>
+	</resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-resources-plugin</artifactId>
+	    <version>2.7</version>
+	  </plugin>
+      <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-war-plugin</artifactId>
+		<version>2.6</version>
+		<configuration>
+		    <warName>${application.name}</warName>
+		    <outputDirectory>${webapp.dir}</outputDirectory>
+		</configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

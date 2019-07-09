@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Notes</title>
+  <meta charset="ISO-8859-1"/>
+  <link type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" rel="stylesheet"/>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <h2>Notes</h2>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-2"><label for="title">Title</label></div>
+          <div class="col-4"><input type="text" id="title"/></div>
+        </div>
+        <div class="row">
+          <div class="col-2"><label for="category">Category</label></div>
+          <div class="col-4"><input type="text" id="category"/></div>
+        </div>
+        <div class="row">
+          <div class="col-2"><label for="subCategory">Sub-category</label></div>
+          <div class="col-4"><input type="text" id="subCategory"/></div>
+        </div>
+        <div class="row">
+          <div class="col-2"><label for="description">Description</label></div>
+          <div class="col-4"><textarea id="description"></textarea></div>
+        </div>
+        <div class="row">
+          <div class="col-6"><input id="btnAddNote" type="button" value="Add" onclick="addNote()"/></div>
+        </div>
+      </div>
+      <div class="col-6 float-right">
+        <span id="notes" ></span>
+      </div>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+    var findAllURL = "http://localhost:8080/SpringWebService/ws/noteRS/notes";
+    var addURL = "http://localhost:8080/SpringWebService/ws/noteRS/notes/add";
+    var deleteURL = "http://localhost:8080/SpringWebService/ws/noteRS/notes";
+    var clientURL = "http://localhost:8080/SpringWebService/viewNotes.html"; // for Spring-Boot embedded Tomcat, copy the HTMLs to C:\Users\<User ID>\AppData\Local\Temp\tomcat-docbase.<some random number>.<HTTP port>
+    
+    function displayNotes(data) {
+    	if (data) {
+    		var html = "";
+    		for (var i = 0, len = data.length; i < len; ++i) {
+    			var delHtml = "<a href=\"javascript:deleteNoteByTitle('" + data[i].title + "');\">Delete</a>&#160;&#160;";
+    			html += delHtml + data[i].title + "&#160;&#160;(" + data[i].category + "," + data[i].subCategory + ") &#160;&#160;" + data[i].description + "<br/>";
+    		}
+    		$("#notes").html(html);
+    	}
+    }
+    
+    function findAllNotes() {
+    	$.ajax({
+    		url: findAllURL,
+    		method: "GET",
+    		crossDomain: true,
+            success: function(resp) {
+            	displayNotes(resp);
+            },
+            error: function(jq, st, err) {
+            	alert("AJAX Call Error: " + err);
+            }
+    	});
+    }
+    
+    function addNote() {
+    	var note = new Object();
+    	note.title = $('#title').val();
+    	note.category = $('#category').val();
+    	note.subCategory = $('#subCategory').val();
+    	note.description = $('#description').val();
+    	// alert();
+    	var jsonStr = JSON.stringify(note);
+    	console.log(jsonStr);
+    	
+    	$.ajax({
+    		url: addURL,
+    		method: "POST",
+    		// crossDomain: true,
+    		data: jsonStr,
+    		contentType: "application/json",
+            // dataType: "json",
+            success: function(resp) {
+            	$('#btnAddNote').prop('readonly', true);
+            	setTimeout(function(){location.reload(true);}, 2000); // delay 2 seconds for fresh without reloading caches
+            },
+            error: function(jq, st, err) {
+            	alert("AJAX Call Error: " + err);
+            }
+    	});
+    }
+    
+    function deleteNoteByTitle(title) {
+    	if (! confirm("Do you want to delete a note - " + title)) {
+    		return;
+    	}
+    	$.ajax({
+    		url: encodeURI(deleteURL + "/" + title),
+    		method: "DELETE",
+    		// crossDomain: true,
+    		success: function(resp) {
+            	setTimeout(function(){location.reload(true);}, 2000); // delay 2 seconds for fresh without reloading caches
+            },
+            error: function(jq, st, err) {
+            	alert("AJAX Call Error: " + err);
+            }
+    	});
+    }
+    
+    $(document).ready(function(){
+    	$.support.cors = true;
+    	
+    	findAllNotes();
+    	
+    });
+  </script>
+</body>
+
+</html>
