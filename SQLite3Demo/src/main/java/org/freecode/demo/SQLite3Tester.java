@@ -12,9 +12,11 @@ public class SQLite3Tester {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet res = null;
-        String dbUrl = "jdbc:sqlite:/home/fedora/workspace/Programming/SQLite3Demo/src/main/resources/knowledge_base.sqlite3";
-		// String dbUrl = "jdbc:sqlite::resource:/knowledge_base.sqlite3";
+        // String dbUrl = "jdbc:sqlite:/home/fedora/workspace/Programming/SQLite3Demo/src/main/resources/knowledge_base.sqlite3";
+		// String dbUrl = "jdbc:sqlite::resource:knowledge_base.sqlite";
+		String dbUrl = "jdbc:sqlite:knowledge_base.sqlite";
         String testString = "Test Title";
+        int num = 0;
         try {
         	conn = DriverManager.getConnection(dbUrl);
         	System.out.println("DB Connected");
@@ -22,7 +24,7 @@ public class SQLite3Tester {
         	String sql = "INSERT INTO t_knowledge_base " +
         	             "(title, category, description) " +
         			     "VALUES ('" + testString + "', 'Temporary Document', 'Check, 1, 2, 3...')";
-        	int num = stmt.executeUpdate(sql);
+        	num = stmt.executeUpdate(sql);
         	System.out.println(num + " insertion(s) completed");
         	
         	sql = "SELECT * FROM t_knowledge_base";

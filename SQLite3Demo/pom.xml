@@ -7,11 +7,17 @@
   <version>1.0</version>
   <name>SQLite3Demo</name>
   <url>http://maven.apache.org</url>
+  
+  <properties>
+    <jdk.version>11</jdk.version>
+    <junit.version>4.11</junit.version>
+  </properties>
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     
@@ -22,4 +28,61 @@
 	    <version>3.21.0.1</version>
 	</dependency>
   </dependencies>
+  
+  <build>
+    <finalName>SQLite3Demo</finalName>
+    <resources>
+		<resource>
+			<directory>src/main/resources</directory>
+			<filtering>true</filtering>
+		</resource>
+	</resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-resources-plugin</artifactId>
+	    <version>2.7</version>
+	  </plugin>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-jar-plugin</artifactId>
+		<version>2.6</version>
+		<configuration>
+		  <archive>
+		    <manifest>
+		      <addClasspath>true</addClasspath>
+			  <mainClass>org.freecode.demo.SQLite3Tester</mainClass>
+			  <classpathPrefix>dependency-jars/</classpathPrefix>
+		    </manifest>
+		  </archive>
+		</configuration>
+      </plugin>
+      <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-dependency-plugin</artifactId>
+		<version>2.5.1</version>
+		<executions>
+		  <execution>
+			<id>copy-dependencies</id>
+			<phase>package</phase>
+			<goals>
+			    <goal>copy-dependencies</goal>
+			</goals>
+			<configuration>
+			    <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+			</configuration>
+		    </execution>
+		</executions>
+	  </plugin>	
+    </plugins>
+  </build>
 </project>
