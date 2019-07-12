@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.1.6.RELEASE</version> <!-- SpringBoot 2.1.6.RELEASE requires Tomcat 9/Servlet 4, Maven 3.3, Java 8 to 11 -->
+	<relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  <groupId>org.freecode.demo</groupId>
+  <artifactId>SpringBootWSDemo</artifactId>
+  <version>1.0</version>
+  
+  <name>SpringBootWSDemo</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://demo.freecode.org</url>
+  <description>Demo project for Spring Boot with (Contract-first) Web Services</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>11</java.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Web Service dependencies -->
+    <dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web-services</artifactId>
+	</dependency>
+	
+	<dependency>
+	  <groupId>wsdl4j</groupId>
+	  <artifactId>wsdl4j</artifactId>
+    </dependency>
+
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	
+	<!-- for running xjc -->
+	<dependency>
+	    <groupId>javax.activation</groupId>
+	    <artifactId>activation</artifactId>
+	    <version>1.1.1</version>
+	</dependency>
+	
+	<!-- Tomcat may not have this to implement jaxb-api -->
+	<dependency>
+	    <groupId>com.sun.xml.bind</groupId>
+	    <artifactId>jaxb-impl</artifactId>
+	    <version>2.3.2</version>
+	</dependency>
+	<!-- Required com/sun/istack/Pool when returning SOAP response on Tomcat -->
+	<dependency>
+	    <groupId>com.sun.istack</groupId>
+	    <artifactId>istack-commons-runtime</artifactId>
+	    <version>3.0.8</version>
+	</dependency>	
+	
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-maven-plugin</artifactId>
+		<configuration>
+		  <jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8787</jvmArguments> <!-- for remote debugging purpose -->
+		</configuration>
+	  </plugin>
+	  
+	  <!-- xjc is part of Oracle JDK but not in Open JDK. Therefore, generate WS stubs outside using libraries -->
+	  <!--
+	  <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>jaxb2-maven-plugin</artifactId>
+		<version>1.6</version>
+		<executions>
+			<execution>
+				<id>xjc</id>
+				<goals>
+					<goal>xjc</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+			<schemaDirectory>${project.basedir}/src/main/resources/</schemaDirectory>
+			<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+			<clearOutputDir>false</clearOutputDir>
+		</configuration>
+	  </plugin>
+	  -->
+    </plugins>
+  </build>
+</project>

@@ -1,14 +1,12 @@
 package org.freecode.demo.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.freecode.demo.model.Note;
 import org.freecode.demo.model.Notebook;
+import org.freecode.demo.service.wsproxy.Note;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.context.annotation.ApplicationScope;
 
 @Repository
 public class NoteDao implements Serializable {

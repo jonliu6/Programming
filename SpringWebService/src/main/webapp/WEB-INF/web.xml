@@ -20,7 +20,7 @@
 	</context-param>
 	
 	<servlet>
-	  <servlet-name>SpringWS</servlet-name>
+	  <servlet-name>SpringWebServlet</servlet-name> <!-- for Web, MVC or REST Web Service -->
 	  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	  
 	  <!-- 
@@ -43,15 +43,15 @@
 	</servlet>
 	
 	<servlet-mapping>
-	  <servlet-name>SpringWS</servlet-name>
-	  <url-pattern>/ws/*</url-pattern> <!-- NOTE: do not use /* because then DispatcherServlet will look for all URLs as servlet rather than Spring Controllers -->
+	  <servlet-name>SpringWebServlet</servlet-name>
+	  <url-pattern>/rs/*</url-pattern> <!-- NOTE: do not use /* because then DispatcherServlet will look for all URLs as servlet rather than Spring Controllers -->
 	  <!-- 
 	    The /* on a servlet overrides all other servlets, including all servlets provided by the servletcontainer such as the default servlet and the JSP servlet.
 		The / doesn't override any other servlet. It only replaces the servletcontainer's builtin default servlet for all requests which doesn't match any other registered servlet.
 		Then there's also the empty string URL pattern . This will be invoked when the context root is requested.
 	  -->
 	</servlet-mapping>
-
+	
 	<session-config>
 		<session-timeout>120</session-timeout>
 	</session-config>

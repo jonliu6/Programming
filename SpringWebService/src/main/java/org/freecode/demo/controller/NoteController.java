@@ -25,7 +25,7 @@ public class NoteController {
 	
 	@GetMapping(value="/notes", produces = MediaType.APPLICATION_JSON_VALUE)
 	/**
-	 * URL: http://<server>:<port>/<context path>/ws/noteRS/notes
+	 * URL: http://<server>:<port>/<context path>/rs/noteRS/notes
 	 * context path: in pom.xml as the .war file by default; or can be specified in pom.xml for build
 	 * by default, CrossOrigin allows all
 	 * @return

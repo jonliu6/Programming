@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sch="http://demo.freecode.org/schemas">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <sch:getNoteByTitleRequest>
+         <sch:title>Book1</sch:title>
+      </sch:getNoteByTitleRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

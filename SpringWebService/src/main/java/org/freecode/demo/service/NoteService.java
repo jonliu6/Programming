@@ -14,6 +14,10 @@ public class NoteService implements Serializable{
 	@Autowired
 	private NoteDao noteDao;
 	
+	public Note findNoteByTitle(String title) {
+		return noteDao.findNoteByTitle(title);
+	}
+	
 	public List<Note> findAll() {
 		return noteDao.findAll();
 	}
