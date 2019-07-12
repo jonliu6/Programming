@@ -43,8 +43,8 @@ public class SavingDemo {
 	}
 
 	public static void main(String[] args) {
-		SavingDemo demo = new SavingDemo(1000, 25, 0.005); // $1000 down payment, $25 monthly contribution, 0.5% average increasing rate per month = 6% annual growth
-		int num = 240; // 240 months = 20 years
+		SavingDemo demo = new SavingDemo(0, 96000, 0.03); // $1000 down payment, $25 monthly contribution, 0.5% average increasing rate per month = 6% annual growth
+		int num = 30; // 240 months = 20 years
 		System.out.println("Your balance is " + SavingDemo.formatDecimalValue(demo.calculate(num)));
 	}
 	
