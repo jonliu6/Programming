@@ -2,7 +2,7 @@
    <soapenv:Header/>
    <soapenv:Body>
       <sch:getNoteByTitleRequest>
-         <sch:title>Book1</sch:title>
+         <sch:title>Book2</sch:title>
       </sch:getNoteByTitleRequest>
    </soapenv:Body>
 </soapenv:Envelope>
