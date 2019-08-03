@@ -1,0 +1,8 @@
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\bin\Debug\RSClient.Net.exe
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\bin\Debug\RSClient.Net.pdb
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\obj\Debug\ResolveAssemblyReference.cache
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\obj\Debug\RSClient.Net.Form1.resources
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\obj\Debug\RSClient.Net.Properties.Resources.resources
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\obj\Debug\RSClient.Net.csproj.GenerateResource.Cache
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\obj\Debug\RSClient.Net.exe
+C:\Workspace\GitRepo\SpringBootRSDemo\RSClient.Net\RSClient.Net\obj\Debug\RSClient.Net.pdb
