@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.freecode.demo</groupId>
-  <artifactId>SpringWebService</artifactId>
+  <artifactId>SpringRSDemo</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
-  <name>SpringWebService</name>
+  <name>SpringRSDemo</name>
   <url>http://maven.apache.org</url>
   <description>sample RESTful web services implemented by using Spring Web and MVC</description>
   
@@ -71,7 +71,7 @@
   </dependencies>
   
   <build>
-    <finalName>SpringWebService</finalName>
+    <finalName>SpringRSDemo</finalName>
     <resources>
 		<resource>
 			<directory>src/main/resources</directory>

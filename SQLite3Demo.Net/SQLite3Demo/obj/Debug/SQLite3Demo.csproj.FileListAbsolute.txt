@@ -1,0 +1,10 @@
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\bin\Debug\SQLite3Demo.exe
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\bin\Debug\SQLite3Demo.pdb
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\bin\Debug\System.Data.SQLite.dll
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\bin\Debug\System.Data.SQLite.pdb
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\obj\Debug\ResolveAssemblyReference.cache
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\obj\Debug\SQLite3Demo.Form1.resources
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\obj\Debug\SQLite3Demo.Properties.Resources.resources
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\obj\Debug\SQLite3Demo.csproj.GenerateResource.Cache
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\obj\Debug\SQLite3Demo.exe
+C:\Workspace\VS.NetDemo\SQLite3Demo\SQLite3Demo\obj\Debug\SQLite3Demo.pdb

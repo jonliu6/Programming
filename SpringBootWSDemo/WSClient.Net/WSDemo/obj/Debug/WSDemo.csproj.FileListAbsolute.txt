@@ -1,0 +1,9 @@
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\bin\Debug\WSDemo.exe.config
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\bin\Debug\WSDemo.exe
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\bin\Debug\WSDemo.pdb
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\obj\Debug\ResolveAssemblyReference.cache
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\obj\Debug\WSDemo.Form1.resources
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\obj\Debug\WSDemo.Properties.Resources.resources
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\obj\Debug\WSDemo.csproj.GenerateResource.Cache
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\obj\Debug\WSDemo.exe
+C:\Workspace\VS.NetDemo\WSDemo\WSDemo\obj\Debug\WSDemo.pdb

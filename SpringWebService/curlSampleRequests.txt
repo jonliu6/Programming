@@ -1,3 +1,0 @@
-curl -X GET http://localhost:8080/SpringWebService/ws/noteRS/notes
-curl -X POST -H "Content-Type: application/json" -d "{"""title""":"""Cheese Cake Recipe""","""category""":"""Cook""","""subCategory""":"""Desert""","""description""":"""How to make a delicious cheese cake with low fat"""}" http://localhost:8080/SpringWebService/ws/noteRS/notes/add
-curl -X DELETE "http://localhost:8080/SpringWebService/ws/noteRS/notes/Book1"

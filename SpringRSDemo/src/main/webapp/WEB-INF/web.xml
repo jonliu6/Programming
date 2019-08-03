@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-	<display-name>SpringWebService</display-name>
+	<display-name>SpringRSDemo</display-name>
 	
 	<listener>
 	  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -36,7 +36,7 @@
 	  <!-- // below block is the XML-based configuration for Spring Web applications 
 	  <init-param>
 	      <param-name>contextConfigLocation</param-name>
-	      <param-value>/WEB-INF/spring/SpringWebService-servlet.xml</param-value>
+	      <param-value>/WEB-INF/spring/SpringRSDemo-servlet.xml</param-value>
 	  </init-param>
 	  -->
 	  <load-on-startup>1</load-on-startup>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tns="http://demo.freecode.org/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sch="http://demo.freecode.org/schemas" targetNamespace="http://demo.freecode.org/schemas" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema xmlns:fc="http://demo.freecode.org/schemas" elementFormDefault="qualified" targetNamespace="http://demo.freecode.org/schemas" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getNoteByTitleRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="title" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getNoteByTitleResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="note" type="fc:note" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="note">
+        <xs:sequence>
+          <xs:element name="title" type="xs:string" />
+          <xs:element name="category" type="xs:string" />
+          <xs:element name="subCategory" type="xs:string" />
+          <xs:element name="description" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getNoteByTitleRequest">
+    <wsdl:part name="getNoteByTitleRequest" element="sch:getNoteByTitleRequest" />
+  </wsdl:message>
+  <wsdl:message name="getNoteByTitleResponse">
+    <wsdl:part name="getNoteByTitleResponse" element="sch:getNoteByTitleResponse" />
+  </wsdl:message>
+  <wsdl:portType name="NotePort">
+    <wsdl:operation name="getNoteByTitle">
+      <wsdl:input name="getNoteByTitleRequest" message="sch:getNoteByTitleRequest" />
+      <wsdl:output name="getNoteByTitleResponse" message="sch:getNoteByTitleResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NotePortSoap11" type="sch:NotePort">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getNoteByTitle">
+      <soap:operation soapAction="" />
+      <wsdl:input name="getNoteByTitleRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getNoteByTitleResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NotePortService">
+    <wsdl:port name="NotePortSoap11" binding="sch:NotePortSoap11">
+      <soap:address location="http://localhost:8080/ws" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -6,3 +6,7 @@ Environment:
 
 Test with cURL:
 curl --header "content-type: text/xml" -d @soapRequestSample.xml http://localhost:8080/ws
+
+Test with a C#.Net application in \WSClient.Net
+- add service reference by the WSDL - http://localhost:8080/ws/noteWS.wsdl
+- refer to the service and call note.getNotebyTitle
