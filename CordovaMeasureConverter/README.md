@@ -18,7 +18,7 @@ This project uses Android SDK+Cordova to demonstrate a Hybrid Mobile version of 
 5. goto the new Cordova project folder, and run: cordova platform add android
    - if you want to install a particular Android version, use cordova platform add android@5.0.0; However, by using a lower version of android, your hybrid app may look funky on a device running with higher version of OS or with a high resolution.
 6. create Single Page Application (with web resources) and put them in the www folder of the project
-7. modify config.xml in the project folder based on the application
+7. modify config.xml in the project folder based on the application (e.g. contect src, icons, access origin and etc.)
 8. cordova build android
    - NOTE: Gradle must be configured, and ANDROID_HOME must point to the Android SDK folder.
    - NOTE: you need to accept all the sdk licenses before build. use sdkmanager --licenses to review and accept licenses
@@ -38,7 +38,7 @@ This project uses Android SDK+Cordova to demonstrate a Hybrid Mobile version of 
    cordova build --release android
    - generate an unsigned release apk
 
-9. use keytool from JDK to generate keystore 
+9. use keytool from JDK to generate keystore (https://stackoverflow.com/questions/26449512/how-to-create-a-signed-apk-file-using-cordova-command-line-interface)
    keytool -genkey -v -keystore MeasureConvertor.keystore -alias MeasureConvertor -keyalg RSA -keysize 2048 -validity 10000
 
     keystore password? : xxxxxxx
