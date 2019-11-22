@@ -150,10 +150,17 @@ function gallon2Litre(galVal) {
 
 // Area
 var SQFT_TO_SQMT = 0.09290304;
+var ACRE_TO_SQMT = 4046.86;
 
 function sqFeet2SqMeter(sqftVal) {
     return sqftVal * SQFT_TO_SQMT;
 }
 function sqMeter2SqFeet(sqmtVal) {
     return sqmtVal / SQFT_TO_SQMT;
+}
+function acre2SqMeter(acreVal) {
+	return acreVal * ACRE_TO_SQMT;
+}
+function sqMeter2Acre(sqmtVal) {
+	return sqmtVal / ACRE_TO_SQMT; 
 }

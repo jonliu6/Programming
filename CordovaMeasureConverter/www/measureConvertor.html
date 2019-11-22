@@ -297,6 +297,13 @@
                         <input type="number" data-mini="true" id="txSqMeter" size="8"/>
                     </div>
                     <div class="ui-block-c width20px marginTop12px">m<sup>2</sup></div>
+					<div class="ui-block-a width120px marginTop12px">
+                        <label for="txAcre">Acre</label>
+                    </div>
+                    <div class="ui-block-b minWidth160px">
+                        <input type="number" data-mini="true" id="txAcre" size="8"/>
+                    </div>
+                    <div class="ui-block-c width20px marginTop12px">acre</div>
                 </div>
                 <div class="ui-grid-a">
                     <div class="ui-block-a width120px margin10px">
@@ -653,16 +660,28 @@
                 var sqftVal = sqftObj.val();
                 var sqmtObj = $('#txSqMeter');
                 var sqmtVal = sqmtObj.val();
+				var acreObj = $('#txAcre');
+				var acreVal = acreObj.val();
                 
-                if (sqftVal || sqmtVal) {
+                if (sqftVal || sqmtVal || acreVal) {
                     if (sqftVal) {
                         sqmtVal = sqFeet2SqMeter(sqftVal);
                         sqmtObj.val(sqmtVal);
+						acreVal = sqMeter2Acre(sqmtVal);
+						acreObj.val(acreVal);
                     }
                     else if (sqmtVal) {
                         sqftVal = sqMeter2SqFeet(sqmtVal);
                         sqftObj.val(sqftVal);
+						acreVal = sqMeter2Acre(sqmtVal);
+						acreObj.val(acreVal);
                     }
+					else if (acreVal) {
+					    sqmtVal = acre2SqMeter(acreVal);
+						sqmtObj.val(sqmtVal);
+						sqftVal = sqMeter2SqFeet(sqmtVal);
+						sqftObj.val(sqftVal);
+					}
                 }
                 else {
                     showMsg('appMsg', 'Please provide an Area value.');
