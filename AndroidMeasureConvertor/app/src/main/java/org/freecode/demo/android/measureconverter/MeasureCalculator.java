@@ -170,6 +170,7 @@ public class MeasureCalculator {
 
     // Area
     public final static Double SQFT_TO_SQMT = 0.09290304d;
+    public final static Double ACRE_TO_SQMT = 4046.86;
 
     public static Double sqFeet2SqMeter(Double sqftVal) {
         return sqftVal * SQFT_TO_SQMT;
@@ -177,4 +178,6 @@ public class MeasureCalculator {
     public static Double sqMeter2SqFeet(Double sqmtVal) {
         return sqmtVal / SQFT_TO_SQMT;
     }
+    public static Double acre2SqMeter(Double acreVal) { return acreVal * ACRE_TO_SQMT; }
+    public static Double sqMeter2Acre(Double sqmtVal) { return sqmtVal / ACRE_TO_SQMT; }
 }

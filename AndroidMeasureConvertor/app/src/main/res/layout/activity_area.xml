@@ -79,6 +79,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="Acre"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etxAcre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/lblAcreUOM"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="Arial"
+                android:text="@string/acreUOM"
+                android:textSize="@dimen/label_font_size"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/btnCalculate"
                 android:layout_width="0dp"

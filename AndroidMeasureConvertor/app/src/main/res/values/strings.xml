@@ -7,4 +7,5 @@
     <string name="miArea">Area</string>
     <string name="sqftUOM">ft<small><sup>2</sup></small></string>
     <string name="sqmUOM">m<small><sup>2</sup></small></string>
+    <string name="acreUOM">acre</string>
 </resources>

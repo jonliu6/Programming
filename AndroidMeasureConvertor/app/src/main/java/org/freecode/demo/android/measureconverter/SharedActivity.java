@@ -57,6 +57,15 @@ public abstract class SharedActivity extends AppCompatActivity {
         finishMainActivity();
     }
 
+    @Override
+    /**
+     * when any functional activities are on pause - brought to background, finish Main Actitity as well, so MainActivity.onCreate is called when being brought back to foreground
+     */
+    public void onPause() {
+        super.onPause();
+        finishMainActivity();
+    }
+
     private void finishMainActivity() {
         if (MainActivity.theInstance != null) {
             MainActivity.theInstance.finish();

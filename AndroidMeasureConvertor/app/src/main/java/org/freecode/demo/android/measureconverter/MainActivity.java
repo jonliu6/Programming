@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         // auto-load Temperature Activity
         Intent intent = new Intent(this, TemperatureActivity.class);
+
         // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
