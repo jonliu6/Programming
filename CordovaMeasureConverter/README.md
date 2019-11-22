@@ -35,8 +35,24 @@ This project uses Android SDK+Cordova to demonstrate a Hybrid Mobile version of 
             }
         }
 		...
-		
-9. cordova run android 
+   cordova build --release android
+   - generate an unsigned release apk
+
+9. use keytool from JDK to generate keystore 
+   keytool -genkey -v -keystore MeasureConvertor.keystore -alias MeasureConvertor -keyalg RSA -keysize 2048 -validity 10000
+
+    keystore password? : xxxxxxx
+    What is your first and last name? :  xxxxxx
+    What is the name of your organizational unit? :  xxxxxxxx
+    What is the name of your organization? :  xxxxxxxxx
+    What is the name of your City or Locality? :  xxxxxxx
+    What is the name of your State or Province? :  xxxxx
+    What is the two-letter country code for this unit? :  xxx   
+
+10. copy the keystore to the apk folder under <project>\platforms\android\app\build\outputs\apk\release and then run jarsigner from JDK to sign the .apk file
+    jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore MeasureConvertor.keystore app-release-unsigned.apk MeasureConvertor
+	
+11. cordova run android 
    - NOTE: Android Virtual Device must be ready. Creating an AVD from Android Studio is easier; or try the command line(packages may vary): android create avd -n testAVD --package "system-images;android-25;google_apis;x86"
 
 Optional commands:
@@ -55,3 +71,4 @@ Copy file from PC to emulator, vice versa (emulator needs to be running)
     adb push c:/temp/test.apk /data/local/tmp/test.apk
 	adb pull /data/local/tmp/test.apk c:/temp/test.apk
 
+12. for local web server, the ip address defaults to 10.0.2.2
