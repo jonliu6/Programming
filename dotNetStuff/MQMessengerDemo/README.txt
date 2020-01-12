@@ -1,0 +1,1 @@
+This is a demonstration of accessing IBM MQ topic or queue. There are 2 sets of APIs - one if native (supported by amqmdnet.dll), while the other is XMS (JMS-style wrapper for WMQ supported by IBM.XMS.*) APIs
