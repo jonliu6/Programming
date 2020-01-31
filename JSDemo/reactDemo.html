@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- This demo is from Learning React by Kirupa Chinnathambi, Copyright 2017 Pearson Education, Inc. -->
+<html lang="en">
+    <head>
+        <title>React JS Demo</title>
+        <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" crossorigin="anonymous"></script>
+
+        <style type="text/css">
+          #container {
+              padding: 50px;
+              background-color: #EEE;
+          }
+
+          .innerText {
+              padding: 10px;
+              margin: 10px;
+              font-size: 24px;
+              font-family: Arial, Helvetica, sans-serif;
+              color: #808000;
+              background-color: #ffee22;
+              display: inline-block;
+          }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+
+        </div>
+        <script type="text/babel">
+            var target = document.querySelector('#container');
+            var dt = new Date();
+
+            class HelloWorld extends React.Component { // do NOT use React.createClass since Facebook will deprecate it
+                render(){
+                    var helloStyle = { // NOTE: property names are different from standard CSS, also use , instead of ; for the ending
+                        padding: 30,
+                        margin: 10,
+                        backgroundColor: this.props.bgColor,
+                        fontFamily: 'sans-serif',
+                        fontSize: 48,
+                        color: '#0080A8'
+                    };
+
+                    return(
+                        <div style={helloStyle}>Hello {this.props.userName}, <br/>
+                          <span className="innerText">{this.props.children} at {dt.toISOString().slice(0,16)} !</span> {/* class is reserved keyword of JS, use className instead */}
+                        </div>
+                    );
+                }
+            }
+
+            ReactDOM.render(
+                <HelloWorld userName="Jon" bgColor="#cddeef">nice to meet you</HelloWorld>, // property should be matched with what defined in the class
+                target
+            );
+        </script>
+    </body>
+</html>

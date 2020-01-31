@@ -1,0 +1,78 @@
+<!doctype html>
+<!-- This demo is from the book of Learning React by Kirupa Chinnathambi, Copyright 2017 Pearson Education, Inc. Chapter 5 Creating Complex Components -->
+<!-- https://reactjs.org/docs/dom-elements.html -->
+<html>
+    <head>
+        <title>React Component Demo</title>
+        <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="container">
+            
+        </div>
+
+        <script type="text/babel">
+            var target = document.querySelector('#container');
+            
+            class Canvas extends React.Component {
+                render() {
+                    var canvasStyle = {
+                        height: 200,
+                        width: 100,
+                        padding: 0,
+                        backgroundColor: "#EEE",
+                        WebkitFilter: "drop-shadow(0px 0px 5px #666)", // Chrome, Safari, Opera
+                        filter: "drop-shadow(0px 0px 5px #666)" // IE13+, Firefox35+
+                    };
+
+                    return (
+                      <div style={canvasStyle}>
+                          <Panel color={this.props.color} />
+                          <Label color={this.props.color} />
+                      </div>
+                    );
+                }
+            }
+
+            class Panel extends React.Component {
+                render() {
+                    var panelStyle = {
+                        height: 150,
+                        backgroundColor: this.props.color
+                    };
+
+                    return (
+                        <div style={panelStyle}>
+                            <Label {...this.props} />
+                        </div>
+                    );
+                }
+            }
+
+            class Label extends React.Component {
+                render() {
+                    var labelStyle = {
+                        fontFamily: "sans-serif",
+                        fontWeight: "bold",
+                        padding: 13,
+                        margin: 0
+                    };
+
+                    return (
+                        <p style={labelStyle}>{this.props.color}</p>
+                    );
+                };
+            }
+
+            var canvasComponent = <Canvas color='#FF1111'></Canvas>; // variable canvasComponent must be defined after the definition of Canvas
+            ReactDOM.render(
+                <div>
+                    {canvasComponent}
+                </div>,
+                target
+            );
+        </script>
+    </body>
+</html>
