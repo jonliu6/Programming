@@ -17,20 +17,49 @@
             var target = document.querySelector('#container');
             
             class Canvas extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        fgColor: '#000000',
+                        bgColor: this.props.color
+                    };
+                }
+
+                changeBGColor = (e) => {
+                    // console.log('Hi');
+                    this.setState( {
+                        bgColor: e.target.value
+                    } );
+                }
+
+                changeFGColor = (e) => {
+                    // console.log('Hi');
+                    this.setState( {
+                        fgColor: e.target.value
+                    } );
+                }
+
                 render() {
                     var canvasStyle = {
                         height: 200,
                         width: 100,
                         padding: 0,
+                        color: "#111",
                         backgroundColor: "#EEE",
                         WebkitFilter: "drop-shadow(0px 0px 5px #666)", // Chrome, Safari, Opera
                         filter: "drop-shadow(0px 0px 5px #666)" // IE13+, Firefox35+
                     };
 
+                    var textStyle = {
+                        width: 98,
+                        padding: 0
+                    }
+
                     return (
                       <div style={canvasStyle}>
-                          <Panel color={this.props.color} />
-                          <Label color={this.props.color} />
+                          <Panel color={this.state.bgColor} fgColor={this.state.fgColor} />
+                          BG:<input type="text" style={textStyle} onChange={evt => this.changeBGColor(evt)} value={this.state.bgColor}></input>
+                          FG:<input type="text" style={textStyle} onChange={evt => this.changeFGColor(evt)} value={this.state.fgColor}></input>
                       </div>
                     );
                 }
@@ -39,7 +68,8 @@
             class Panel extends React.Component {
                 render() {
                     var panelStyle = {
-                        height: 150,
+                        height: 140,
+                        color: this.props.fgColor,
                         backgroundColor: this.props.color
                     };
 
