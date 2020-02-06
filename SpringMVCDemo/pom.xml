@@ -29,7 +29,7 @@
     <dependency> <!-- support spring mvc servlet -->
 	    <groupId>com.fasterxml.jackson.core</groupId>
 	    <artifactId>jackson-core</artifactId>
-	    <version>2.9.7</version>
+	    <version>2.9.9</version>
     </dependency>
 	
     <!-- Web MVC -->
@@ -66,7 +66,7 @@
 	<dependency>
 	    <groupId>org.hibernate.validator</groupId>
 	    <artifactId>hibernate-validator</artifactId>
-	    <version>6.0.3.Final</version>
+	    <version>6.1.2.Final</version>
 	</dependency>
 	
 	<!-- file upload library supporting MultipartFile in Spring Framework -->
