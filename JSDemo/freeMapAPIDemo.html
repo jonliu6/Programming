@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!-- using LeafLet.js for map view and Nominatim for geocoding reverse lookup and jQuery for Ajax calls -->
+<!-- References: https://nominatim.org/release-docs/latest/api/Overview/
+                 https://leafletjs.com/reference-1.6.0.html
+                 https://nominatim.openstreetmap.org/
+                 https://api.jquery.com/
+-->
+<html lang="en">
+  <head>
+    <title>Demo of free map apis</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="anonymous"/>
+    <style>
+      #address {position: fixed; z-index: 10; top: 10px; left: 60px;}
+      #map {height: 480px; width: 640px; z-index: 1; float: left;}
+      #additionalDetails {font-family: Arial, Helvetica, sans-serif; font-size: 0.8em; float: left; display: none;}
+      .loading {display: none; position: absolute; height: 30px; width: 180px; z-index: 100; background-color: white; font-family: Arial, Helvetica, sans-serif; font-size: 0.8em; color: #333; font-weight: bold; border-radius: 8px; text-align: center; vertical-align: middle; line-height: 1.4}
+    </style>
+
+    <script src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js" crossorigin="anonymous" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <div id="container">
+        <div id="address">
+            <input id="addressInput" type="text" value="" size="50" placeholder="Enter an address to locate the coordinates on map"/>
+            <input type="button" value="Locate" onclick="retrieveCoordinatesByAddress($('#addressInput').val());"/>
+        </div>
+        <div id="map"></div>
+        <div id="additionalDetails"></div>
+        <div id="loadingBar" class="loading"><span>&#160;</span></div>
+        <div id="instruction" style="width: 640px; overflow-x: hidden; clear: both;">
+            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 0.8em;">Note: this is a demo using LeafLet.js, OpenStreetMap, jQuery and Nominatim to find a coordinates by an address or displaying the address of the clicking location on the map.</span>
+        </div>
+    </div>
+    <script>
+      var GEOCODING_SEARCH_BASE_URL='https://nominatim.openstreetmap.org/search/';
+      var GEOCODING_REVERSE_URL='https://nominatim.openstreetmap.org/reverse?format=geojson';
+      var map;
+      var popup;
+
+      function retrieveCoordinatesByAddress(addr) {
+          if (addr) {
+            var geoCodeUrl = GEOCODING_SEARCH_BASE_URL + addr + '?format=geojson';
+            displayLoadingMessage('Requesting coordinates...');
+
+            $.ajax({ url: geoCodeUrl, cache: false, method: 'GET' })
+            .done(function(resp){
+              if (resp) {
+                if (resp.features) {
+                    if (resp.features.length == 0) {
+                        $('#additionalDetails').css('display', 'none');
+                        alert('No coordinates found by ' + addr + '.\nPlease double check your address.');
+                    }
+                    else if (resp.features.length > 1) {
+                        var html = "Multiple coordinates found by [" + addr + "]. Please select one of the following addresses:<p/>";
+                        $.each(resp.features, function(key, val){
+                            var props = val.properties;
+                            if (props) {
+                              var addr = props.display_name;
+                              html += "<div style='display: block;' onclick=\"retrieveCoordinatesByAddress('" + addr + "')\">" + addr + "</div>";
+                              $('#additionalDetails').html(html);
+                              $('#additionalDetails').css('display', 'block');
+                            }
+                        });
+                    }
+                    else {
+                        var geom = resp.features[0].geometry;
+                        if (geom) {
+                          var coord = geom.coordinates;
+                          if (coord && map && popup) {
+                              if (coord.length == 2) {
+                                  var latlng = L.latLng(coord[1], coord[0]);
+                                  var ico = L.icon({
+                                      iconUrl: 'img/target.gif'
+                                  });
+                                  L.marker(latlng, {icon: ico}).addTo(map);
+                                  popup.setLatLng(latlng).setContent("Found coordinates: " + coord[1] + "," + coord[0]).openOn(map);
+                                  map.panTo(latlng);
+                              }
+                          }
+                        }
+                    }
+                }
+              }
+            })
+            .fail(function(jqXHR, stat){
+              alert("Ajax call failed: " + stat);
+            })
+            .always(function(){
+              $("#loadingBar").css('display', 'none');
+            });
+          }
+          else {
+              alert('Please enter an address first.');
+          }
+      }
+
+      function displayLoadingMessage(msg) {
+        $("#loadingBar span").text(msg);
+        var pos = $("#map").position();
+        var y = $("#map").height() / 2;
+        var x = $("#map").width() / 2;
+        $("#loadingBar").css({left: pos.left + x, top: pos.top + y});
+        $("#loadingBar").css('display','block');
+      }
+
+      function searchAddressByLatLng(latlng) {
+          var lat = latlng.lat;
+          var lng = latlng.lng;
+          var geoCodeUrl = GEOCODING_REVERSE_URL + '&lat=' + lat + '&lon=' + lng;
+          displayLoadingMessage('Requesting address...');
+
+          $.ajax({ url: geoCodeUrl, cache: false, method: 'GET' })
+          .done(function(resp){
+              if (resp) {
+                  $.each(resp.features, function(key, val){
+                      var props = val.properties;
+                      if (props) {
+                          var addr = props.display_name;
+                          if (addr && popup) {
+                              popup.setLatLng(latlng).setContent("Found address: " + addr).openOn(map);
+                          }
+                      }
+                  });
+              }
+          })
+          .fail(function(jqXHR, stat){
+              alert("Ajax call failed: " + stat);
+          })
+          .always(function(){
+            $("#loadingBar").css('display', 'none');
+          });
+      }
+
+      function onMapClick(e) {
+          if (e.latlng) {
+              searchAddressByLatLng(e.latlng);
+          }
+      }
+
+      function initializeMap() {
+          var DEFAULT_LATLONG = [49.2300024,-123.0050796];
+          var DEFAULT_ZOOM_LEVEL = 17;
+          map = L.map('map').setView(DEFAULT_LATLONG, DEFAULT_ZOOM_LEVEL);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+          popup = L.popup();
+          map.on('click', onMapClick);
+      }
+
+      $(document).ready(function(){
+          initializeMap();
+      });
+    </script>
+  </body>
+</html>
