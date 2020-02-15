@@ -1,0 +1,146 @@
+<!doctype html>
+<!-- This demo is from the book of Learning React by Kirupa Chinnathambi, Copyright 2017 Pearson Education, Inc. Chapter 13 Creating a Single-Page App Using React Router -->
+<!-- https://reactjs.org/docs/dom-elements.html -->
+<!-- NOTE: due to the significant changes of the latest versions of React, React-Router, Babel and etc. The example was downgraded to the earlier versions and ONLY worked in Chrome, not IE11. -->
+
+<html lang="en">
+<head>
+    <title>React Router Demo</title>
+    <script src="https://unpkg.com/react@15.2.1/dist/react.js" crossorigin="anonymous"></script> <!-- calling a React.PropTypes validation function for the `component` prop on `Route` was deprecated from 15.3.x+ -->
+    <script src="https://unpkg.com/react-dom@15.2.1/dist/react-dom.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-router@2.0.1/umd/ReactRouter.js" crossorigin="anonymous"></script> <!-- `Router` no longer defaults the history prop to hash history, decommissioned from 2.1.x+ -->
+
+    <style>
+        body {
+            background-color: #FFCC00;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1, h2, p, ul, li {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        ul.header li {
+            display: inline;
+            list-style-type: none;
+            margin: 0;
+        }
+
+        ul.header {
+            background-color: #111;
+            padding: 0;
+        }
+
+        ul.header li a {
+            color: #FFF;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 20px;
+            display: inline-block;
+        }
+
+        .content {
+            background-color: #FFF;
+            padding: 20px;
+        }
+
+        .content h2 {
+            padding: 0;
+            margin: 0;
+        }
+
+        .content li {
+            margin-bottom: 10px;
+        }
+
+        .active {
+            background-color: #0099FF;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+
+    <script type="text/babel">
+        var target = document.querySelector('#container');
+
+        var {Router, Route, IndexRoute, IndexLink, Link} = ReactRouter; // avoiding ReactRouter prefix
+
+        class App extends React.Component {
+
+            render() {
+
+                return (
+                    <div>
+                        <h1>React Router Demo Page</h1>
+                        <ul className="header">
+                            <li><IndexLink to="/" activeClassName="active">Home</IndexLink></li>
+                            <li><Link to="/contact" activeClassName="active">Contact</Link></li>
+                            <li><Link to="/about" activeClassName="active">About</Link></li>
+                        </ul>
+
+                        <div className="content">
+                            {this.props.children}
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        class Home extends React.Component {
+            render() {
+
+                return (
+                    <div>
+                        <h2>Home Page</h2>
+                        <p>This is the home page of this sample React Router demo...</p>
+                    </div>
+                );
+            }
+        }
+
+        class Contact extends React.Component {
+            render() {
+
+                return (
+                    <div>
+                        <h2>Support Contact</h2>
+                        <p>Please feel free to reach admin@demo.freecode.org for any assistance...</p>
+                    </div>
+                );
+            }
+        }
+
+        class About extends React.Component {
+            render() {
+
+                return (
+                    <div>
+                        <h2>What is this about?</h2>
+                        <p>This demo is from the book of Learning React by Kirupa Chinnathambi, Copyright 2017 Pearson Education, Inc. Chapter 13 Creating a Single-Page App Using React Router...</p>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <Router>
+                <Route path="/" component={App}>
+                    <IndexRoute component = {Home} />
+                    <Route path="contact" component={Contact}>
+                        // By RouteMatching, you can nest Route as well, e.g. /contact/blah
+                    </Route>  
+                    <Route path="about" component= {About} />
+                </Route>
+            </Router>,
+            target
+        );
+    </script>
+</body>
+</html>

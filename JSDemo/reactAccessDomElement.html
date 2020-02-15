@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- This demo is from the book of Learning React by Kirupa Chinnathambi, Copyright 2017 Pearson Education, Inc. Chapter 12 Accessing DOM Elements -->
+<!-- https://reactjs.org/docs/dom-elements.html -->
+<html lang="en">
+  <head>
+    <title>Demo of accessing DOM elements from React JS</title>  
+    <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+      .colorArea {
+          width: 160px;
+          height: 100px;
+          background-color: #DDD;
+      }
+
+      .colorPanel {
+          height: 80px;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+            
+    </div>
+
+    <script type="text/babel">
+        var target = document.querySelector('#container');
+
+        class Colorizer extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    color: '',
+                    bgColor: ''
+                };
+                this.colorInput = React.createRef();
+            }
+
+            colorChangeValue = (e) => {
+                // console.log('colorChangeValue called');
+                this.setState( {
+                    color: e.target.value
+                } );
+            }
+
+            setNewColor = (e) => {
+                this.setState({bgColor: this.state.color});
+                // console.log('setNewColor called to set color: ' + this.state.bgColor);
+                // clear input value
+                this.colorInput.value = "";
+                this.colorInput.current.focus();
+
+                e.preventDefault();
+            }
+
+            render() {
+                var panelStyle = {backgroundColor: this.state.bgColor}
+                
+                return (
+                    <div className="colorArea">
+                      <div style={panelStyle} className="colorPanel"></div>
+                      <input ref={this.colorInput} onChange={evt => this.colorChangeValue(evt)} placeholder="Enter a color code" />
+                      <button type="button" onClick={this.setNewColor}>Update</button>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <Colorizer />,
+            target
+        );
+    </script>
+  </body>
+</html>
