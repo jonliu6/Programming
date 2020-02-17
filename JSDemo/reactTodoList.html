@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>React JS Simple from Learning React - Chapter 14 by Kirupa Chinnathambi</title>
+        <!--during the development, not use minified version, so the error can be seen-->
+        <!-- // for development -->
+        <script src="https://unpkg.com/react@16.12.0/umd/react.development.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.development.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js" crossorigin="anonymous"></script>
+        <!-- // for production
+        <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" crossorigin="anonymous"></script>
+        -->
+    </head>
+    <body>
+        <div id="container">
+
+        </div>
+
+        <script type="text/babel">
+            var target = document.querySelector("#container");
+
+            class TodoTasks extends React.Component {
+                
+                render() {
+                    var todoTasks = this.props.entries;
+                    var listItems = todoTasks.map(item => <li key={item.key}>{item.text}</li>)
+                    
+                    return (
+                        <ul>{listItems}</ul>
+                    );
+                }
+            }
+
+            class TodoList extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        tasks: []
+                    };
+                    this.newTaskName = React.createRef(); // used in v16+, for earlier version. consider callback ref()
+
+                    this.addTask = this.addTask.bind(this); // for addTask to recognize this
+                }
+
+                addTask(e) {
+                    var taskArray = this.state.tasks;
+
+                    taskArray.push({
+                        text: this.newTaskName.current.value,
+                        key: Date.now()
+                    });
+
+                    this.setState({
+                        tasks: taskArray
+                    });
+
+                    this.newTaskName.current.value = "";
+                    this.newTaskName.current.focus();
+
+                    e.preventDefault();
+                }
+
+                render(){
+
+                    return(
+                        <div>
+                            <div>
+                                <form onSubmit={this.addTask}>
+                                    <input placeholder="Enter a task" ref={this.newTaskName}></input>
+                                    <button type="submit">Add</button>
+                                </form>
+                            </div>
+                            <TodoTasks entries={this.state.tasks} />
+                        </div>
+                    );
+                };
+            }
+
+            ReactDOM.render(
+                <div>
+                    <TodoList />
+                </div>,
+                target
+            );
+        </script>
+    </body>
+</html>
