@@ -12,6 +12,52 @@
         <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js" crossorigin="anonymous"></script>
         -->
+
+        <style>
+            body {
+                padding: 50px;
+                background-color: #66CCFF;
+                font-family: sans-serif;
+            }
+
+            .todoListMain .header input {
+                padding: 10px;
+                font-size: 16px;
+                border: 2px solid #FFF;
+                border-radius: 5px;
+            }
+            
+            .todoListMain .header button {
+                padding: 10px;
+                font-size: 16px;
+                margin: 10px;
+                background-color: #0066FF;
+                color: #FFF;
+                border: 2px solid #0066FF;
+                border-radius: 10px;
+            }
+
+            .todoListMain .header button:hover {
+                background-color: #003399;
+                border: 2px solid #003399;
+                cursor: pointer;
+                
+            }
+
+            .todoListMain .taskList {
+                list-style: none;
+                padding-left: 0px;
+                width: 255px;
+            }
+
+            .todoListMain .taskList li {
+                color: #333;
+                background-color: rgba(255,255,255,0.5);
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 5px;
+            }
+        </style>
     </head>
     <body>
         <div id="container">
@@ -28,7 +74,7 @@
                     var listItems = todoTasks.map(item => <li key={item.key}>{item.text}</li>)
                     
                     return (
-                        <ul>{listItems}</ul>
+                        <ul className="taskList">{listItems}</ul>
                     );
                 }
             }
@@ -65,8 +111,8 @@
                 render(){
 
                     return(
-                        <div>
-                            <div>
+                        <div className="todoListMain">
+                            <div className="header">
                                 <form onSubmit={this.addTask}>
                                     <input placeholder="Enter a task" ref={this.newTaskName}></input>
                                     <button type="submit">Add</button>
