@@ -57,6 +57,21 @@
                 margin-bottom: 15px;
                 border-radius: 5px;
             }
+
+            .todoListMain .taskList a {
+                color: #FFF;
+                margin-left: 5px;
+                text-decoration: none;
+                background-color: #0066ff;
+                border-radius: 5px;
+                padding: 5px;
+                cursor: pointer;
+                font-size: 0.8em;
+            }
+
+            .todoListMain .taskList a:hover {
+                background-color: #003399;
+            }
         </style>
     </head>
     <body>
@@ -68,10 +83,13 @@
             var target = document.querySelector("#container");
 
             class TodoTasks extends React.Component {
+                deleteTask(val) {
+                    console.log('Task: ' + val + " deleted.");
+                }
                 
                 render() {
                     var todoTasks = this.props.entries;
-                    var listItems = todoTasks.map(item => <li key={item.key}>{item.text}</li>)
+                    var listItems = todoTasks.map(item => <li key={item.key}>{item.text}<a href="#" onClick={(e) => {this.props.removeFunc(item.key)}}>Delete</a></li>)
                     
                     return (
                         <ul className="taskList">{listItems}</ul>
@@ -88,6 +106,7 @@
                     this.newTaskName = React.createRef(); // used in v16+, for earlier version. consider callback ref()
 
                     this.addTask = this.addTask.bind(this); // for addTask to recognize this
+                    this.deleteTask = this.deleteTask.bind(this); // for deleteTask to recognize this
                 }
 
                 addTask(e) {
@@ -108,6 +127,22 @@
                     e.preventDefault();
                 }
 
+                deleteTask(taskNo) {
+                    var taskArray = this.state.tasks;
+                    for (var i = 0, len = taskArray.length; i < len; ++i) {
+                        if (taskArray[i] != null) {
+                            if (taskNo == taskArray[i].key) {
+                                console.log("delete task: " + taskNo);
+                                taskArray.splice(i, 1);
+                            }
+                        }
+                    }
+                    // refresh the state object
+                    this.setState({
+                        tasks: taskArray
+                    });
+                }
+
                 render(){
 
                     return(
@@ -118,7 +153,7 @@
                                     <button type="submit">Add</button>
                                 </form>
                             </div>
-                            <TodoTasks entries={this.state.tasks} />
+                            <TodoTasks entries={this.state.tasks} removeFunc={this.deleteTask} />
                         </div>
                     );
                 };
