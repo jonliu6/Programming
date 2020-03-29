@@ -5,9 +5,10 @@ class KnowledgeBaseForm extends React.Component {
         this.state = {
             titleTxt: '',
             categoryTxt: '',
-            contentTxt: '',
-            attachFileName: ''
+            contentTxt: ''
         };
+
+        this.fileInputRef = React.createRef(); // File Input is uncontrolled component
     }
 
     handleInputChange = (e) => {
@@ -20,10 +21,12 @@ class KnowledgeBaseForm extends React.Component {
     }
 
     handleSubmit = (e) => {
-        console.log("Submission: \n" + "Title: " + this.state.titleTxt + "\nCategory: " + this.state.categoryTxt);
+        e.preventDefault();
+        var fileName = this.fileInputRef.current.files[0].name;
+        console.log("Submission: \n" + "Title: " + this.state.titleTxt + "\nCategory: " + this.state.categoryTxt + "\nContent: " + this.state.contentTxt + "\nAttachment: " + fileName);
 
         // this.setState({titleTxt: '', categoryTxt: ''}); // no need to reset to the initial values
-        e.preventDefault();
+        
     }
 
     render() {
@@ -31,7 +34,9 @@ class KnowledgeBaseForm extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <TitleInput label={"Title: "} name="titleTxt" value={this.state.titleTxt} handleTitleChange={this.handleInputChange}></TitleInput>
                 <CategoryInput label={"Category: "} name="categoryTxt" value={this.state.categoryTxt} options={this.props.categoryItems} handleCategoryChange={this.handleInputChange}></CategoryInput>
-
+                <ContentInput label={"Content: "} name="contentTxt" value={this.state.contentTxt} handleContentChange={this.handleInputChange}></ContentInput>
+                <div>Attach a file: </div>
+                <input type="file" ref={this.fileInputRef} />
                 <br/>
                 <input type="submit" value="Submit"></input>
             </form>
@@ -76,6 +81,21 @@ class CategoryInput extends React.Component {
                         )
                     }
                 </select>
+            </div>
+        );
+    }
+}
+
+class ContentInput extends React.Component {
+    handleContentChange = (e) => {
+        this.props.handleContentChange(e);
+    }
+
+    render() {
+        return(
+            <div>
+                <div>{this.props.label}</div>
+                <textarea name={this.props.name} rows="4" cols="50" value={this.props.value} onChange={this.handleContentChange}></textarea>
             </div>
         );
     }
