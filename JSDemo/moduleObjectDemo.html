@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>JS Demo of Modules, Objects and Methods</title>
+        <!-- Based on the chapter 8 sample of Front-End Web Development - The Big Nerd Ranch Guide by Chris Aquino and Todd Gandee -->
+    </head>
+    <body>
+        <script src="datastore.js" charset="utf-8"></script>
+        <script src="truck.js" charset="utf-8"></script>
+
+        <script charset="utf-8">
+            var ds = new App.DataStore(); // same as window.App.DataStore
+            ds.add('jliu','tea');
+            ds.add('swang','mike');
+            ds.getAll();
+            ds.get('jliu');
+
+            var myTruck = new App.Truck('007',new App.DataStore());
+            myTruck.createOrder({userName: 'jl', category: 'tea'});
+            myTruck.createOrder({userName: 'sw', category: 'milk'});
+            myTruck.createOrder({userName: 'tl', category: 'game'});
+            myTruck.printOrders();
+
+            myTruck.deliverOrder('tl');
+            myTruck.deliverOrder('sw');
+            myTruck.printOrders();
+            
+        </script>
+    </body>
+</html>
