@@ -54,8 +54,8 @@ public class NoteController {
 	
 	@PostMapping("/addNote")
 	/**
-	 * URL: http://<server>:<port>/addNotes
-	 * @param aNote
+	 * URL: http://<server>:<port>/addNote
+	 * @param aNote - when testing, add Content-Type: application/json in HTTP header, and JSON Note object in body
 	 */
 	public void addNote(@RequestBody Note aNote) {
 		noteResp.save(aNote);
