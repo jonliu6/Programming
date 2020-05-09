@@ -17,7 +17,7 @@
     <jstl.version>1.2</jstl.version>
     <application.home>${env.JBOSS_HOME}/standalone</application.home>
 	<webapp.dir>${application.home}/deployments</webapp.dir>
-	<jackson.library>2.9.9</jackson.library>
+	<jackson.library>2.9.10.4</jackson.library>
   </properties>
   
   <dependencies>
