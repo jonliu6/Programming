@@ -1,0 +1,89 @@
+var malls = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.1178758,49.2833356]
+      },
+      "properties": {
+        "name": "CF Pacific Centre",
+        "address": "701 W Georgia St, Vancouver, BC V7Y 1G5",
+        "phone": "(604) 688-7235"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.0836142,49.0382481]
+      },
+      "properties": {
+        "name": "Tsawwassen Mills",
+        "address": "5000 Canoe Pass Way, Tsawwassen, BC V4M 0B3",
+        "phone": "(604) 948-9889"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.0021739,49.2274657]
+      },
+      "properties": {
+        "name": "Metropolis at Metrotown",
+        "address": "4700 Kingsway, Burnaby, BC V5H 4N2",
+        "phone": "(604) 438-4715"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.1435827,49.1979841]
+      },
+      "properties": {
+        "name": "McArthurGlen Designer Outlet",
+        "address": "1000-7899 Templeton Station Rd, Richmond, BC V7B 0B7",
+        "phone": "(604) 231-5525"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-123.1356479,49.1840869]
+      },
+      "properties": {
+        "name": "Aberdeen Centre",
+        "address": "4151 Hazelbridge Way, Richmond, BC V6X 4J7",
+        "phone": "(604) 270-1234"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.8006768,49.2796046]
+      },
+      "properties": {
+        "name": "Coquitlam Centre",
+        "address": "2929 Barnet Hwy, Coquitlam, BC V3B 5R5",
+        "phone": "(604) 464-1414"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-122.8070795,49.1922921]
+      },
+      "properties": {
+        "name": "Guildford Town Centre",
+        "address": "10355 152 St, Surrey, BC V3R 7C1",
+        "phone": "(604) 585-1565"
+      }
+    }
+  ]
+};
