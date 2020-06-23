@@ -17,6 +17,7 @@
         </style>
 
         <script src="libraries.json"></script>
+        <script src="shoppingMalls.json"></script>
 
         <script>
             var BC_CENTER_LATITUDE = 53.239622280409575;
@@ -56,7 +57,7 @@
 
                 view.ui.add(search, "top-right"); // add Search widget to the top-right of the map view.
 
-                //// The below implementation is for loading GeoJSON data into a layer; however, there are some limitations like no custom symbol, valid web URL for GeoJSON and etc.
+                //// The below implementation is for loading GeoJSON data into a layer; however, there are some limitations like no custom symbol, valid web URL requirement for GeoJSON and etc.
                 // var libraryGeoJSONLayer = new GeoJSONLayer({
                 //     url: "http://localhost:8085/ex/emergencyservices/libraries.json" // must be a valid URL. Note: tab needs to be replaced to white spaces; or invalid character
                 // });
@@ -66,77 +67,8 @@
                 // });
                 // map.add(libraryGeoJSONLayer);
 
-                var libraryLayer = new GraphicsLayer();
-                map.add(libraryLayer);
-
-                ////jQuery implemenetation: may throw Resource or memory issue
-                // $.each(libraries.features, function(i, obj){
-                //     var lng = obj.geometry.coordinates[0];
-                //     var lat = obj.geometry.coordinates[1];
-                //     var point = {
-                //         type: "point",
-                //         longitude: lng,
-                //         latitude: lat
-                //     };
-
-                //     setMinMaxCoordinates(lng, lat);
-
-                //     var librarySymbol = {
-                //         type: "simple-marker",
-                //         color: [226, 119, 40],  // orange
-                //     };
-
-                //     var libProp = obj.properties;
-
-                //     var pointGraphic = new Graphic({
-                //         geometry: point,
-                //         symbol: librarySymbol, 
-                //         attributes: libProp,
-                //         popupTemplate: {
-                //            title: "<b>{name}</b>",
-                //            content: "Address: {address}<br/>Phone: {phone}"
-                //         }
-                //     });
-                //     libraryLayer.add(pointGraphic);
-                // });
-
-                // libraryLayer.when(function(){
-                //     view.extent = libraryLayer.fullExtent;
-                // });
-                
-                //// JS Implementation
-                for (var i = 0, len = libraries.features.length; i < len; ++i) {
-                    var lib = libraries.features[i];
-                    var lng = lib.geometry.coordinates[0];
-                    var lat = lib.geometry.coordinates[1];
-
-                    setMinMaxCoordinates(lng, lat);
-
-                    var point = {
-                        type: "point",
-                        longitude: lng,
-                        latitude: lat
-                    };
-                    var libsymb = {
-                        type: "simple-marker",
-                        // type: "picture-marker", //mapview-template-store error: Unable to fetch requested texture resources
-                        // url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
-                        color: [226, 119, 40],  // orange
-                    };
-                    var libProp = lib.properties;
-
-                    var pointGraph = new Graphic({
-                        geometry: point,
-                        symbol: libsymb,
-                        attributes: libProp,
-                        popupTemplate: {
-                            title: "<b>{name}</b>",
-                            content: "Address: {address}<br/>Phone: {phone}"
-                        }
-                    });                    
-
-                    libraryLayer.add(pointGraph);
-                }
+                addLibraryLayer();
+                addShoppingMallLayer();
 
                 // libraryLayer.when(function(){
                 //     zoomToLayer(libraryLayer);
@@ -148,13 +80,95 @@
                 //     zoom: 15
                 // });
 
-                //// update extent based on min/max longitude/latitude
+                function addLibraryLayer() {
+                    var libraryLayer = new GraphicsLayer();
+                    map.add(libraryLayer);
+
+                    //// JS Implementation
+                    for (var i = 0, len = libraries.features.length; i < len; ++i) {
+                        var lib = libraries.features[i];
+                        var lng = lib.geometry.coordinates[0];
+                        var lat = lib.geometry.coordinates[1];
+
+                        setMinMaxCoordinates(lng, lat);
+
+                        var point = {
+                            type: "point",
+                            longitude: lng,
+                            latitude: lat
+                        };
+                        var libsymb = {
+                            type: "simple-marker",
+                            // type: "picture-marker", //mapview-template-store error: Unable to fetch requested texture resources
+                            // url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
+                            color: [226, 119, 40],  // orange
+                        };
+                        var libProp = lib.properties;
+
+                        var pointGraph = new Graphic({
+                            geometry: point,
+                            symbol: libsymb,
+                            attributes: libProp,
+                            popupTemplate: {
+                                title: "<b>{name}</b>",
+                                content: "Address: {address}<br/>Phone: {phone}"
+                            }
+                        });                    
+
+                        libraryLayer.add(pointGraph);
+                    }
+
+                }
+
+                function addShoppingMallLayer() {
+                    var shoppingMallLayer = new GraphicsLayer();
+                    map.add(shoppingMallLayer);
+
+                    ////jQuery implemenetation: may throw Resource or memory issue
+                    $.each(malls.features, function(i, obj){
+                        var lng = obj.geometry.coordinates[0];
+                        var lat = obj.geometry.coordinates[1];
+                        var point = {
+                            type: "point",
+                            longitude: lng,
+                            latitude: lat
+                        };
+
+                        setMinMaxCoordinates(lng, lat);
+
+                        var mallSymbol = {
+                            type: "simple-marker",
+                            color: [40, 119, 226],  // ???
+                        };
+
+                        var mallProp = obj.properties;
+
+                        var pointGraphic = new Graphic({
+                            geometry: point,
+                            symbol: mallSymbol, 
+                            attributes: mallProp,
+                            popupTemplate: {
+                            title: "<b>{name}</b>",
+                            content: "Address: {address}<br/>Phone: {phone}"
+                            }
+                        });
+                        shoppingMallLayer.add(pointGraphic);
+                    });
+
+                    //// Not work properly for multiple layers
+                    // libraryLayer.when(function(){
+                    //     view.extent = libraryLayer.fullExtent;
+                    // });
+                }
+
+                //// update view extent based on min/max longitude/latitude
                 view.extent = new Extent({
                     xmin: minLng,
                     ymin: minLat,
                     xmax: maxLng, 
                     ymax: maxLat
-                });
+                });    
+
             });
 
             function setMinMaxCoordinates(lng, lat) {
@@ -175,6 +189,7 @@
                 }
             }
 
+            //// Not working for JS client API            
             // function zoomToLayer(layer) {
             //     return layer.queryExtent().then(function(response) {
             //         view.goTo(response.extent).catch(function(error) {

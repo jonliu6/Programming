@@ -65,7 +65,7 @@ var libraries = {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [-122.8998485,49.2827453]
+        "coordinates": [-122.8515826,49.1907208]
       },
       "properties": {
         "name": "Surrey Library",
