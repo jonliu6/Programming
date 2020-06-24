@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!--
+            Description: This is a sample page using ArcGIS JavaScript API for some map functions - load the GeoJSON (https://geojson.org/) data and draw points, polygons on map layers.
+            References: ArcGIS JavaScript API Guide, API Reference, Sample Code, Showcase
+              https://developers.arcgis.com/javascript/
+              http://codesharing.arcgis.com/
+              Some training can be found from https://www.esri.com/training/catalog/search/
+        -->
         <meta charset="utf-8" />
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
         <title>Sample Map demonstration of ArcGIS JavaScript APIs</title>
@@ -39,23 +46,35 @@
             // esri/layers/support/LabelClass: label expressions, symbols, scale ranges, label priorities, and label placement options for labels on a layer
             // esri/symbols/PictureMarkerSymbol: renders Point graphics in either a 2D MapView or 3D SceneView using an image
             // esri/geometry/Extent: The minimum and maximum X and Y coordinates of a bounding box. Extent is used to describe the visible portion of a MapView
-            require(["esri/Map", "esri/views/MapView", "esri/widgets/Search", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/layers/GeoJSONLayer", "esri/symbols/PictureMarkerSymbol", "esri/geometry/Extent"], function(Map, MapView, Search, Graphic, GraphicsLayer, GeoJSONLayer, PictureMarkerSymbol, Extent){
-                var map = new Map({
+
+            require(["esri/Map", "esri/views/MapView", "esri/widgets/Search", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/layers/GeoJSONLayer", "esri/symbols/PictureMarkerSymbol", "esri/geometry/Extent", "esri/widgets/LayerList"],
+                    function(Map, MapView, Search, Graphic, GraphicsLayer, GeoJSONLayer, PictureMarkerSymbol, Extent, LayerList){
+                var map = new Map({ // create a base map of streets
                     basemap: "streets" //e.g. street, topo-vector and etc. https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
                 });
 
-                var view = new MapView({
+                var view = new MapView({ // create a map view with default center and zoom level and place it in a HTML DIV container
                     container: "mapContainer",
                     map: map,
                     center: [BC_CENTER_LONGITUDE, BC_CENTER_LATITUDE],
                     zoom: DEFAULT_ZOOM_LEVEL
                 });
-
-                var search = new Search({
+                
+                var search = new Search({ // create an address search widget
                     view: view
                 });
 
+                var layerList = new LayerList({ // create a layer widget to control layer visibility and etc.
+                    view: view
+                });
+
+                // custom data
+                var librarianRoute = [];
+                var mallCoverage = []; 
+
+                // add Esri widgets to the map view
                 view.ui.add(search, "top-right"); // add Search widget to the top-right of the map view.
+                view.ui.add(layerList, {position: "top-right"})
 
                 //// The below implementation is for loading GeoJSON data into a layer; however, there are some limitations like no custom symbol, valid web URL requirement for GeoJSON and etc.
                 // var libraryGeoJSONLayer = new GeoJSONLayer({
@@ -68,7 +87,9 @@
                 // map.add(libraryGeoJSONLayer);
 
                 addLibraryLayer();
+                addLibrarianRouteLayer();
                 addShoppingMallLayer();
+                addMallCoverageLayer();
 
                 // libraryLayer.when(function(){
                 //     zoomToLayer(libraryLayer);
@@ -81,7 +102,9 @@
                 // });
 
                 function addLibraryLayer() {
-                    var libraryLayer = new GraphicsLayer();
+                    var libraryLayer = new GraphicsLayer({ // create a graphic layer for all the library locations
+                        title: "Library"
+                    });
                     map.add(libraryLayer);
 
                     //// JS Implementation
@@ -90,14 +113,16 @@
                         var lng = lib.geometry.coordinates[0];
                         var lat = lib.geometry.coordinates[1];
 
-                        setMinMaxCoordinates(lng, lat);
+                        librarianRoute.push(lib.geometry.coordinates); // update custom data - librarianRoute for polyline data
 
-                        var point = {
+                        setMinMaxCoordinates(lng, lat); // update the bounding box for the view extent
+
+                        var point = { // create a geometry for the graphic point
                             type: "point",
                             longitude: lng,
                             latitude: lat
                         };
-                        var libsymb = {
+                        var libraryStyle = { // create a symbol for the graphic point
                             type: "simple-marker",
                             // type: "picture-marker", //mapview-template-store error: Unable to fetch requested texture resources
                             // url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
@@ -105,9 +130,9 @@
                         };
                         var libProp = lib.properties;
 
-                        var pointGraph = new Graphic({
+                        var pointGraph = new Graphic({ // create the graphic point with geometry, symbol and pop-up for the custom attributes
                             geometry: point,
-                            symbol: libsymb,
+                            symbol: libraryStyle,
                             attributes: libProp,
                             popupTemplate: {
                                 title: "<b>{name}</b>",
@@ -121,13 +146,17 @@
                 }
 
                 function addShoppingMallLayer() {
-                    var shoppingMallLayer = new GraphicsLayer();
+                    var shoppingMallLayer = new GraphicsLayer({
+                        title: "Shopping Mall"
+                    });
                     map.add(shoppingMallLayer);
 
                     ////jQuery implemenetation: may throw Resource or memory issue
                     $.each(malls.features, function(i, obj){
                         var lng = obj.geometry.coordinates[0];
                         var lat = obj.geometry.coordinates[1];
+                        mallCoverage.push(obj.geometry.coordinates); // update custom data - mall coverage - for polygon data
+
                         var point = {
                             type: "point",
                             longitude: lng,
@@ -136,16 +165,16 @@
 
                         setMinMaxCoordinates(lng, lat);
 
-                        var mallSymbol = {
+                        var mallStyle = {
                             type: "simple-marker",
-                            color: [40, 119, 226],  // ???
+                            color: [40, 119, 226],  // blue
                         };
 
                         var mallProp = obj.properties;
 
                         var pointGraphic = new Graphic({
                             geometry: point,
-                            symbol: mallSymbol, 
+                            symbol: mallStyle, 
                             attributes: mallProp,
                             popupTemplate: {
                             title: "<b>{name}</b>",
@@ -159,6 +188,68 @@
                     // libraryLayer.when(function(){
                     //     view.extent = libraryLayer.fullExtent;
                     // });
+                }
+
+                function addLibrarianRouteLayer() {
+                    if (librarianRoute && librarianRoute.length > 1) {
+                        var librarianRouteLayer = new GraphicsLayer({
+                            title: "Librarian Route",
+                            visible: false
+                        });
+                        map.add(librarianRouteLayer);
+
+                        var route = {
+                            type: "polyline",
+                            paths: librarianRoute
+                        };
+
+                        var routeStyle = {
+                            type: "simple-line",
+                            color: [180, 100, 20], // dark orange
+                            width: 2
+                        };
+
+                        var graph = new Graphic({
+                            geometry: route,
+                            symbol: routeStyle
+                        });
+
+                        librarianRouteLayer.add(graph);                    
+                    }
+                }
+
+                function addMallCoverageLayer() {
+                    if (mallCoverage && mallCoverage.length > 2) {
+                        // var endPoint = [];
+                        // endPoint.push(mallCoverage[0][0]);
+                        // endPoint.push(mallCoverage[0][1]);
+                        // mallCoverage.push(endPoint); // no difference to add the end point of the polygon with the begin point
+
+                        var mallCoverageLayer = new GraphicsLayer({
+                            title: "Mall Coverage Area",
+                            visible: false
+                        });
+                        map.add(mallCoverageLayer);
+
+                        var area = {
+                            type: "polygon",
+                            rings: mallCoverage
+                        };
+
+                        var areaStyle = {
+                            type: "simple-fill",
+                            color: [40, 119, 226, 0.8], // R, G, B, opacity
+                            outline: [20, 60, 120], // dark blue
+                            width: 1
+                        };
+
+                        var graph = {
+                            geometry: area,
+                            symbol: areaStyle
+                        };
+
+                        mallCoverageLayer.add(graph);
+                    }
                 }
 
                 //// update view extent based on min/max longitude/latitude

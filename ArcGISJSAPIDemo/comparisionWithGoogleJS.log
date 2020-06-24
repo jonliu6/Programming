@@ -1,0 +1,13 @@
+
+Cons:
+- no Street View Library
+- Custom Icon for marker may not work
+- polygon holes
+- map loading random issue - blank? and performance?
+- view.extent = layer.fullExtent not working properly - workaround is a bounding box
+- GeoJSONLayer requires valid web URL, not supports custom icon
+
+
+Pros:
+- more libraries open for development. e.g. LayerList
+- popupTemplate 
