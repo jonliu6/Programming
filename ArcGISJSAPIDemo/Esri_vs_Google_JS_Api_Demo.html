@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <!--
-            Description: This is a sample page using ArcGIS JavaScript API for drawing functions - load the GeoJSON (https://geojson.org/) data and draw points, polygons on map layers.
+            Description: This is a sample page using ArcGIS JavaScript API for drawing functions - load the GeoJSON (https://geojson.org/) data and draw points, lines, polygons on map layers with some custom properties shown as pop-up messages.
             References: ArcGIS JavaScript API Guide, API Reference, Sample Code, Showcase
               https://developers.arcgis.com/javascript/
               http://codesharing.arcgis.com/
@@ -34,6 +34,7 @@
             var BC_CENTER_LATITUDE = 53.239622280409575;
             var BC_CENTER_LONGITUDE = -130.122070312500005;
             var DEFAULT_ZOOM_LEVEL = 8;
+            var DEFAULT_BOUND_OFFSET = 0.005;
 
             // assign min/max longitude/latitude for extent
             var minLng = 0;
@@ -65,14 +66,22 @@
                             title: "Points"
                         });
                         esriMap.add(pointLayer);
+
+                        var lineLayer = new GraphicsLayer({
+                            title: "Polylines"
+                        });
+                        esriMap.add(lineLayer);
+
                         var areaLayer = new GraphicsLayer({
                             title: "Polygons"
                         });
                         esriMap.add(areaLayer);
 
-                        var coords;
+                        var coords; // coordinates
+                        var props; // properties
                         $.each(geoJSONData.features, function(i, obj){
                             coords = obj.geometry.coordinates;
+                            props = obj.properties;
                             if (obj.geometry.type == "Point") {
                                 setMinMaxCoordinates(coords[0], coords[1]);
                                 
@@ -97,10 +106,39 @@
 
                                 var pointGraph = new Graphic({
                                     geometry: point,
-                                    symbol: pointStyle
+                                    symbol: pointStyle,
+                                    attributes: props,
+                                    popupTemplate: { // the variable names matched with the definitations in the properties of the GeoJSON data
+                                        title: "<b>{name}</b>",
+                                        content: "Type: {type}"
+                                    }
                                 });
 
                                 pointLayer.add(pointGraph);
+                            }
+                            else if (obj.geometry.type == "LineString") {
+                                var line = {
+                                    type: "polyline",
+                                    paths: coords
+                                };
+
+                                var lineStyle = {
+                                    type: "simple-line",
+                                    color: [20, 40, 220], // blue
+                                    width: 2
+                                };
+
+                                var lineGraph = new Graphic({
+                                    geometry: line,
+                                    symbol: lineStyle,
+                                    attributes: props,
+                                    popupTemplate: { // the variable names matched with the definitations in the properties of the GeoJSON data
+                                        title: "<b>{name}</b>",
+                                        content: "Status: {status}"
+                                    }
+                                });
+
+                                lineLayer.add(lineGraph);
                             }
                             else if (obj.geometry.type == "Polygon") {
                                 var area = {
@@ -117,13 +155,18 @@
 
                                 var areaGraph = new Graphic({
                                     geometry: area,
-                                    symbol: areaStyle
+                                    symbol: areaStyle,
+                                    attributes: props,
+                                    popupTemplate: {
+                                        title: "<b><span style='color:red;'>{name}</span></b>",
+                                        content: "Area Type: {type}"
+                                    }
                                 });
 
                                 areaLayer.add(areaGraph);
                             }
                             
-                            $.each(coords, function(i, outer){ // inefficiently update bounding box for the view extent
+                            $.each(coords, function(i, outer){ // inefficiently update bounding box for the view extent due to errors using view.fullExtent
                                 if (outer.length > 1) {
                                     $.each(outer, function(j, inner){
                                         setMinMaxCoordinates(inner[0], inner[1]);
@@ -150,6 +193,20 @@
                             maxLat = lat;
                         }
                     }
+
+                    function adjustSmallExtent() {
+                        if (maxLng - minLng < DEFAULT_BOUND_OFFSET) {
+                            minLng -= DEFAULT_BOUND_OFFSET;
+                            maxLng + DEFAULT_BOUND_OFFSET
+                        }
+                        if (maxLat - minLat < DEFAULT_BOUND_OFFSET) {
+                            minLat -= DEFAULT_BOUND_OFFSET;
+                            maxLng += DEFAULT_BOUND_OFFSET;
+                        }
+                    }
+
+                    adjustSmallExtent();
+
                     //// update view extent based on min/max longitude/latitude
                     view.extent = new Extent({
                         xmin: minLng,
@@ -167,6 +224,10 @@
                     zoom: DEFAULT_ZOOM_LEVEL
                 };
 
+                var popMsg = new google.maps.InfoWindow({
+                    content: "Name: "
+                });
+
                 ggMap = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
                 var bounds = new google.maps.LatLngBounds(); 
 
@@ -183,26 +244,59 @@
                             title: name + "\n" + geoType,
                             icon: 'dot.gif'
                         });
-                        feature.getGeometry().forEachLatLng(function(latLng){
-                            bounds.extend(latLng);
-                        });
+                    }
+                    else if (geoType == "LineString") {
+                        var name = feature.getProperty('name');
+                        dataLayer.overrideStyle(feature, { // override the line style
+                            title: name + "\n" + geoType, // not shown for polyline
+                            strokeWeight: 3,
+                            strokeColor: '##1122CC',
+                            strokeOpacity: 0.8
+                        }); 
                     }
                     else if (geoType == "Polygon") {
                         var name = feature.getProperty('name');
                         dataLayer.overrideStyle(feature, { // override the polygon style
-                            title: name + "\n" + geoType,
+                            title: name + "\n" + geoType, // not shown for polygon
                             fillColor: '#FF8888',
                             fillOpacity: 0.2,
                             strokeWeight: 1,
                             strokeColor: '##FF0000',
                             strokeOpacity: 0.8
-                        });
-                        feature.getGeometry().forEachLatLng(function(latlng){
-                            bounds.extend(latlng);
-                        });
+                        });                        
                     }
+
+                    feature.getGeometry().forEachLatLng(function(latlng){
+                        bounds.extend(latlng);
+                    });
                 });
+
+                // adjust small bound
+                if (bounds.getNorthEast().equals(bounds.getSouthWest()) ) { // add some extensions if the bounds is small
+                  var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + DEFAULT_BOUND_OFFSET, bounds.getNorthEast().lng() + DEFAULT_BOUND_OFFSET);
+                  var extendPoint2 = new google.maps.LatLng(bounds.getSouthWest().lat() - DEFAULT_BOUND_OFFSET, bounds.getSouthWest().lng() - DEFAULT_BOUND_OFFSET);
+                  bounds.extend(extendPoint1);
+                  bounds.extend(extendPoint2);
+                }
+
                 ggMap.fitBounds(bounds);
+
+                // add click event listener to display InfoWindow with GeoJSON properties
+                dataLayer.addListener('click', function(event){
+                    // alert(event.feature.getProperty('name'));
+                    var msg = "<b>" + event.feature.getProperty('name') + "</b>";
+                    if (event.feature.getGeometry().getType() == "LineString") {
+                        msg += "<br/>Status: " + event.feature.getProperty('status');
+                    }
+                    else if (event.feature.getGeometry().getType() == "Point" || event.feature.getGeometry().getType() == "Polygon") {
+                        msg += "<br/>Type: " + event.feature.getProperty('type');
+                    }
+                    popMsg.setContent(msg);
+                    popMsg.setPosition(event.latLng);
+                    popMsg.setOptions({pixelOffset: new google.maps.Size(0,-20)});
+                    popMsg.open(ggMap);
+                });
+
                 dataLayer.setMap(ggMap);
             }
             
