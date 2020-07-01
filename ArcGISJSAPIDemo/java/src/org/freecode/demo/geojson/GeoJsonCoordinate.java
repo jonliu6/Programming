@@ -2,6 +2,10 @@ package org.freecode.demo.geojson;
 
 import java.io.Serializable;
 
+/**
+ * a class representing a pair of longitude and latitude coordinates
+ * refer to https://geojson.org/ and https://tools.ietf.org/html/rfc7946 for more details of GeoJSON
+ */
 public class GeoJsonCoordinate implements Serializable {
     private Double longitude;
     private Double latitude;
@@ -34,6 +38,9 @@ public class GeoJsonCoordinate implements Serializable {
         return longitude + "," + latitude;
     }
 
+    /**
+     * @return String output of the coordinate in GeoJSON
+     */
     public String toJsonString() {
         return "[" + longitude + "," + latitude + "]";
     }

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * a class representing the Feature object in GeoJSON
+ * refer to https://geojson.org/ and https://tools.ietf.org/html/rfc7946 for more details of GeoJSON
+ */
 public class GeoJsonFeature implements Serializable {
     private final static String type = "Feature";
     private GeoJsonGeometry geometry;
@@ -35,6 +39,9 @@ public class GeoJsonFeature implements Serializable {
         this.properties = properties;
     }
 
+    /**
+     * @return String output of the custom properties defined in the Feature object
+     */
     private String getPropertyJsonString() {
         StringBuilder jsonStr = new StringBuilder();
         jsonStr.append("{");
@@ -60,6 +67,9 @@ public class GeoJsonFeature implements Serializable {
         return jsonStr.toString();
     }
 
+    /**
+     * @return String output of the Feature object in GeoJSON
+     */
     public String toJsonString() {
         return "{" + "\"type\":\"" + type + "\",\"geometry\":" + geometry.toJsonString() + ",\"properties\":" + getPropertyJsonString() + "}";
     }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This is a sample to test GeoJson classes
+ * This is a sample to test GeoJson POJO classes
  */
 public class GeoJsonTester {
     public static void main(String[] args) {

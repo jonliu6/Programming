@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * a class representing the Geometry attribute of a "Feature" object in GeoJSON
+ * refer to https://geojson.org/ and https://tools.ietf.org/html/rfc7946 for more details of GeoJSON
+ */
 public class GeoJsonGeometry implements Serializable {
     public final static String POINT = "Point";
     public final static String LINE = "LineString";
@@ -34,6 +38,15 @@ public class GeoJsonGeometry implements Serializable {
         this.coordinates = coordinates;
     }
 
+    /**
+     * This recursive function returns the GeoJSON string of the coordinates attribute.
+     * for Point, coordinates include an array with longitude and latitude as elements. e.g. [-120.1, 50.9]
+     * for LineString, coordinates include an array of Point elements. e.g. [[-120.1, 50.9], [-120.9, 50.1],...]
+     * for Polygon, coordinates include a 3-dimension array of LineString elements. e.g. [[[-120.1, 50.9], [-120.9, 50.1],[-120.9, 50.1],[-120.1, 50.9]]].
+     * The elements need to be ordered for a polygon; or there may be holes. By default, the end point should be same as the start point.
+     * @param values - a pair of longitude/latitude coordinate or an array of longitude/latitude coordinates
+     * @return the GeoJSON string of the coordinates attribute
+     */
     private String getCoordinateJsonString(Object values) {
         StringBuilder jsonStr = new StringBuilder();
         if (values != null) {
@@ -56,6 +69,9 @@ public class GeoJsonGeometry implements Serializable {
         return jsonStr.toString();
     }
 
+    /**
+     * @return String output of the Geometry attribute in GeoJSON
+     */
     public String toJsonString() {
         return "{" + "\"type\":" + "\"" + type + "\"" + ",\"coordinates\":" + getCoordinateJsonString(coordinates) + "}";
     }
