@@ -13,6 +13,21 @@ import javax.servlet.ServletRegistration;
  * Spring MVC specific configuration, replacing some configuration in web.xml
  * WebApplicationInitializer allows configure Servlet configuration programmatically.
  * will be automatically identified by Spring Bootstrap process
+ * Alternative XML Configuration can be defined in web.xml like below
+ * <listener>
+ *     <listener-class>
+ *         org.springframework.web.context.ContextLeaderListener
+ *     </listener-class>
+ *     <servlet>
+ *         <servlet-name>spring</servlet-name> <!-- looking for MVC configuration in spring-servlet.xml -->
+ *         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+ *         <load-on-startup>1</load-on-startup>
+ *     </servlet>
+ *     <servlet-mapping>
+ *         <servlet-name>spring</servlet-name>
+ *         <url-pattern>/</url-pattern>
+ *     </servlet-mapping>
+ * </listener>
  */
 public class WebServletConfiguration implements WebApplicationInitializer {
     @Override
