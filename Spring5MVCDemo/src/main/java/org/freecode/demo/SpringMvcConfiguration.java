@@ -35,7 +35,7 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
      * this definition replaces the below option in the XML configuration - spring-servlet.xml
      * Alternative XML configuration:
      * <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-     *     <property name="prefix" value="/message/"></property>
+     *     <property name="prefix" value="/view/"></property>
      *     <property name="suffix" value=".jsp"></property>
      * </bean>
      */
@@ -44,7 +44,7 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 
         viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/message/"); // prefix of Spring Views, in web root folder
+        viewResolver.setPrefix("/view/"); // prefix of Spring Views, in web root folder
         viewResolver.setSuffix(".jsp");
 
         return viewResolver;
