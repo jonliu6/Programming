@@ -1,19 +1,21 @@
 package org.freecode.demo.controller;
 
+import org.freecode.demo.model.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeListener;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 /**
@@ -61,7 +63,7 @@ public class FileUploadController implements ServletContextAware {
 
     @RequestMapping(value = "/uploadSingle", method = RequestMethod.POST)
     /**
-     * URL: same as above, but the method is POST for submission
+     * URL: http://<server>:<port>/<ContextPath>/uploadSingle
      * @param fName
      * @param file
      * @return
@@ -84,6 +86,9 @@ public class FileUploadController implements ServletContextAware {
     }
 
     @RequestMapping(value="/uploadMultiple", method = RequestMethod.POST)
+    /**
+     * URL: http://<server>:<port>/<ContextPath>/uploadMultiple
+     */
     public @ResponseBody String uploadMultipleFiles(@RequestParam("fileName") String[] fileNames, @RequestParam("file") MultipartFile[] files) {
         if (files.length != fileNames.length) {
             return "File upload information mismatch.";
@@ -104,5 +109,31 @@ public class FileUploadController implements ServletContextAware {
         }
 
         return msg.toString();
+    }
+
+    @RequestMapping(value="/uploadMultiSelection", method = RequestMethod.POST)
+    /**
+     * URL: http://<server>:<port>/<ContextPath>/uploadMultiSelection
+     */
+    public String uploadMultiSelectedFiles(HttpServletRequest req, @ModelAttribute Attachment attachments, Model model) {
+        List<MultipartFile> files  = attachments.getFiles();
+        List<String> names = new ArrayList<String>();
+        if (files!= null && files.size() >0) {
+            String uploadPath = env.getProperty("JBOSS_HOME") + File.separator + UPLOAD_DIRECTORY;
+            for (MultipartFile file: files) {
+                String name = file.getOriginalFilename();
+                names.add(name);
+                File f = new File(uploadPath + File.separator + name);
+                try {
+                    file.transferTo(f);
+                }
+                catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+
+        model.addAttribute("attachments", attachments); // update model on the upload form and refresh to show
+        return "file_upload_form";
     }
 }
