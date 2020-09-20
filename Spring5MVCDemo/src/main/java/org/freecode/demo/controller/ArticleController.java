@@ -41,6 +41,7 @@ public class ArticleController {
     /**
      * BindResult contains validation errors
      * Model parameter is for passing the object model to web page
+     * URL: http://<server>:<port>/<ContextPath>/article/publish
      */
     public String publishArticle(@Valid @ModelAttribute("article") Article article, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -50,11 +51,18 @@ public class ArticleController {
     }
 
     @RequestMapping("/uploadForm")
+    /**
+     * URL: http://<server>:<port>/<ContextPath>/article/uploadForm
+     */
     public ModelAndView uploadForm() {
         return new ModelAndView("file_upload_form");
     }
 
     @RequestMapping(value="/uploadCommon", method = RequestMethod.POST)
+    /**
+     * action = "uploadCommon" in <form:form></form:form>
+     * URL: http://<server>:<port>/<ContextPath>/article/uploadCommon
+     */
     public ModelAndView uploadAction(@RequestParam CommonsMultipartFile file, HttpSession session) throws IOException {
         ServletContext sc = session.getServletContext();
         //String uploadPath = sc.getRealPath(UPLOAD_DIRECTORY);
