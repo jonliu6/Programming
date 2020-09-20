@@ -55,7 +55,7 @@ public class ArticleController {
      * URL: http://<server>:<port>/<ContextPath>/article/uploadForm
      */
     public ModelAndView uploadForm() {
-        return new ModelAndView("file_upload_form");
+        return new ModelAndView("single_upload_form");
     }
 
     @RequestMapping(value="/uploadCommon", method = RequestMethod.POST)
@@ -76,6 +76,6 @@ public class ArticleController {
         stream.flush();
         stream.close();
 
-        return new ModelAndView("file_upload_form", "uploadMessage", "File successfully uploaded");
+        return new ModelAndView("single_upload_form", "uploadMessage", "File successfully uploaded");
     }
 }

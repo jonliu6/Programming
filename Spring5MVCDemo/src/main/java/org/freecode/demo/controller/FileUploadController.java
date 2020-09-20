@@ -13,9 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeListener;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 
 @Controller
 /**
@@ -33,13 +31,32 @@ public class FileUploadController implements ServletContextAware {
         this.servletContext = sc;
     }
 
-    @RequestMapping(value = "/uploadSingle", method = RequestMethod.GET)
+    @RequestMapping("/uploadForm")
     /**
-     * URL: http://<server>:<port>/<ContextPath>/uploadSingle
+     * page view/file_upload_form.jsp can upload single or multiple files
+     * URL: http://<server>:<port>/<ContextPath>/uploadForm
      */
-    public ModelAndView uploadSingleFile() {
-        return new ModelAndView("single_upload_form"); // view/single_upload_form.jsp
+    public ModelAndView uploadForm() {
+        return new ModelAndView("file_upload_form");
+    }
 
+    /**
+     * save a multi-part file as the given file name in the specified upload path
+     * @param fileName
+     * @param file
+     * @throws IOException
+     * @throws FileNotFoundException
+     */
+    private void saveFile(String fileName, MultipartFile file) throws IOException, FileNotFoundException {
+        String uploadPath = env.getProperty("JBOSS_HOME") + File.separator + UPLOAD_DIRECTORY;
+        byte[] bytes = file.getBytes();
+
+        BufferedOutputStream stream = new BufferedOutputStream(
+                new FileOutputStream(
+                        new File(uploadPath + File.separator + fileName)));
+        stream.write(bytes);
+        stream.flush();
+        stream.close();
     }
 
     @RequestMapping(value = "/uploadSingle", method = RequestMethod.POST)
@@ -50,20 +67,13 @@ public class FileUploadController implements ServletContextAware {
      * @return
      */
     public @ResponseBody String uploadSingleHandler(@RequestParam("fileName") String fName, @RequestParam("file") MultipartFile file) {
-        String uploadPath = env.getProperty("JBOSS_HOME") + File.separator + UPLOAD_DIRECTORY;
         if (!file.isEmpty()) {
+            String uploadPath = env.getProperty("JBOSS_HOME") + File.separator + UPLOAD_DIRECTORY;
             try {
-                byte[] bytes = file.getBytes();
-
-                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(
-                                new File(uploadPath + File.separator + fName)));
-                stream.write(bytes);
-                stream.flush();
-                stream.close();
+                saveFile(fName, file);
             }
-            catch (Exception ex) {
-                ex.printStackTrace();
+            catch (IOException ex) {
+                return "IOException caught when uploading " + fName + "<br/>" + ex.getMessage();
             }
 
             return "File " + fName + " was uploaded successfully to " + uploadPath;
@@ -71,5 +81,28 @@ public class FileUploadController implements ServletContextAware {
         else {
             return "File is empty";
         }
+    }
+
+    @RequestMapping(value="/uploadMultiple", method = RequestMethod.POST)
+    public @ResponseBody String uploadMultipleFiles(@RequestParam("fileName") String[] fileNames, @RequestParam("file") MultipartFile[] files) {
+        if (files.length != fileNames.length) {
+            return "File upload information mismatch.";
+        }
+        StringBuilder msg = new StringBuilder("");
+
+        for (int i = 0, len = fileNames.length; i < len; ++i) {
+            MultipartFile file = files[i];
+            String fName = fileNames[i];
+
+            try {
+                saveFile(fName, file);
+            }
+            catch (Exception ex) {
+                return "File " + fName + " failed to be uploaded.";
+            }
+            msg.append("File " + fName + " uploaded successfully." + "<br/>");
+        }
+
+        return msg.toString();
     }
 }
