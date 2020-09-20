@@ -3,6 +3,7 @@ package org.freecode.demo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -28,6 +29,7 @@ import java.util.Properties;
  */
 @Configuration
 public class SpringMvcConfiguration implements WebMvcConfigurer {
+    private static final long MEGA_BYTES_SIZE = 1048576l;
     /**
      * InternalResourceViewResolver maps the logic names to physical file names based on prefix and suffix. e.g. home to /home.jsp
      * @return
@@ -71,5 +73,20 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
         exResolver.setDefaultErrorView("error"); // default to error.jsp
 
         return exResolver;
+    }
+
+    @Bean
+    /**
+     * Alternative XML Configuration (e.g. <servlet-name>-servlet.xml)
+     * <bean id="multipartResolver" class="import org.springframework.web.multipart.commons.CommonsMultipartResolver">
+     *     <property name="maxUploadSize" value="10485760"></property> <!-- 10MB -->
+     *     <property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+     * </bean>
+     */
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver mPartResolver = new CommonsMultipartResolver();
+        mPartResolver.setMaxInMemorySize(5 * (int) MEGA_BYTES_SIZE);
+        mPartResolver.setMaxUploadSizePerFile(10 * MEGA_BYTES_SIZE);
+        return mPartResolver;
     }
 }
