@@ -22,6 +22,9 @@ public class AsyncApp
     }
 
     @Bean
+    /**
+     * Bean annotates EnableAsync will look at this method
+     */
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(3); // 2 threads in pool by default
