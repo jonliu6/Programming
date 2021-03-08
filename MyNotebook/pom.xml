@@ -14,7 +14,7 @@
 		<ejb.specs.version>3.0</ejb.specs.version>
 		<wildfly.bom.version>8.1.0.Final</wildfly.bom.version>
 		<hibernate.version>4.3.5.Final</hibernate.version> <!-- bundled with Wildfly 8.1.0 -->
-		<junit.version>4.11</junit.version>
+		<junit.version>[4.13.1,)</junit.version> <!-- was 4.11 -->
 		<servlet.api.version>3.1.0</servlet.api.version>
   </properties>
 	

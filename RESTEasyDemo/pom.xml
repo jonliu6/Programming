@@ -15,7 +15,7 @@
         <webapp.dir>${application.home}/deployments</webapp.dir>
 		<jdk.version>1.7</jdk.version>
 		<resteasy.version>3.0.6.Final</resteasy.version>
-		<junit.version>4.11</junit.version>
+		<junit.version>[4.13.1,)</junit.version>
 		<servlet.api.version>2.5</servlet.api.version>
   </properties>
   
