@@ -18,7 +18,7 @@
     <javax.el.version>2.2.4</javax.el.version>
 	<servlet.api.version>3.1.0</servlet.api.version>
 	<richfaces.version>4.3.7.Final</richfaces.version>
-	<poi.version>3.10-FINAL</poi.version>
+	<poi.version>[3.17,)</poi.version> <!-- was 3.10-FINAL -->
   </properties>
   
   <dependencies>
