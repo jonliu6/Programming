@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Confirmation of Registration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h2>Confirmation</h2>
+
+    <p th:text="'User ID: ' + ${registrationDetails.id}" />
+    <p th:text="'Name: ' + ${registrationDetails.name}" />
+    <p th:text="'Email: ' + ${registrationDetails.email}" />
+    <p th:text="'Gender: ' + ${registrationDetails.gender}" />
+    <p th:text="'Profession: ' + ${registrationDetails.profession}" />
+    <p th:text="'Comments: ' + ${registrationDetails.comments}" />
+
+    <a href="/register">Register another?</a>
+</body>
+</html>

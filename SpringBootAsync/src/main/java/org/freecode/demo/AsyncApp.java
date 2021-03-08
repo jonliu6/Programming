@@ -9,7 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 /**
- * Spring Boot application for Async tasks from online course Spring Boot Microservices by Janavi Ravi
+ * Spring Boot application for Async tasks from online course Spring Boot Microservices by Janani Ravi
  *
  */
 @SpringBootApplication

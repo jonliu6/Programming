@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Registration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h2>Registration Form</h2>
+    <!-- action="#" makes sure no default form behavior, just use Thymeleaf action instead -->
+    <!-- registrationDetails maps the name of the attribute defined in Controller methods -->
+    <form action="#" th:action="@{/register}" th:object="${registrationDetails}" method="post">
+        <div>
+            <label>User ID:</label>
+            <input type="text" th:field="*{id}">
+            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+        </div>
+
+        <div>
+            <label>User Name:</label>
+            <input type="text" th:field="*{name}">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+
+        <div>
+            <label>Email:</label>
+            <input type="text" th:field="*{email}">
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+
+        <div>
+            <label>Gender:</label>
+            <input type="radio" th:field="*{gender}" value="Male">Male
+            <input type="radio" th:field="*{gender}" value="Female">Female
+            <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+        </div>
+
+        <div>
+            <label>Profession:</label>
+            <select th:field="*{profession}">
+                <option th:each="listItem : ${professions}" th:value="${listItem}" th:text="${listItem}" />
+            </select>
+            <span th:if="${#fields.hasErrors('profession')}" th:errors="*{profession}"></span>
+        </div>
+
+        <div>
+            <label>Comments:</label>
+            <textarea th:field="*{comments}" />
+            <span th:if="${#fields.hasErrors('comments')}" th:errors="*{comments}">Comments Error</span>
+        </div>
+
+        <p><input type="submit" value="Register" /> <input type="reset" value="Reset" /></p>
+
+        <!-- display all validation errors -->
+        <!--
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+        </div>
+        -->
+    </form>
+</body>
+</html>
