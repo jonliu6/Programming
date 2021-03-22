@@ -8,10 +8,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KmlGeneratorTest {
+public class KmlGeneratorTester {
     public static void main(String[] args) throws Exception {
 
-        KmlGeneratorTest kmlTst = new KmlGeneratorTest();
+        KmlGeneratorTester kmlTst = new KmlGeneratorTester();
         kmlTst.generateKMLFile("test_kml.kml");
 
     }

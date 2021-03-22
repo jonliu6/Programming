@@ -1,2 +1,3 @@
 Main-Class: org.freecode.demo.GeoJsonTester
 Class-Path: GeoJsonPOJOs-0.9.jar
+

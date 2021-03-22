@@ -3,10 +3,11 @@
 javac -d ../classes org/freecode/demo/geojson/*.java
 
 # In /classes, package the GeoJSON POJOs into a .jar file
-jar cvf ../dist/GeoJsonPOJOs-0.9.jar org
+jar cvf ../dist/GeoJsonPOJOs-0.9.jar org/freecode/demo/geojson
 
 # In /src, compile the test class(es)
-javac -cp .;../dist/GeoJsonPOJOs-0.9.jar -d ../classes org/freecode/demo/*.java
+# use ":" to separate paths in Linux/Unix, ";" for Windows
+javac -cp .:../dist/GeoJsonPOJOs-0.9.jar -d ../classes org/freecode/demo/GeoJsonTester.java
 
 # In /classes, package the test class(es) into a .jar file
 jar cvfm ../dist/GeoJsonTester-0.1.jar ../dist/manifest.txt org/freecode/demo/GeoJsonTester.class
@@ -23,6 +24,7 @@ javac -d ../classes -cp ../lib/jaxb-api-2.4.0-b180830.0359.jar:../lib/jaxb-impl-
 jar cvf ../dist/KmlPojos-0.9.jar org/freecode/demo/kml
 
 # In /src, compile the test class(es)
+# use ":" to separate paths in Linux/Unix, ";" for Windows
 javac -cp .:../lib/jaxb-api-2.4.0-b180830.0359.jar:../lib/jaxb-impl-2.1.jar:../lib/activation-1.1.1.jar:../dist/KmlPojos-0.9.jar -d ../classes org/freecode/demo/KmlGeneratorTester.java
 
 # In /classes, package the test class(es) into a .jar file
