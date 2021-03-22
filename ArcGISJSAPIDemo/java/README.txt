@@ -23,10 +23,10 @@ javac -d ../classes -cp ../lib/jaxb-api-2.4.0-b180830.0359.jar:../lib/jaxb-impl-
 jar cvf ../dist/KmlPojos-0.9.jar org/freecode/demo/kml
 
 # In /src, compile the test class(es)
-javac -cp .;../dist/KmlPojos-0.9.jar -d ../classes org/freecode/demo/kml/*.java
+javac -cp .:../lib/jaxb-api-2.4.0-b180830.0359.jar:../lib/jaxb-impl-2.1.jar:../lib/activation-1.1.1.jar:../dist/KmlPojos-0.9.jar -d ../classes org/freecode/demo/KmlGeneratorTester.java
 
 # In /classes, package the test class(es) into a .jar file
-jar cvfm ../dist/KmlPojosTester-0.1.jar ../dist/manifest.kml.txt org/freecode/demo/KmlGeneratorTester.class
+jar cvfm ../dist/KmlPojosTester-0.1.jar ../dist/manifest_kml.txt org/freecode/demo/KmlGeneratorTester.class
 
 # In /dist, run the demo application
 java -jar KmlPojosTester-0.1.jar

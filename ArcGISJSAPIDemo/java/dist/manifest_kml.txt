@@ -1,0 +1,2 @@
+Main-Class: org.freecode.demo.KmlGeneratorTester
+Class-Path: KmlPojos-0.9.jar ../lib/jaxb-api-2.4.0-b180830.0359.jar ../lib/jaxb-impl-2.1.jar ../lib/activation-1.1.1.jar
