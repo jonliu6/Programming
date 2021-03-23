@@ -13,7 +13,7 @@ public class GeoJsonFeatureCollection implements Serializable {
     private final static String type = "FeatureCollection";
     private List<GeoJsonFeature> features = new ArrayList<GeoJsonFeature>();
 
-    public String type() {
+    public String getType() {
         return type;
     }
 
