@@ -1,5 +1,7 @@
 package org.freecode.demo.geojson;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Map;
  * a class representing the Feature object in GeoJSON
  * refer to https://geojson.org/ and https://tools.ietf.org/html/rfc7946 for more details of GeoJSON
  */
+@JsonPropertyOrder({"type","geometry","properties"})
 public class GeoJsonFeature implements Serializable {
     private final static String type = "Feature";
     private GeoJsonGeometry geometry;

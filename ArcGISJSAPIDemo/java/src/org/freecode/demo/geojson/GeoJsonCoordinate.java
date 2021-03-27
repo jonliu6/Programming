@@ -45,6 +45,10 @@ public class GeoJsonCoordinate implements Serializable {
         return "[" + longitude + "," + latitude + "]";
     }
 
+    /**
+     * used for GeoJSON format where coordinates are in an array
+     * @return
+     */
     public Double[] toArray() {
         Double[] array = new Double[2];
         array[0] = longitude;

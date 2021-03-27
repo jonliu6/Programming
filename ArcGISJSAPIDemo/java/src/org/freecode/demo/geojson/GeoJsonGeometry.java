@@ -1,6 +1,9 @@
 package org.freecode.demo.geojson;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,16 +11,18 @@ import java.util.List;
  * a class representing the Geometry attribute of a "Feature" object in GeoJSON
  * refer to https://geojson.org/ and https://tools.ietf.org/html/rfc7946 for more details of GeoJSON
  */
+@JsonPropertyOrder({"type","coordinates"})
 public class GeoJsonGeometry implements Serializable {
     public final static String POINT = "Point";
     public final static String LINE = "LineString";
     public final static String POLYGON = "Polygon";
     private String type;
-    private Object coordinates;
+    // private Object coordinates;
+    private Object[] coordinates;
 
     public GeoJsonGeometry() {}
 
-    public GeoJsonGeometry(String type, Object coordinates){
+    public GeoJsonGeometry(String type, Object[] coordinates){
         this.type = type;
         this.coordinates = coordinates;
     }
@@ -34,7 +39,7 @@ public class GeoJsonGeometry implements Serializable {
         return coordinates;
     }
 
-    public void setCoordinates(Object coordinates) {
+    public void setCoordinates(Object[] coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -62,6 +67,22 @@ public class GeoJsonGeometry implements Serializable {
                     }
                     jsonStr.append(getCoordinateJsonString(it.next()));
                     ++i;
+                }
+                jsonStr.append("]");
+            }
+            else if (values instanceof Object[]) {
+                jsonStr.append("[");
+                for (int i =0, len = ((Object[]) values).length; i < len; ++i) {
+                    if (i > 0) {
+                        jsonStr.append(",");
+                    }
+                    Object value = ((Object[]) values)[i];
+                    if (value instanceof Object[]) {
+                        jsonStr.append(getCoordinateJsonString(value));
+                    }
+                    else if (value instanceof Double) {
+                        jsonStr.append(Double.valueOf(value.toString()));
+                    }
                 }
                 jsonStr.append("]");
             }

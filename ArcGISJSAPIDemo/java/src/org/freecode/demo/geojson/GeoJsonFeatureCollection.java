@@ -1,5 +1,7 @@
 package org.freecode.demo.geojson;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,6 +11,7 @@ import java.util.List;
  * a class representing the top object - Feature Collection in GeoJSON
  * refer to https://geojson.org/ and https://tools.ietf.org/html/rfc7946 for more details of GeoJSON
  */
+@JsonPropertyOrder({"type", "features"})
 public class GeoJsonFeatureCollection implements Serializable {
     private final static String type = "FeatureCollection";
     private List<GeoJsonFeature> features = new ArrayList<GeoJsonFeature>();
@@ -47,7 +50,9 @@ public class GeoJsonFeatureCollection implements Serializable {
 
     /**
      * @return String output of the FeatureCollection object in GeoJSON
+     * @deprecated by using Jackson data bind com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString()
      */
+    @Deprecated
     public String toJsonString() {
         return "{" + "\"type\":" + "\"" + type + "\",\"features\":" + getFeatureJsonString() + "}";
     }

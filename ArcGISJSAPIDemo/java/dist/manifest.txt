@@ -1,3 +1,3 @@
 Main-Class: org.freecode.demo.GeoJsonTester
-Class-Path: GeoJsonPOJOs-0.9.jar
+Class-Path: GeoJsonPOJOs-1.0.jar ../lib/jackson-core-2.12.2.jar ../lib/jackson-annotations-2.12.2.jar ../lib/jackson-databind-2.12.2.jar
 
