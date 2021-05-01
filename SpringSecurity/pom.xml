@@ -15,7 +15,7 @@
     <jstl.version>1.2</jstl.version>
     <application.home>${env.JBOSS_HOME}/standalone</application.home>
 	<webapp.dir>${application.home}/deployments</webapp.dir>
-    <springframework.version>4.3.19.RELEASE</springframework.version>
+    <springframework.version>4.3.29.RELEASE</springframework.version> <!-- 4.3.19.RELEASE -->
     <springframework.security.version>4.2.3.RELEASE</springframework.security.version>
   </properties>
   
