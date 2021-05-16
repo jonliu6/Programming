@@ -14,6 +14,11 @@ import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+/**
+ * when using Ubuntu with OpenJDK, install JRE as well for missing libraries
+ * e.g. sudo apt-get install -y openjdk-11-jre
+ * to solve Can't load library: /usr/lib/jvm/java-11-openjdk-amd64/lib/libawt_xawt.so
+ */
 public class PDFCreatorDemo {
 	private final static PDRectangle PAGE_SIZE = PDPage.PAGE_SIZE_LETTER;
 	private final static PDFont TITLE_FONT = PDType1Font.TIMES_BOLD;
@@ -38,7 +43,7 @@ public class PDFCreatorDemo {
 		
 		PDFCreatorDemo demo = new PDFCreatorDemo();
 		demo.printOutCharacters();
-		demo.generatePdf("c:\\temp\\pdfSample.pdf");
+		demo.generatePdf("pdfSample.pdf");
 
 	}
 	
