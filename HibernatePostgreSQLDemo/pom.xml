@@ -10,7 +10,7 @@
   
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<ejb.specs.version>3.0</ejb.specs.version>
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<junit.version>[4.13.1,)</junit.version>
