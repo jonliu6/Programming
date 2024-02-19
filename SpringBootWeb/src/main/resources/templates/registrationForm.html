@@ -11,6 +11,10 @@
     <!-- registrationDetails maps the name of the attribute defined in Controller methods -->
     <form action="#" th:action="@{/register}" th:object="${registrationDetails}" method="post">
         <div>
+            <label>Time:</label>
+            <span th:text="${currentTime}"></span>
+        </div>
+        <div>
             <label>User ID:</label>
             <input type="text" th:field="*{id}">
             <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
