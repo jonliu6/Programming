@@ -9,11 +9,34 @@
 	<version>1.0</version>
 	
 	<properties>
-	  <org.springframework.version>5.2.22.RELEASE</org.springframework.version>
+	  <org.springframework.version>5.2.25.RELEASE</org.springframework.version>
 	  <org.apache.cxf.version>2.7.7</org.apache.cxf.version>
 	</properties>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
+		<dependency>
+		  <groupId>javax.xml.bind</groupId>
+		  <artifactId>jaxb-api</artifactId>
+		  <version>2.3.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.sun.xml.bind</groupId>
+		  <artifactId>jaxb-core</artifactId>
+		  <version>2.3.0</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.sun.xml.bind</groupId>
+		  <artifactId>jaxb-impl</artifactId>
+		  <version>2.3.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.sun.xml.ws</groupId>
+		    <artifactId>jaxws-ri</artifactId>
+		    <version>2.3.2</version>
+		    <type>pom</type>
+		</dependency>
+
 		<dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -87,10 +110,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.12.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>11</source>
+					<target>11</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -98,7 +121,7 @@
 			<plugin>
 
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
+				<version>3.4.0</version>
 				<configuration>
 					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
 				</configuration>
