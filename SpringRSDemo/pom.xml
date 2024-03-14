@@ -10,9 +10,9 @@
   <description>sample RESTful web services implemented by using Spring Web and MVC</description>
   
   <properties>
-    <jdk.version>1.7</jdk.version>
+    <jdk.version>21</jdk.version>
     <junit.version>4.11</junit.version>
-    <springframework.version>5.2.22.RELEASE</springframework.version> <!-- upgraded 4.3.19.RELEASE to 5.0.10.RELEASE -->
+    <springframework.version>6.1.4</springframework.version> <!-- upgraded 4.3.19.RELEASE to 5.0.10.RELEASE to 6.1.4 -->
     <servlet.api.version>3.1.0</servlet.api.version>
     <jstl.version>1.2</jstl.version>
     <application.home>${env.JBOSS_HOME}/standalone</application.home>
@@ -82,7 +82,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.12.1</version>
         <configuration>
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
@@ -91,12 +91,12 @@
       <plugin>
 	    <groupId>org.apache.maven.plugins</groupId>
 	    <artifactId>maven-resources-plugin</artifactId>
-	    <version>2.7</version>
+	    <version>3.3.1</version>
 	  </plugin>
       <plugin>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-war-plugin</artifactId>
-		<version>2.6</version>
+		<version>3.4.0</version>
 		<configuration>
 		    <warName>${application.name}</warName>
 		    <outputDirectory>${webapp.dir}</outputDirectory>
