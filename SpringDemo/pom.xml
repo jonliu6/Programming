@@ -10,15 +10,21 @@
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>4.3.19.RELEASE</version>
-        <!-- previous version of 3.x uses 3.2.18.RELEASE -->
+        <version>[5.2.21,)</version>
+        <!-- previous version of 3.x uses 3.2.18.RELEASE, 4.3.19.RELEASE -->
     </dependency>
-  	<dependency>
+    <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
-        <version>4.3.19.RELEASE</version>
+        <version>[5.2.21,)</version>
         <scope>compile</scope>
-        <!-- previous version of 3.x uses 3.2.18.RELEASE -->
+        <!-- previous version of 3.x uses 3.2.18.RELEASE, 4.3.19.RELEASE -->
     </dependency>
+    <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>1.3.2</version>
+    </dependency>
+
   </dependencies>
 </project>
