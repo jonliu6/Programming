@@ -13,9 +13,9 @@
         <application.name>WebServiceDemo</application.name>
         <application.home>${env.JBOSS_HOME}/porm</application.home>
         <webapp.dir>${application.home}/deployments</webapp.dir>
-		<jdk.version>1.7</jdk.version>
-		<resteasy.version>[3.0.20.Final,)</resteasy.version>
-		<junit.version>4.11</junit.version>
+		<jdk.version>11</jdk.version>
+		<resteasy.version>[6.2.7.Final,)</resteasy.version>
+		<junit.version>4.13.2</junit.version>
 		<servlet.api.version>2.5</servlet.api.version>
   </properties>
   
@@ -28,17 +28,28 @@
     </dependency>
     
     <!-- JAX WS library -->
+    <!--
     <dependency>
 	  <groupId>com.sun.xml.ws</groupId>
 	  <artifactId>jaxws-rt</artifactId>
 	  <version>2.2.8</version>
 	</dependency>
+	-->
+	<!-- https://mvnrepository.com/artifact/com.sun.xml.ws/jaxws-ri -->
+	<dependency>
+	    <groupId>com.sun.xml.ws</groupId>
+	    <artifactId>jaxws-ri</artifactId>
+	    <version>4.0.2</version>
+	    <type>pom</type>
+	</dependency>
+
     
     <!-- RESTEasy library -->
     <dependency>
 		<groupId>org.jboss.resteasy</groupId>
-		<artifactId>resteasy-jaxrs</artifactId>
+		<artifactId>resteasy-jaxrs-all</artifactId>
 		<version>${resteasy.version}</version>
+    	<type>pom</type>
 		<scope>provided</scope>
 	</dependency>
 	<dependency>
@@ -47,6 +58,13 @@
 		<version>${resteasy.version}</version>
 		<scope>provided</scope>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-client -->
+	<dependency>
+	    <groupId>org.jboss.resteasy</groupId>
+	    <artifactId>resteasy-client</artifactId>
+	    <version>${resteasy.version}</version>
+	</dependency>
+
   </dependencies>
   <build>
 		<finalName>WebServiceDemo</finalName>
@@ -54,7 +72,7 @@
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.13.0</version>
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
@@ -63,12 +81,12 @@
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-resources-plugin</artifactId>
-			    <version>2.7</version>
+			    <version>3.3.1</version>
 		    </plugin>
 		    <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.4.0</version>
 				<configuration>
 				    <warName>${application.name}</warName>
 				    <outputDirectory>${webapp.dir}</outputDirectory>
