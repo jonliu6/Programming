@@ -18,16 +18,24 @@
     <dependency>
 	  <groupId>org.jboss.resteasy</groupId>
 	  <artifactId>resteasy-jaxrs</artifactId>
-	  <version>2.3.7.Final</version>
+	  <version>[3.0.20.Final,)</version> <!-- 2.3.7.Final -->
 	  <scope>provided</scope>
     </dependency>
 
     <dependency>
 	  <groupId>org.jboss.resteasy</groupId>
 	  <artifactId>resteasy-jaxb-provider</artifactId>
-	  <version>2.3.7.Final</version>
+	  <version>[3.0.20.Final,)</version>
 	  <scope>provided</scope>
     </dependency>
+
+<!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core -->
+<dependency>
+    <groupId>com.sun.xml.bind</groupId>
+    <artifactId>jaxb-core</artifactId>
+    <version>2.2.11.jbossorg-1</version>
+</dependency>
+
     
   </dependencies>
   <build>
