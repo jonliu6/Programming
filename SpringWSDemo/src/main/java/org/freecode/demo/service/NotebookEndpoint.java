@@ -5,7 +5,6 @@ import org.freecode.demo.model.Note;
 import org.freecode.demo.service.wsproxy.GetNoteByTitleRequest;
 import org.freecode.demo.service.wsproxy.GetNoteByTitleResponse;
 import org.freecode.demo.service.wsproxy.NoteProxy;
-import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -19,13 +18,13 @@ public class NotebookEndpoint {
     private NoteDao noteDao;
     
     @Autowired
-    public NotebookEndpoint(NoteDao aDao) throws JDOMException {
+    public NotebookEndpoint(NoteDao aDao) throws Exception {
     	this.noteDao = aDao;
     }
     
     @PayloadRoot(namespace=NAMESPACE_URI, localPart="getNoteByTitleRequest")
     @ResponsePayload
-    public GetNoteByTitleResponse findNoteByTitle(@RequestPayload GetNoteByTitleRequest request) throws JDOMException {
+    public GetNoteByTitleResponse findNoteByTitle(@RequestPayload GetNoteByTitleRequest request) throws Exception {
     	Note aNote = noteDao.findNoteByTitle(request.getTitle());
     	GetNoteByTitleResponse response = new GetNoteByTitleResponse();
     	response.setNote(convertNoteToProxy(aNote));
