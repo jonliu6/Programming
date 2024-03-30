@@ -1,1 +1,1 @@
-
+This demo project was created based on the example from https://positiwise.com/blog/how-to-create-soap-services-using-asp-net-core to describe the creation of the simple SOAP and RESTful web services using ASP.Net Core API.
