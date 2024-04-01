@@ -28,6 +28,9 @@ public class WeatherForecastConfiguration {
 
 	@Value("${weather.forecast.keystore.password}")
 	private String keyStorePass;
+	
+	@Value("${soapwebservice.url}")
+	private String serviceURL;
 
 	@Bean
 	public Jaxb2Marshaller marshaller() {
@@ -42,7 +45,7 @@ public class WeatherForecastConfiguration {
 	public WeatherForecastClient weatherForecastClient(Jaxb2Marshaller marshaller) throws FileNotFoundException, KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException {
 		WeatherForecastClient client = new WeatherForecastClient();
 		//client.setDefaultUri("http://localhost:5246/WeatherForecastService.asmx");
-		client.setDefaultUri("https://localhost:7137/WeatherForecastService.asmx");
+		client.setDefaultUri(serviceURL);
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		

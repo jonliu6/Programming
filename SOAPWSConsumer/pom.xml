@@ -15,6 +15,7 @@
 	<description>SOAP Web Service Client Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>
+		<soap.webservice.url>https://localhost:7137/WeatherForecastService.asmx</soap.webservice.url>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -89,7 +90,7 @@
 					<wsdlUrls>
 						<!--http://localhost:5246/WeatherForecastService.asmx-->
 						<!--https://localhost:7137/WeatherForecastService.asmx-->
-						<wsdlUrl>https://localhost:7137/WeatherForecastService.asmx</wsdlUrl>
+						<wsdlUrl>${soap.webservice.url}</wsdlUrl>
 					</wsdlUrls>
 					<sourceDestDir>${sourcesDir}</sourceDestDir>
 					<destDir>${classesDir}</destDir>
