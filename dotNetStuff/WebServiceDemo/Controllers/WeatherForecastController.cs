@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace WebServiceDemo.Controllers
 {
@@ -20,6 +21,7 @@ namespace WebServiceDemo.Controllers
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
+        //public string Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
@@ -28,6 +30,11 @@ namespace WebServiceDemo.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+            //StringBuilder sb = new StringBuilder();
+            //sb.Append("Yes,\"BCSI SharePoint" + Environment.NewLine + "FileNet Location" + Environment + "J Drive etc\"").Append(Environment.NewLine);
+            //sb.Append("No,\"\"");
+
+            //return sb.ToString();
         }
     }
 }
