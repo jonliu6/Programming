@@ -11,9 +11,11 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <application.name>JSPDemo</application.name>
-    <application.home>${env.JBOSS_HOME}/standalone</application.home>
-	<webapp.dir>${application.home}/deployments</webapp.dir>
-	<jdk.version>1.7</jdk.version>
+    <!-- Wildfly or JBoss -->
+    <!--application.home>${env.JBOSS_HOME}/standalone</application.home-->
+    <!-- Tomcat -->
+    <application.home>${env.CATALINA_HOME}/webapps</application.home>
+	  <jdk.version>21</jdk.version>
   </properties>
   
   <dependencies>
@@ -25,18 +27,32 @@
     </dependency>
     
     <!-- Servlet -->
+    <!--
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
       <scope>provided</scope>
     </dependency>
+    -->
+    <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>6.1.0</version>
+    </dependency>
     
     <!-- JSTL -->
+    <!--
     <dependency>
-	  <groupId>javax.servlet.jsp.jstl</groupId>
-	  <artifactId>jstl-api</artifactId>
-	  <version>1.2</version>
+	    <groupId>javax.servlet.jsp.jstl</groupId>
+	    <artifactId>jstl-api</artifactId>
+	    <version>1.2</version>
+    </dependency>
+    -->
+    <dependency>
+        <groupId>jakarta.servlet.jsp.jstl</groupId>
+        <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+        <version>3.0.0</version>
     </dependency>
     
   </dependencies>
@@ -46,7 +62,7 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.3</version>
+              <version>3.13.0</version>
               <configuration>
                   <source>${jdk.version}</source>
                   <target>${jdk.version}</target>
@@ -55,10 +71,10 @@
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-war-plugin</artifactId>
-              <version>2.6</version>
+              <version>3.4.0</version>
               <configuration>
                   <warName>${application.name}</warName>
-                  <outputDirectory>${webapp.dir}</outputDirectory>
+                  <outputDirectory>${application.home}</outputDirectory>
               </configuration>
           </plugin>
       </plugins>
