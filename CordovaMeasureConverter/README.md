@@ -19,7 +19,7 @@ This project uses Android SDK+Cordova to demonstrate a Hybrid Mobile version of 
    - if you want to install a particular Android version, use cordova platform add android@5.0.0; However, by using a lower version of android, your hybrid app may look funky on a device running with higher version of OS or with a high resolution.
 6. create Single Page Application (with web resources) and put them in the www folder of the project
 7. modify config.xml in the project folder based on the application (e.g. contect src, icons, access origin and etc.)
-8. cordova build android
+8. cordova build android (Note: if you change your Android SDK versions etc, you may need to do "cordova platform remove/add android" again)
    - NOTE: Gradle must be configured, and ANDROID_HOME must point to the Android SDK folder.
    - NOTE: you need to accept all the sdk licenses before build. use sdkmanager --licenses to review and accept licenses
    - For all screen sizes, you may need to modify AndroidManifest.xml to set for large/medium/small/any.
