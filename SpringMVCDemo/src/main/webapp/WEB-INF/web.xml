@@ -17,6 +17,7 @@
 	<servlet>
 	  <servlet-name>SpringMVCDemo</servlet-name>
 	  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	  <multipart-config />
 	  <!-- // below block is the Java-based configuration for Spring MVC applications 
 	  <init-param>
 	      <param-name>contextClass</param-name>
