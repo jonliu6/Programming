@@ -31,7 +31,7 @@ import jakarta.servlet.ServletRegistration;
  * </listener>
  */
 public class WebServletConfiguration implements WebApplicationInitializer {
-	private static final long MEGA_BYTES_SIZE = 1048576l;
+	private static final long MEGA_BYTES_SIZE = 1048576l; // 1 MB
     
     @Override
     public void onStartup(ServletContext ctx) throws ServletException {
