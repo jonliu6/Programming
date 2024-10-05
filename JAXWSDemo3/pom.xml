@@ -9,7 +9,7 @@
 	<version>1.0</version>
 	
 	<properties>
-	  <org.springframework.version>[6.1.5,)</org.springframework.version>
+	  <org.springframework.version>6.1.13</org.springframework.version>
 	  <org.apache.cxf.version>2.7.7</org.apache.cxf.version>
 	</properties>
 
