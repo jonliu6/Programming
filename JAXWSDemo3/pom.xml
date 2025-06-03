@@ -10,7 +10,7 @@
 	
 	<properties>
 	  <org.springframework.version>6.1.14</org.springframework.version>
-	  <org.apache.cxf.version>2.7.7</org.apache.cxf.version>
+	  <org.apache.cxf.version>[3.1.16,)</org.apache.cxf.version>
 	</properties>
 
 	<dependencies>
