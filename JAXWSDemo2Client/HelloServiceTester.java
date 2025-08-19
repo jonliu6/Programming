@@ -12,6 +12,7 @@ public class HelloServiceTester {
             SayHello sayHello = new SayHello();
             sayHello.setAName("John Doe");
             String response = servicePort.sayHello(sayHello.getAName());
+
             System.out.println("Response from service: " + response);
         } catch (Exception e) {
             e.printStackTrace();
