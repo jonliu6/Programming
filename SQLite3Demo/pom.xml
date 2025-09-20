@@ -9,8 +9,8 @@
   <url>http://maven.apache.org</url>
   
   <properties>
-    <jdk.version>11</jdk.version>
-    <junit.version>[4.13.1,)</junit.version>
+    <jdk.version>21</jdk.version>
+    <junit.version>[4.13.2,)</junit.version>
   </properties>
   
   <dependencies>
