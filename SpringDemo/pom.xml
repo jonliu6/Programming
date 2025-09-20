@@ -10,13 +10,13 @@
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
-        <version>[5.2.21,)</version>
+        <version>[6.2.11,)</version>
         <!-- previous version of 3.x uses 3.2.18.RELEASE, 4.3.19.RELEASE -->
     </dependency>
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
-        <version>[5.2.21,)</version>
+        <version>[6.2.11,)</version>
         <scope>compile</scope>
         <!-- previous version of 3.x uses 3.2.18.RELEASE, 4.3.19.RELEASE -->
     </dependency>

@@ -11,7 +11,7 @@
   <properties>
     <jdk.version>11</jdk.version>
     <junit.version>4.11</junit.version>
-    <springframework.version>6.1.14</springframework.version>
+    <springframework.version>6.2.11</springframework.version>
     <servlet.api.version>6.1.0</servlet.api.version>
     <jstl.version>1.2</jstl.version>
     <application.home>${env.JBOSS_HOME}/standalone</application.home>
