@@ -5,4 +5,6 @@ import { Component, signal } from '@angular/core';
   templateUrl: './content.html',
   styleUrl: './app.css'
 })
-export class Content { }
+export class Content {
+    appdescription = 'This is a simple Angular demo application.';
+ }
