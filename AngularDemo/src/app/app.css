@@ -1,0 +1,15 @@
+.subtitle {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f4f4f4;
+}
+.content {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+}
