@@ -18,7 +18,7 @@
 		
 		<!-- Oracle -->
 		<!-- <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property> 
-			<property name="hibernate.connection.url">jdbc:oracle:thin:@oracmd02:1521:ORATST00</property> 
+			<property name="hibernate.connection.url">jdbc:oracle:thin:@oracmd03:1521:ORATST00</property> 
 			<property name="dialect">org.hibernate.dialect.Oracle10gDialect</property> 
 			<property name="hibernate.default_schema">tester</property> <property name="hibernate.connection.username">tester</property> 
 			<property name="hibernate.connection.password">tester</property> <property 
