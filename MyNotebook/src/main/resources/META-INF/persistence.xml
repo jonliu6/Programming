@@ -9,10 +9,10 @@
     <class>org.freecode.demo.entity.KnowledgeCategory</class> <!-- optional for single Java app from eclipse or JAR, but needed to map the class for WAR, EAR, and has to put before properties -->
     <class>org.freecode.demo.entity.KnowledgeItem</class>
     <properties>
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/xproject_db" />
-      <property name="javax.persistence.jdbc.user" value="xuser" />
-      <property name="javax.persistence.jdbc.password" value="xuser123" />
+      <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/xproject_db" />
+      <property name="jakarta.persistence.jdbc.user" value="xuser" />
+      <property name="jakarta.persistence.jdbc.password" value="xuser123" />
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
       
       <!-- for caching, require hibernate-ehcache.jar -->
